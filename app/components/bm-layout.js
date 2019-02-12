@@ -1,0 +1,1 @@
+export { default } from 'bm-components/components/bm-layout';
