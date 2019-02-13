@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import layout from '../../templates/components/choose-group/item';
 import { computed } from '@ember/object';
+import { isArray } from '@ember/array';
 
 export default Component.extend({
 	layout,
@@ -73,8 +74,12 @@ export default Component.extend({
 				return value.id === groupValue.id;
 			}
 			return value.value === groupValue.value;
-
 		}
+
+		if (isArray(groupValue)) {
+			return groupValue.indexOf(value) !== -1;
+		}
+
 		return false;
 	}).readOnly()
 });

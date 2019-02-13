@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import layout from '../templates/components/choose-group';
 import { equal } from '@ember/object/computed';
+import { isArray, A } from '@ember/array';
 
 export default Component.extend({
 	layout,
@@ -23,7 +24,7 @@ export default Component.extend({
 	/**
 	 * 当前选中的item的值
 	 * @property value
-	 * @type array
+	 * @type array/object
 	 * @public
 	 */
 	value: null,
@@ -43,15 +44,46 @@ export default Component.extend({
 	 * @public
 	 */
 	onChange() { },
+	/**
+	 * 设置选中的值
+	 * @event choosedRadioItem
+	 * @param value
+	 * @private
+	 */
+	choosedRadioItem(value) {
+		return value;
+	},
+	/**
+	 * 设置选中的值
+	 * @event choosedCheckboxItems
+	 * @param value
+	 * @private
+	 */
+	choosedCheckboxItems(pressedValue, domain) {
+		let newValue = null;
 
+		if (!isArray(domain.get('value'))) {
+			newValue = A([pressedValue]);
+		} else {
+			newValue = A(domain.get('value').slice());
+			if (newValue.includes(pressedValue)) {
+				newValue.removeObject(pressedValue);
+			} else {
+				newValue.pushObject(pressedValue);
+			}
+		}
+		return newValue;
+	},
 	actions: {
 		chooseItem(pressedValue) {
 			let newValue = null;
 
-			this.set('value', pressedValue);
 			if (this.get('isRadio')) {
-				newValue = pressedValue;
+				newValue = this.get('choosedRadioItem')(pressedValue);
+			} else {
+				newValue = this.get('choosedCheckboxItems')(pressedValue, this);
 			}
+			this.set('value', newValue);
 			this.get('onChange')(newValue);
 		}
 	}
