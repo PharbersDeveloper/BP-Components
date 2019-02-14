@@ -11,6 +11,7 @@ Router.map(function () {
   this.route('bp-input');
   this.route('bp-search-bar');
   this.route('show-button');
+  this.route('button-group');
 });
 
 export default Router;

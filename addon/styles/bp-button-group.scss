@@ -1,0 +1,77 @@
+%basic-style {
+	position: relative;
+	display: -webkit-inline-box;
+	display: -webkit-inline-flex;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	vertical-align: middle;
+	font-size: 0;
+
+	button.active {
+		color: #fff;
+		background-color: #5E81CF;
+		border-color: #5E81CF;
+	}
+}
+
+.btn-group {
+	@extend %basic-style;
+
+	button {
+		border-radius: 0;
+		color: #555;
+		border: 1px solid #555;
+		background-color: #fff;
+
+		& {
+			border-right: 0;
+		}
+
+		&:first-child {
+			border-radius: 5px 0 0 5px;
+		}
+
+		&:last-child {
+			border-right: 1px solid #555;
+			border-radius: 0 5px 5px 0;
+		}
+
+	}
+}
+
+.btn-group-vertical {
+	@extend %basic-style;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	-webkit-box-align: start;
+	-webkit-align-items: flex-start;
+	-ms-flex-align: start;
+	align-items: flex-start;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+
+	button {
+		width: 100%;
+		border-radius: 0;
+		color: #555;
+		border-left: 1px solid #555;
+		border-top: 1px solid #555;
+		border-right: 1px solid #555;
+		background-color: #fff;
+
+		&:first-child {
+			border-radius: 5px 5px 0 0;
+		}
+
+		&:last-child {
+			border-bottom: 1px solid #555;
+			border-radius: 0 0 5px 5px;
+
+		}
+	}
+}
