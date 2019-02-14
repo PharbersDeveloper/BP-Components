@@ -10,6 +10,7 @@ Router.map(function () {
   this.route('bm-radio');
   this.route('bp-input');
   this.route('bp-search-bar');
+  this.route('show-button');
 });
 
 export default Router;
