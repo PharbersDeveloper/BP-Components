@@ -1,2 +1,39 @@
-<h2 id="title">Please check BM-Componets-UI project to get more info.</h2>
-{{outlet}}
+<h2 id="title">Welcome to BP-Components</h2>
+<section class="container">
+	<aside>
+		<nav>
+			<ol>
+				{{!-- {{#link-to "p-default" tagName='li'  activeClass="nav-active"}}
+					default
+				{{/link-to}} --}}
+				{{#link-to "layout" tagName='li'  activeClass="nav-active"}}
+					Layout
+				{{/link-to}}
+				{{#link-to "show-button" tagName='li' activeClass="nav-active"}}
+					Button
+				{{/link-to}}
+				{{#link-to "button-group" tagName='li' activeClass="nav-active"}}
+					ButtonGroup
+				{{/link-to}}
+				{{#link-to "dropdown" tagName='li' activeClass="nav-active"}}
+					dropdown
+				{{/link-to}}
+				{{#link-to "bm-radio" tagName='li' activeClass="nav-active"}}
+					Radio&Checkbox
+				{{/link-to}}
+				{{#link-to "bp-input" tagName='li' activeClass="nav-active"}}
+					Input
+				{{/link-to}}
+				{{#link-to "bp-search-bar" tagName='li' activeClass="nav-active"}}
+					SearchBar
+				{{/link-to}}
+				{{#link-to "card" tagName='li' activeClass="nav-active"}}
+					Card
+				{{/link-to}}
+			</ol>
+		</nav>
+	</aside>
+	<section class="content">
+		{{outlet}}
+	</section>
+</section>

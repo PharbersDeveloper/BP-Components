@@ -14,6 +14,7 @@ Router.map(function () {
   this.route('button-group');
   this.route('layout');
   this.route('card');
+  this.route('dropdown');
 });
 
 export default Router;
