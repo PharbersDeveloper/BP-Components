@@ -1,2 +1,8 @@
 <h4>bp-search-bar</h4>
-{{bp-search-bar}}
+{{bp-search-bar size='small' placeholder="small input" onClick=(action 'search')}}
+{{bp-search-bar onClick=(action 'search')}}
+{{bp-search-bar size='large' placeholder="large Input" onClick=(action 'search')}}
+<p>block 为true</p>
+{{bp-search-bar block=true size='small' placeholder="small input" onClick=(action 'search')}}
+{{bp-search-bar block=true onClick=(action 'search')}}
+{{bp-search-bar block=true size='large' placeholder="large Input" onClick=(action 'search')}}

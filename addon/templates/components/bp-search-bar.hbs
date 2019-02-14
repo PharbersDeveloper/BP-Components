@@ -1,5 +1,6 @@
-<input type="text" class="search-input" placeholder="Recipient's username" aria-label="Recipient's username"
- aria-describedby="basic-addon2">
+<input type="text" class="search-input" placeholder={{placeholder}} aria-label="searchbar" onchange={{action 'change'}}>
 <div class="search-suffix">
-	<span class="input-group-text" id="basic-addon2">@example.com</span>
+	{{#bp-button class="input-group-text" type="primary" onClick=(action 'search')}}
+		搜索
+	{{/bp-button}}
 </div>

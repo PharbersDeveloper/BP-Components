@@ -1,47 +1,88 @@
 .search-container {
 	position: relative;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
 	display: flex;
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
+	-webkit-box-align: stretch;
+	-webkit-align-items: stretch;
+	-ms-flex-align: stretch;
 	align-items: stretch;
-	width: 100%;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+
+	* {
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+
+	}
+
+	&.search-bar-inline {
+		display: -webkit-inline-box;
+		display: -webkit-inline-flex;
+		display: -ms-inline-flexbox;
+		display: inline-flex;
+		vertical-align: bottom;
+
+		.search-input {
+			width: 200px;
+		}
+	}
 
 	.search-input {
 		position: relative;
+		-webkit-box-flex: 1;
+		-webkit-flex: 1 1 auto;
+		-ms-flex: 1 1 auto;
 		flex: 1 1 auto;
-		width: 1%;
+		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
 		margin-bottom: 0;
 		display: block;
 		padding: .375rem .75rem;
-		font-size: 1rem;
+		font-size: 14px;
 		line-height: 1.5;
 		color: #495057;
 		background-color: #fff;
 		background-clip: padding-box;
 		border: 1px solid #ced4da;
-		border-radius: .25rem;
+		border-radius: 4px;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+		-webkit-transition: border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+		transition: border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+		-o-transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 		transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+		transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
 	}
 
 	.search-suffix {
 		margin-left: -1px;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
 		display: flex;
-		box-sizing: border-box;
 
-		span {
-			display: flex;
-			align-items: center;
-			padding: .375rem .75rem;
-			margin-bottom: 0;
-			font-size: 1rem;
-			font-weight: 400;
+		button {
+			height: 100%;
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+
+		}
+	}
+
+	&.large-size {
+		height: 48px;
+	}
+
+	&.small-size {
+		height: 32px;
+
+		button {
 			line-height: 1.5;
-			color: #495057;
-			text-align: center;
-			white-space: nowrap;
-			background-color: #e9ecef;
-			border: 1px solid #ced4da;
-			border-radius: .25rem;
 		}
 	}
 }
