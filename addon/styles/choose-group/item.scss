@@ -1,11 +1,13 @@
 .private-choose-item {
 	display: inline-block;
+	box-sizing: border-box;
 	margin-right: 16px;
 	width: auto;
 	font-size: 0;
 	cursor: pointer;
 
 	&.item-block {
+		box-sizing: border-box;
 		display: block;
 	}
 

@@ -1,1 +1,1 @@
-export { default } from 'bm-components/components/bm-layout';
+export { default } from 'bp-components/components/bm-layout';

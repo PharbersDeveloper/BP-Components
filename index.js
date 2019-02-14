@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-  name: 'bm-components'
+	name: 'bp-components'
 };

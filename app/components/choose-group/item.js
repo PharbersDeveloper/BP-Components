@@ -1,1 +1,1 @@
-export { default } from 'bm-components/components/choose-group/item';
+export { default } from 'bp-components/components/choose-group/item';

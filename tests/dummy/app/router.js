@@ -9,6 +9,7 @@ const Router = EmberRouter.extend({
 Router.map(function () {
   this.route('bm-radio');
   this.route('bp-input');
+  this.route('bp-search-bar');
 });
 
 export default Router;
