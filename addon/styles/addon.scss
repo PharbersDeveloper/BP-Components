@@ -4,3 +4,14 @@
 @import './bp-button.scss';
 @import './bp-search-bar.scss';
 @import './bp-button-group.scss';
+@import './bp-card/header.scss';
+@import './bp-card.scss';
+
+* {
+	box-sizing: border-box;
+	font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI",
+		"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue",
+		Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+		"Segoe UI Symbol";
+
+}

@@ -9,7 +9,6 @@ export default Component.extend({
 	classNames: ['p-btn'],
 	classNameBindings: ['block:btn-block', 'type', 'reverse', 'active'],
 	attributeBindings: ['disabled'],
-
 	/**
 	 * Property to block level buttons
 	 * @property block
