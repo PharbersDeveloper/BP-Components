@@ -1,0 +1,60 @@
+.bp-nav {
+	display: flex;
+	flex-wrap: wrap;
+	padding-left: 0;
+	margin: 0;
+	list-style: none;
+
+	&.flex-column {
+		flex-direction: column !important;
+		padding: 16px 0 24px;
+		height: 100%;
+		background-color: #363E55;
+
+		li.bp-nav-dropdown {
+			min-height: 40px;
+			height: auto;
+		}
+
+		li {
+			position: relative;
+			height: 40px;
+			line-height: 40px;
+			font-size: 14px;
+			letter-spacing: 2px;
+			color: #fff;
+			cursor: pointer;
+
+			a {
+				display: flex;
+				align-items: center;
+				padding-left: 24px;
+				padding-right: 16px;
+				text-decoration: none;
+				color: #fff;
+				background-color: transparent;
+
+				img {
+					flex: 0 0 23px;
+					padding-right: 8px;
+					width: 23px;
+					height: 15px;
+				}
+
+				/* 为disable 提前写样式 same bs*/
+				&.disabled {
+					color: #6c757d;
+				}
+
+				&.active {
+					background-color: #5E81CF;
+				}
+
+				&:focus,
+				&:hover {
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}

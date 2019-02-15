@@ -15,6 +15,7 @@ Router.map(function () {
   this.route('layout');
   this.route('card');
   this.route('dropdown');
+  this.route('show-nav');
 });
 
 export default Router;

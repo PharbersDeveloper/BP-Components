@@ -1,0 +1,14 @@
+<div {{action 'changeShowProperty'}} class="dd-title">
+	{{#if icon}}
+		<img src={{icon}} alt={{title}}>
+	{{/if}}
+	{{title}}
+</div>
+<ul class="bp-nav-dd-ul">
+	{{yield
+			(hash
+				item=(component ddItem)
+				link-to=(component ddLinkTo)
+			)
+		}}
+</ul>

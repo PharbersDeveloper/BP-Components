@@ -1,0 +1,35 @@
+.bp-nav-dropdown {
+	.dd-title {
+		padding-left: 24px;
+
+		img {
+			width: 23px;
+			padding-right: 8px;
+			height: 15px;
+		}
+	}
+
+	&.show-child-list {
+		.dd-title {
+			color: rgb(199, 199, 199);
+		}
+
+		ul {
+			display: flex;
+			flex-wrap: wrap;
+			padding-left: 0;
+			margin: 0;
+			list-style: none;
+			flex-direction: column !important;
+			background-color: #363E55;
+
+			a {
+				padding-left: 48px;
+			}
+		}
+	}
+
+	ul {
+		display: none;
+	}
+}

@@ -7,8 +7,12 @@
 @import './bp-card/header.scss';
 @import './bp-card.scss';
 @import './bp-dropdown.scss';
+@import './bp-nav.scss';
+@import './bp-nav/dropdown.scss';
 
-* {
+*,
+::after,
+::before {
 	box-sizing: border-box;
 	font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI",
 		"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue",
