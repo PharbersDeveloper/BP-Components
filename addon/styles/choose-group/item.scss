@@ -1,5 +1,6 @@
 .private-choose-item {
 	display: inline-block;
+	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	margin-right: 16px;
 	width: auto;
@@ -7,6 +8,7 @@
 	cursor: pointer;
 
 	&.item-block {
+		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
 		display: block;
 	}
