@@ -70,7 +70,7 @@ export default Component.extend({
 			if (!value || !groupValue) {
 				return false;
 			}
-			if (typeof value.id === 'undefined') {
+			if (typeof value.id !== 'undefined') {
 				return value.id === groupValue.id;
 			}
 			return value.value === groupValue.value;

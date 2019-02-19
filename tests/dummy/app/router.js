@@ -17,6 +17,7 @@ Router.map(function () {
   this.route('dropdown');
   this.route('show-nav');
   this.route('progress');
+  this.route('modal');
 });
 
 export default Router;
