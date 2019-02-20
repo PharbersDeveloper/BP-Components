@@ -1,0 +1,19 @@
+<section>
+	<h3>p-dropdown 的使用方法</h3>
+	<p>接受 value 属性，以及 onChange 事件</p>
+	<p>value 为当前选中的值，为非对象类型。由 onChange 事件中的值赋予其。</p>
+	<p>
+		{{#bp-dropdown
+			value=option
+			onChange=(action "changeOption") 
+			 as |xs|}}
+			{{#xs.option value='' hidden=true}}请选择{{/xs.option}}
+			{{#each readyOptions as |item|}}
+				{{#xs.option value=item.id}}{{item.value}}{{/xs.option}}
+			{{/each}}
+		{{/bp-dropdown}}
+	</p>
+	<p>
+		Selected id: <span data-test-selected="true">{{option}}</span>
+	</p>
+</section>

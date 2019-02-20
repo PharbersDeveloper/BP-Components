@@ -1,10 +1,14 @@
 # BP-Components
 Ember Components for B&amp;P companies.
-<<<<<<< HEAD
-## BP-layout
-## choost-group
-=======
-## bm-layout
+## bp-layout
 
 
->>>>>>> frank
+## bp-button
+
+## bp-button-group
+
+## bp-dropdown
+
+## choose-group
+
+## and more

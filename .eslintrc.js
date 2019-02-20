@@ -15,7 +15,6 @@ module.exports = {
 		browser: true
 	},
 	rules: {
-
 		"no-alert": 1,//禁止使用alert confirm prompt
 		"no-array-constructor": 2,//禁止使用数组构造器
 		"no-bitwise": 0,//禁止使用按位运算符
@@ -54,7 +53,7 @@ module.exports = {
 		"no-inline-comments": 0,//禁止行内备注
 		"no-inner-declarations": [2, "functions"],//禁止在块语句中使用声明（变量或函数）
 		"no-invalid-regexp": 2,//禁止无效的正则表达式
-		"no-invalid-this": 1,//禁止无效的this，只能用在构造器，类，对象字面量
+		"no-invalid-this": 0,//禁止无效的this，只能用在构造器，类，对象字面量
 		"no-irregular-whitespace": 2,//不能有不规则的空格
 		"no-iterator": 2,//禁止使用__iterator__ 属性
 		"no-label-var": 2,//label名不能与var声明的变量名相同

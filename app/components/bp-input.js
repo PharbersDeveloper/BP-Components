@@ -1,1 +1,1 @@
-export { default } from 'bm-components/components/bp-input';
+export { default } from 'bp-components/components/bp-input';

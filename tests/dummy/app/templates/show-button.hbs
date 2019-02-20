@@ -1,0 +1,35 @@
+<section class="btn-container">
+	<h3>bp-button 的使用方法</h3>
+	<h4>基础用法</h4>
+	{{#bp-button}}default{{/bp-button}}
+	{{#bp-button type="primary"}}Primary{{/bp-button}}
+	<hr>
+	<h4>禁止属性 disabled</h4>
+	{{#bp-button disabled=true}}disabled butto{{/bp-button}}
+	<hr>
+	<h4>块级属性 block</h4>
+	{{#bp-button block=true onClick=(action 'submit')}}block button{{/bp-button}}
+	<hr>
+	<h4>基础的类型</h4>
+	{{#bp-button type="primary" onClick=(action 'submit')}}primary{{/bp-button}}
+	{{#bp-button type="secondary" onClick=(action 'submit')}}secondary{{/bp-button}}
+	{{#bp-button type="danger" onClick=(action 'submit')}}danger{{/bp-button}}
+	{{#bp-button type="default" disabled=false onClick=(action 'submit')}}default{{/bp-button}}
+	{{#bp-button type="default" disabled=true}}disabled default{{/bp-button}}
+	{{#bp-button type="primary"
+		onClick=(action 'submit')
+		icon="https://s3.amazonaws.com/uifaces/faces/twitter/damenleeturks/128.jpg"}}
+		primary
+	{{/bp-button}}
+	<hr>
+	<h4>反转样式</h4>
+	{{#bp-button type="primary" reverse=true onClick=(action 'submit')}}reverse primary{{/bp-button}}
+	{{#bp-button type="secondary" reverse=true onClick=(action 'submit')}}reverse secondary{{/bp-button}}
+	{{#bp-button type="danger" reverse=true onClick=(action 'submit')}}reverse danger{{/bp-button}}
+	{{#bp-button type="default" reverse=true disabled=true}}reverse default{{/bp-button}}
+	{{#bp-button type="primary" 
+		reverse=true 
+		onClick=(action 'submit')
+		icon="https://s3.amazonaws.com/uifaces/faces/twitter/damenleeturks/128.jpg"}}reverse
+		primary{{/bp-button}}
+</section>

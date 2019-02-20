@@ -92,7 +92,6 @@ export default Component.extend({
 			return direction !== 'col' ? 'row-cd' : 'col-cd';
 		}
 	}),
-	// eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
 	classNameBindings: [
 		'flexDirection',
 		'mainAxis',

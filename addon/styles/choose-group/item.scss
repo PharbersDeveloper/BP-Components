@@ -1,11 +1,15 @@
 .private-choose-item {
 	display: inline-block;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 	margin-right: 16px;
 	width: auto;
 	font-size: 0;
 	cursor: pointer;
 
 	&.item-block {
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
 		display: block;
 	}
 
@@ -39,7 +43,7 @@
 
 	.text {
 		display: inline-block;
-		margin-left: 8px;
+		padding-left: 8px;
 		height: 20px;
 		line-height: 20px;
 		font-size: 14px;

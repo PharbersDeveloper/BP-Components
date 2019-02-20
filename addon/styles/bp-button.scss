@@ -1,0 +1,62 @@
+@mixin btn-type($color, $bordercolor, $bgcolor) {
+	color: $color;
+	background-color: $bgcolor;
+	border-color: $bgcolor;
+}
+
+@mixin btn-focus($shoadowColor) {
+	box-shadow: 0 0 0 2px $shoadowColor;
+}
+
+.p-btn {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 0 8px;
+	height: 40px;
+	line-height: 40px;
+	min-width: 104px;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 4px;
+	font-size: 14px;
+	letter-spacing: 1.69px;
+	text-align: center;
+	cursor: pointer;
+
+	&:disabled {
+		cursor: not-allowed;
+	}
+
+	&.btn-block {
+		display: block;
+		width: 100%;
+	}
+
+	.btn-icon {
+		width: 20px;
+		height: 20px;
+		vertical-align: sub;
+	}
+
+	&.default {}
+
+	&.primary {
+		@include btn-type(#FFF, #5E81CF, #5E81CF);
+
+		&:focus {
+			@include btn-focus(rgba(94, 129, 207, .5))
+		}
+	}
+
+	&.secondary {
+		@include btn-type(#999, #999, #FFF);
+
+		&.reverse {
+			@include btn-type(#FFF, #FFF, #575757);
+		}
+	}
+
+	&.danger {
+		@include btn-type(#FFF, #FA6F80, #FA6F80);
+	}
+}

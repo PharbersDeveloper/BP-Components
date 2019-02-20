@@ -1,13 +1,13 @@
 {
 	"name": "bp-components",
 	"version": "0.0.1",
-	"description": "The default blueprint for ember-cli addons.",
+	"description": "Ember addon for B&P companies.",
 	"keywords": [
 		"ember-addon"
 	],
 	"repository": "",
 	"license": "MIT",
-	"author": "",
+	"author": "Frank Wang",
 	"directories": {
 		"doc": "doc",
 		"test": "tests"
@@ -22,6 +22,7 @@
 		"ember-cli-babel": "^6.6.0",
 		"ember-cli-htmlbars": "^2.0.1",
 		"ember-cli-sass": "^10.0.0",
+		"ember-maybe-in-element": "^0.2.0",
 		"sass": "^1.17.0"
 	},
 	"devDependencies": {
@@ -39,6 +40,7 @@
 		"ember-disable-prototype-extensions": "^1.1.2",
 		"ember-export-application-global": "^2.0.0",
 		"ember-load-initializers": "^1.0.0",
+		"ember-maybe-in-element": "^0.2.0",
 		"ember-resolver": "^4.0.0",
 		"ember-source": "~2.18.0",
 		"eslint-plugin-ember": "^5.0.0",

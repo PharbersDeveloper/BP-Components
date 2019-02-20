@@ -13,7 +13,7 @@ export default Controller.extend({
 				window.alert('您選擇的是 ' + value);
 
 			} else {
-				window.alert('您選擇的是 ' + item.value);
+				window.alert('您選擇的是 ' + item.id);
 
 			}
 		}
