@@ -1,3 +1,5 @@
+@import './common/color';
+
 @mixin btn-type($color, $bordercolor, $bgcolor) {
 	color: $color;
 	background-color: $bgcolor;
@@ -38,10 +40,13 @@
 		vertical-align: sub;
 	}
 
-	&.default {}
+	&.default {
+		@include btn-type(#505F79, rgba(9, 30, 66, 0.04), rgba(9, 30, 66, 0.04));
+
+	}
 
 	&.primary {
-		@include btn-type(#FFF, #5E81CF, #5E81CF);
+		@include btn-type(#FFF, $primary-color, $primary-color);
 
 		&:focus {
 			@include btn-focus(rgba(94, 129, 207, .5))

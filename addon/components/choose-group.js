@@ -5,6 +5,9 @@ import { isArray, A } from '@ember/array';
 
 export default Component.extend({
 	layout,
+	tagName: 'section',
+	classNames: ['choose-group'],
+	classNameBindings: ['vertical'],
 	/**
 	 * @property chooseItemComponent
 	 * @type {String}

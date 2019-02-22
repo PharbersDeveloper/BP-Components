@@ -1,0 +1,52 @@
+$title: 24px;
+$heading-large: 20px;
+$heading-medium: 16px;
+$heading-small: 14px;
+$p-primary: 14px;
+$p-small: 12px;
+$title: 24px;
+@import './color';
+
+%line-height-default {
+	line-height: 1.5;
+}
+
+@mixin fontMedium($fontsize) {
+	font-size: $fontsize;
+	font-weight: 500;
+	@extend %line-height-default;
+}
+
+@mixin fontRegular($fontsize) {
+	font-size: $fontsize;
+	font-weight: 400;
+	@extend %line-height-default;
+}
+
+%title {
+	@include fontMedium($title);
+}
+
+%heading-large {
+	@include fontMedium($heading-large);
+}
+
+%heading-medium {
+	@include fontMedium($heading-medium);
+}
+
+%heading-small {
+	@include fontMedium($heading-small);
+}
+
+%p-primary {
+	@include fontRegular($p-primary);
+}
+
+%p-secondary {
+	@include fontRegular($p-primary);
+}
+
+%p-small {
+	@include fontRegular($p-small);
+}
