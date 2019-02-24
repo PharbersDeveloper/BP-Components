@@ -1,0 +1,30 @@
+@import './color';
+
+%defaultRadius {
+	border-radius: 4px;
+}
+
+$radiusSize: 4px;
+
+@mixin setBorder($borderWidth, $borderColor) {
+	border-width: $borderWidth;
+	border-style: solid;
+	border-color: $borderColor;
+	@extend %defaultRadius;
+}
+
+%border-small {
+	@include setBorder(0.5px, $black);
+}
+
+%border-medium {
+	@include setBorder(1px, $black);
+}
+
+%border-large {
+	@include setBorder(2px, $black);
+}
+
+%border-danger {
+	@include setBorder(1px, $danger);
+}

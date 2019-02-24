@@ -1,4 +1,7 @@
 @import './common/color';
+@import './common/spacing';
+@import './common/border';
+@import './common/size';
 
 @mixin btn-type($color, $bordercolor, $bgcolor) {
 	color: $color;
@@ -7,46 +10,60 @@
 }
 
 @mixin btn-focus($shoadowColor) {
+	-webkit-box-shadow: 0 0 0 2px $shoadowColor;
 	box-shadow: 0 0 0 2px $shoadowColor;
 }
 
 .p-btn {
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 0 8px;
-	height: 40px;
-	line-height: 40px;
-	min-width: 104px;
-	border-width: 1px;
-	border-style: solid;
-	border-radius: 4px;
+	padding: 0 6*$spacing-compact;
+	height: 4*$spacing;
+	line-height: 4*$spacing;
+	min-width: 80px;
+	@extend %border-medium;
 	font-size: 14px;
-	letter-spacing: 1.69px;
 	text-align: center;
 	cursor: pointer;
 
 	&:disabled {
 		cursor: not-allowed;
+		color: $n060 !important;
+		background-color: $n020 !important;
+		border-color: $n020 !important;
 	}
 
 	&.btn-block {
 		display: block;
-		width: 100%;
 	}
 
 	.btn-icon {
-		width: 20px;
-		height: 20px;
+		width: $icon-small;
+		height: $icon-small;
 		vertical-align: sub;
+
+	}
+
+	&.icon-only {
+		min-width: 32px;
 	}
 
 	&.default {
-		@include btn-type(#505F79, rgba(9, 30, 66, 0.04), rgba(9, 30, 66, 0.04));
+		@include btn-type($n400, rgba(9, 30, 66, 0.04), rgba(9, 30, 66, 0.04));
+	}
 
+	&.subtle {
+		@include btn-type($n400, transparent, transparent);
+	}
+
+	&.link {
+		@include btn-type($link, transparent, transparent);
+	}
+
+	&.link-subtle {
+		@include btn-type($link-subtle, transparent, transparent);
 	}
 
 	&.primary {
-		@include btn-type(#FFF, $primary-color, $primary-color);
+		@include btn-type($n000, $primary, $primary);
 
 		&:focus {
 			@include btn-focus(rgba(94, 129, 207, .5))
@@ -62,6 +79,10 @@
 	}
 
 	&.danger {
-		@include btn-type(#FFF, #FA6F80, #FA6F80);
+		@include btn-type(#FFF, $danger, $danger);
+	}
+
+	&.warning {
+		@include btn-type($n400, $warning, $warning);
 	}
 }

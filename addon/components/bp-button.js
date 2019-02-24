@@ -7,7 +7,7 @@ export default Component.extend({
 	tagName: 'button',
 	content: 'default',
 	classNames: ['p-btn'],
-	classNameBindings: ['block:btn-block', 'type', 'reverse', 'active'],
+	classNameBindings: ['block:btn-block', 'type', 'reverse', 'active', 'computedIconOnly:icon-only'],
 	attributeBindings: ['disabled'],
 	/**
 	 * Property to block level buttons
@@ -28,6 +28,28 @@ export default Component.extend({
 	 * @public
 	 */
 	active: false,
+	/**
+	 * @property iconOnly
+	 * @type boolean
+	 * @default false
+	 * @public
+	 */
+	iconOnly: false,
+	/**
+	 * @property computedIconOnly
+	 * @type boolean
+	 * @default false
+	 * @private
+	 */
+	computedIconOnly: computed('iconOnly', 'icon', function () {
+		let iconOnly = this.get('iconOnly'),
+			icon = this.get('icon');
+
+		if (iconOnly) {
+			return icon !== '';
+		}
+		return false;
+	}),
 	value: null,
 	/**
 	 * bubble

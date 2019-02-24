@@ -1,3 +1,6 @@
+@import './color';
+
+// fontsize
 $title: 24px;
 $heading-large: 20px;
 $heading-medium: 16px;
@@ -5,7 +8,11 @@ $heading-small: 14px;
 $p-primary: 14px;
 $p-small: 12px;
 $title: 24px;
-@import './color';
+
+// icon
+$icon-large: 48px;
+$icon-medium: 24px;
+$icon-small: 16px;
 
 %line-height-default {
 	line-height: 1.5;

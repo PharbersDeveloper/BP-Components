@@ -1,3 +1,5 @@
+@import './common/border';
+
 %basic-style {
 	position: relative;
 	display: -webkit-inline-box;
@@ -32,7 +34,7 @@
 		}
 
 		&:last-child {
-			border-right: 1px solid #555;
+			// border-right: 1px solid #555;
 			border-radius: 0 5px 5px 0;
 		}
 
@@ -65,12 +67,11 @@
 		background-color: #fff;
 
 		&:first-child {
-			border-radius: 5px 5px 0 0;
+			border-radius: $radiusSize $radiusSize 0 0;
 		}
 
 		&:last-child {
-			border-bottom: 1px solid #555;
-			border-radius: 0 0 5px 5px;
+			border-radius: 0 0 $radiusSize $radiusSize;
 
 		}
 	}
