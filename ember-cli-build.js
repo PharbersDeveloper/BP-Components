@@ -5,6 +5,11 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 module.exports = function (defaults) {
 	let app = new EmberAddon(defaults, {
 		// Add options here
+		svgJar: {
+			strategy: 'symbol',
+
+			sourceDirs: ['./public/icons']
+		}
 	});
 
 	/*
@@ -13,9 +18,6 @@ module.exports = function (defaults) {
 	  This build file does *not* influence how the addon or the app using it
 	  behave. You most likely want to be modifying `./index.js` or app's build file
 	*/
-	// app.import('./public/font/iconfont.js');
-	app.import('./vendor/iconfont.js', {
-		destDir: '/assets/fonts'
-	});
+
 	return app.toTree();
 };

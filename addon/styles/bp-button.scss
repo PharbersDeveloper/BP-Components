@@ -1,7 +1,4 @@
-@import './common/color';
-@import './common/spacing';
-@import './common/border';
-@import './common/size';
+@import './common/common';
 
 @mixin btn-type($color, $bordercolor, $bgcolor) {
 	color: $color;
@@ -42,13 +39,7 @@
 
 	}
 
-	.icon {
-		width: $icon-small;
-		height: $icon-small;
-		vertical-align: -0.15em;
-		fill: currentColor;
-		overflow: hidden;
-	}
+
 
 	&.icon-only {
 		min-width: 32px;

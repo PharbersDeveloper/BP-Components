@@ -18,7 +18,8 @@
 	{{#bp-button type="default" disabled=true}}disabled default{{/bp-button}}
 	{{#bp-button type="primary"
 		onClick=(action 'submit')
-		icon="#icon-chevron-leftcopyx"}}
+		icon="raised-hand"
+		iconColor='red'}}
 		primary
 	{{/bp-button}}
 	<hr>
@@ -29,7 +30,5 @@
 	{{#bp-button type="default" reverse=true disabled=true}}reverse default{{/bp-button}}
 	{{#bp-button type="danger" 
 		reverse=true 
-		onClick=(action 'submit')
-		icon="icon-chevron-leftcopyx"}}reverse
-		danger{{/bp-button}}
+		icon="#trash"}}reverse ?{{/bp-button}}
 </section>
