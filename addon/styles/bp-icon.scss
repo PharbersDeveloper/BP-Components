@@ -1,0 +1,9 @@
+@import './common/common';
+
+.icon {
+	width: $icon-small;
+	height: $icon-small;
+	vertical-align: -0.15em;
+	fill: currentColor;
+	overflow: hidden;
+}

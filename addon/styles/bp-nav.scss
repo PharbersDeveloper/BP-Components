@@ -1,3 +1,5 @@
+@import './common/common';
+
 .bp-nav {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -10,15 +12,52 @@
 	margin: 0;
 	list-style: none;
 
+	&.nav-dark {
+		background-color: #363E55;
+
+		li {
+			color: $white;
+			background-color: #363E55;
+
+			a {
+				color: #fff;
+				background-color: transparent;
+
+				&.active {
+					background-color: #5E81CF;
+				}
+			}
+		}
+	}
+
+	&.nav-light {
+		// background-color: transparent;
+
+		li {
+			color: $n400;
+			background-color: transparent;
+
+			a {
+				color: $n400;
+				background-color: transparent;
+
+				&.active {
+					color: $link-text;
+					background-color: $opacity04;
+				}
+			}
+		}
+	}
+
 	&.flex-column {
 		-webkit-box-orient: vertical !important;
 		-webkit-box-direction: normal !important;
 		-webkit-flex-direction: column !important;
 		-ms-flex-direction: column !important;
 		flex-direction: column !important;
-		padding: 16px 0 24px;
+		padding: 2*$spacing 0 3*$spacing;
 		height: 100%;
-		background-color: #363E55;
+		// background-color: #363E55;
 
 		li.bp-nav-dropdown {
 			min-height: 40px;
@@ -31,7 +70,7 @@
 			line-height: 40px;
 			font-size: 14px;
 			letter-spacing: 2px;
-			color: #fff;
+			// color: #fff;
 			cursor: pointer;
 
 			a {
@@ -46,17 +85,16 @@
 				padding-left: 24px;
 				padding-right: 16px;
 				text-decoration: none;
-				color: #fff;
-				background-color: transparent;
+				// color: #fff;
+				// background-color: transparent;
 
 				img {
-					-webkit-box-flex: 0;
-					-webkit-flex: 0 0 23px;
-					-ms-flex: 0 0 23px;
-					flex: 0 0 23px;
+					flex: 0 0 $icon-small+8px;
 					padding-right: 8px;
-					width: 23px;
-					height: 15px;
+					// width: 23px;
+					width: $icon-small+8px;
+					// height: 15px;
+					height: $icon-small;
 				}
 
 				/* 为disable 提前写样式 same bs*/
@@ -64,9 +102,9 @@
 					color: #6c757d;
 				}
 
-				&.active {
-					background-color: #5E81CF;
-				}
+				// &.active {
+				// 	background-color: #5E81CF;
+				// }
 
 				&:focus,
 				&:hover {
@@ -75,4 +113,5 @@
 			}
 		}
 	}
+
 }

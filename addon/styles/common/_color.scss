@@ -1,16 +1,22 @@
+// main color
 $primary: #3172E0;
 $white: #fff;
 $black: #000;
 $danger: #DE350B;
 $warning: #FFAB00;
+
+// content color
 $title-color: #172B4D;
 $p-primary-color: #344563;
 $p-secondary-color: #7A869A;
 $placeholder-color: #8993A4;
 $choosed-color: #42526E;
 $state-disabled-color: #B3BAC5;
-$link: #3172E0;
+$link-text: $primary;
 $link-subtle: #5E6C84;
+$opacity04: rgba(9, 30, 66, 0.04);
+
+// neutrrals color
 $n900: #091E42;
 $n800: rgba($color: $n900, $alpha: 0.94);
 $n600: rgba($color: $n900, $alpha: 0.82);

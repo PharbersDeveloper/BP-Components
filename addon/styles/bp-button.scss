@@ -42,6 +42,14 @@
 
 	}
 
+	.icon {
+		width: $icon-small;
+		height: $icon-small;
+		vertical-align: -0.15em;
+		fill: currentColor;
+		overflow: hidden;
+	}
+
 	&.icon-only {
 		min-width: 32px;
 	}
@@ -55,7 +63,7 @@
 	}
 
 	&.link {
-		@include btn-type($link, transparent, transparent);
+		@include btn-type($link-text, transparent, transparent);
 	}
 
 	&.link-subtle {
