@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import layout from '../templates/components/bp-badge';
+import layout from '../templates/components/bp-tag';
 import { computed } from '@ember/object';
 
 export default Component.extend({
@@ -27,5 +27,5 @@ export default Component.extend({
 	 * @default false
 	 * @public
 	 */
-	pill: true
+	pill: false
 });

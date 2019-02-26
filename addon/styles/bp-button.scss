@@ -1,5 +1,3 @@
-@import './common/common';
-
 @mixin btn-type($color, $bordercolor, $bgcolor) {
 	color: $color;
 	background-color: $bgcolor;

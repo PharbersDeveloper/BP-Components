@@ -1,5 +1,42 @@
 .bp-card {
-	padding: 16px;
-	-webkit-box-shadow: 0 2px 5px 0 rgba(105, 105, 105, 0.50);
-	box-shadow: 0 2px 5px 0 rgba(105, 105, 105, 0.50);
+	position: relative;
+	width: 176px;
+	background-color: $white;
+	@extend %shadow-z200;
+	@extend %defaultRadius;
+
+	&>img {
+		width: 100%;
+		height: 160px;
+	}
+
+	.bp-card-body {
+		padding: 2*$spacing $spacing;
+
+		.p-regular {
+			margin: 0;
+			color: $n100;
+		}
+
+		.bp-card-category {
+			@extend %p-small;
+		}
+
+		.bp-card-title {
+			margin: 0;
+			@extend %heading-small;
+			color: $n800;
+		}
+
+		.bp-card-desc {
+			@extend %p-primary;
+
+		}
+	}
+
+	span {
+		position: absolute;
+		right: $spacing;
+		top: $spacing;
+	}
 }

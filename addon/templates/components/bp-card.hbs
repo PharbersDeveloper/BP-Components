@@ -1,6 +1,17 @@
-{{yield
+{{!-- {{yield
 	(hash
 		header=(component cardHeader
 			title=title)
 		body=(component cardBody)
-)}}
+)}} --}}
+<img class="bp-card-img-top" src={{src}} alt="Card image cap">
+{{#if state}}
+	{{#bp-tag type='secondary'}}{{state}}{{/bp-tag}}
+{{/if}}
+<div class="bp-card-body">
+	<p class="bp-card-category p-regular">{{category}}</p>
+	<h5 class="bp-card-title">{{title}}</h5>
+	{{#if desc}}
+		<p class="bp-card-desc p-regular">{{desc}}</p>
+	{{/if}}
+</div>

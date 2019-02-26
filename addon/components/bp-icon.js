@@ -56,6 +56,7 @@ export default Component.extend({
 	class: computed('size', function () {
 		let size = this.get('size');
 
+		size = !size ? 'small' : size;
 		return `icon ${size}`;
 	})
 });
