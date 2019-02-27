@@ -42,21 +42,21 @@ export default Component.extend({
 	 * custom icon size
 	 * @property size
 	 * @type string
-	 * @default 'small'
+	 * @default 'medium'
 	 * @public
 	 */
-	size: 'small',
+	size: 'medium',
 	/**
 	 * return icon class
 	 * @property class
 	 * @type string
-	 * @default 'icon small'
+	 * @default 'icon medium'
 	 * @private
 	 */
 	class: computed('size', function () {
 		let size = this.get('size');
 
-		size = !size ? 'small' : size;
+		size = !size ? 'medium' : size;
 		return `icon ${size}`;
 	})
 });

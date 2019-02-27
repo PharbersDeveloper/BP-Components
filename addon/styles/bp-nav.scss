@@ -8,6 +8,7 @@
 	flex-wrap: wrap;
 	padding-left: 0;
 	margin: 0;
+	width: 240px;
 	list-style: none;
 
 	&.nav-dark {
@@ -29,7 +30,6 @@
 	}
 
 	&.nav-light {
-		// background-color: transparent;
 
 		li {
 			color: $n400;
@@ -40,8 +40,12 @@
 				background-color: transparent;
 
 				&.active {
-					color: $link-text;
+					color: $b400;
 					background-color: $opacity04;
+
+					svg {
+						color: $b400;
+					}
 				}
 			}
 		}

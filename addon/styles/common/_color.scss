@@ -25,9 +25,29 @@ $n400: rgba($color: $n900, $alpha: 0.71);
 $n300: rgba($color: $n900, $alpha: 0.66);
 $n100: rgba($color: $n900, $alpha: 0.54);
 $n090: rgba($color: $n900, $alpha: 0.48);
+$n080: rgba($color: $n900, $alpha: 0.42);
 $n060: rgba($color: $n900, $alpha: 0.30);
 $n040: rgba($color: $n900, $alpha: 0.13);
 $n030: rgba($color: $n900, $alpha: 0.08);
 $n020: rgba($color: $n900, $alpha: 0.04);
 $n010: rgba($color: $n900, $alpha: 0.02);
 $n000: $white;
+
+// primary
+$b500: #2355A9;
+$b400: #3172E0;
+$b300: #3881FF;
+$b200: #579AFF;
+$b100: #73ABFF;
+$b075: #C2DAFF;
+$b050: #E1ECFF;
+
+// danger
+$r500: #BF2600;
+$r400: $danger;
+$r300: #FF5630;
+
+// warning
+$y400: #FF991F;
+$y300: $warning;
+$y200: #FFC400;
