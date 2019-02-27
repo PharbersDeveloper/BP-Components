@@ -36,29 +36,27 @@
 </li>
 {{#if (bp-eq curPage 1)}}
 	<li class="bp-pagination-item page-num-item active">
-		<button class="page-link" {{action 'pagiOnClick' 1}}>
-			1</button>
+		<button class="page-link" {{action 'pagiOnClick' 1}}>1</button>
 	</li>
 {{else}}
 	<li class="bp-pagination-item page-num-item">
-		<button class="page-link" {{action 'pagiOnClick' 1}}>
-			1</button>
+		<button class="page-link" {{action 'pagiOnClick' 1}}>1</button>
 	</li>
 {{/if}}
 {{#each pageGroup as |item index|}}
-	{{#if (bp-eq index 0)}}
-	{{else}}
-		{{#if (bp-eq item.pageNum pageCount)}}
+	{{#if (bp-not-eq item.pageNum 1 pageCount)}}
+		{{#if (bp-eq curPage item.pageNum)}}
+			<li class="bp-pagination-item page-num-item active">
+				<button class="page-link" {{action 'pagiOnClick' item.pageNum}}>
+					{{item.pageNum}}
+				</button>
+			</li>
 		{{else}}
-			{{#if (bp-eq curPage item.pageNum)}}
-				<li class="bp-pagination-item page-num-item active">
-					<button class="page-link" {{action 'pagiOnClick' item.pageNum}}>{{item.pageNum}}</button>
-				</li>
-			{{else}}
-				<li class="bp-pagination-item page-num-item">
-					<button class="page-link" {{action 'pagiOnClick' item.pageNum}}>{{item.pageNum}}</button>
-				</li>
-			{{/if}}
+			<li class="bp-pagination-item page-num-item">
+				<button class="page-link" {{action 'pagiOnClick' item.pageNum}}>
+					{{item.pageNum}}
+				</button>
+			</li>
 		{{/if}}
 	{{/if}}
 {{/each}}
