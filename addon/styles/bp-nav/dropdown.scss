@@ -28,9 +28,14 @@
 }
 
 .bp-nav-dropdown {
+	// &.active {
+	// 	background-color: red;
+	// 	color: white;
+	// }
+
 	.dd-title {
 		position: relative;
-		padding-left: 24px;
+		padding-left: 12px;
 
 		&>svg {
 			vertical-align: top;
@@ -40,7 +45,6 @@
 
 	&.show-child-list {
 		.dd-title {
-			// color: rgb(199, 199, 199);
 
 			&::after {
 				position: absolute;
@@ -54,7 +58,6 @@
 				transform: rotate(45deg) scale(1) translateY(-50%);
 				border-bottom: 0;
 				border-right: 0;
-
 			}
 		}
 
@@ -74,9 +77,10 @@
 			-webkit-flex-direction: column !important;
 			-ms-flex-direction: column !important;
 			flex-direction: column !important;
+			font-size: 14px;
 
-			a {
-				padding-left: 48px;
+			li {
+				padding-left: 42px;
 			}
 		}
 	}

@@ -6,7 +6,7 @@ export default Component.extend({
 	layout,
 	tagName: 'li',
 	classNames: ['bp-nav-dropdown'],
-	classNameBindings: ['showChildList:show-child-list:hidden-child-list'],
+	classNameBindings: ['active', 'showChildList:show-child-list:hidden-child-list'],
 	/**
 	 * @property showChildList
 	 * @type {boolean}
@@ -36,6 +36,7 @@ export default Component.extend({
 	 * @private
 	 */
 	ddLinkTo: 'bp-nav/link-to',
+
 	actions: {
 		/**
 		 * @method changeShowProperty
@@ -44,9 +45,12 @@ export default Component.extend({
 		changeShowProperty() {
 			this.toggleProperty('showChildList');
 		},
-		chooseDdList() {
-			this.set('titleActive', true);
-			console.log('ddddddd');
+		receiveIsActive(value) {
+			if (value !== false) {
+				this.set('active', true);
+			} else {
+				this.set('active', false);
+			}
 		}
 	}
 });

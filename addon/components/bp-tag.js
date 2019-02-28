@@ -5,20 +5,20 @@ import { computed } from '@ember/object';
 export default Component.extend({
 	layout,
 	tagName: 'span',
-	classNames: ['badge'],
+	classNames: ['badge', 'bp-tag'],
 	classNameBindings: ['currentType', 'pill:badge-pill'],
 	/**
 	 * Property to show type of badge
-	 * @property type
+	 * @property tagType
 	 * @type string
-	 * @default 'primary'
+	 * @default 'open'
 	 * @public
 	 */
-	type: 'primary',
-	currentType: computed('type', function () {
-		let type = this.get('type');
+	tagType: 'open',
+	currentType: computed('tagType', function () {
+		let type = this.get('tagType');
 
-		return `badge-${type}`;
+		return `tag-${type}`;
 	}),
 	/**
 	 * Property to pill badges

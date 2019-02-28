@@ -6,7 +6,7 @@
 	-webkit-flex-wrap: wrap;
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
-	padding-left: 0;
+	// padding-left: 0;
 	margin: 0;
 	width: 240px;
 	list-style: none;
@@ -29,25 +29,43 @@
 		}
 	}
 
+	// &.nav-light {
+
+	// 	li {
+	// 		color: $n400;
+	// 		background-color: transparent;
+
+	// 		a {
+	// 			color: $n400;
+	// 			background-color: transparent;
+
+	// 			&.active {
+	// 				color: $b400;
+	// 				background-color: $opacity04;
+
+	// 				svg {
+	// 					color: $b400;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 	&.nav-light {
 
 		li {
 			color: $n400;
 			background-color: transparent;
 
-			a {
-				color: $n400;
-				background-color: transparent;
 
-				&.active {
+			&.active {
+				color: $b400;
+				background-color: $opacity04;
+
+				svg {
 					color: $b400;
-					background-color: $opacity04;
-
-					svg {
-						color: $b400;
-					}
 				}
 			}
+
 		}
 	}
 
@@ -57,22 +75,23 @@
 		-webkit-flex-direction: column !important;
 		-ms-flex-direction: column !important;
 		flex-direction: column !important;
-		padding: 2*$spacing 0 3*$spacing;
+		padding: 2*$spacing 2*$spacing 3*$spacing;
 		height: 100%;
 		// background-color: #363E55;
 
 		li.bp-nav-dropdown {
 			min-height: 40px;
 			height: auto;
+			padding-left: 0;
 		}
 
 		li {
 			position: relative;
+			padding-left: 12px;
 			height: 40px;
 			line-height: 40px;
 			font-size: 14px;
 			letter-spacing: 2px;
-			// color: #fff;
 			cursor: pointer;
 
 			a {
@@ -87,17 +106,7 @@
 				padding-left: 24px;
 				padding-right: 16px;
 				text-decoration: none;
-				// color: #fff;
-				// background-color: transparent;
 
-				img {
-					flex: 0 0 $icon-small+8px;
-					padding-right: 8px;
-					// width: 23px;
-					width: $icon-small+8px;
-					// height: 15px;
-					height: $icon-small;
-				}
 
 				/* 为disable 提前写样式 same bs*/
 				&.disabled {

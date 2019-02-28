@@ -5,8 +5,8 @@
 		body=(component cardBody)
 )}} --}}
 <img class="bp-card-img-top" src={{src}} alt="Card image cap">
-{{#if state}}
-	{{#bp-tag type='secondary'}}{{state}}{{/bp-tag}}
+{{#if tagState}}
+	{{#bp-tag tagType=tagType}}{{tagState}}{{/bp-tag}}
 {{/if}}
 <div class="bp-card-body">
 	<p class="bp-card-category p-regular">{{category}}</p>

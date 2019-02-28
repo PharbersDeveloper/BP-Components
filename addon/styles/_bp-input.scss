@@ -1,0 +1,124 @@
+.bp-input {
+	display: flex;
+	flex-direction: column;
+
+	&.input-inline {
+		display: inline-flex;
+	}
+
+
+	.input-label-text {
+		margin-bottom: 2*$spacing-compact;
+		@extend %p-primary;
+		color: $n600;
+	}
+
+	.input-help-text {
+		margin-bottom: 2*$spacing;
+		@extend %p-primary;
+		color: $n100;
+	}
+
+	.input-container {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: stretch;
+		height: 32px;
+
+		&.reverse {
+			.input-prepend {
+				order: 2;
+
+				span {
+					border-radius: 0 4px 4px 0;
+				}
+			}
+
+			input {
+				border-radius: 4px 0 0 4px;
+			}
+
+		}
+
+		.input-prepend {
+			margin-right: -1px;
+			display: flex;
+
+			span {
+				display: flex;
+				align-items: center;
+				padding: 0 $spacing;
+				@extend %p-primary;
+				color: $n600;
+				white-space: nowrap;
+				background-color: $n030;
+				border-radius: 4px 0 0 4px;
+			}
+		}
+
+		input {
+			margin-bottom: 0;
+			padding-left: $spacing;
+			width: 240px;
+			@extend %p-primary;
+			color: $n600;
+
+			border: {
+				width: 1px;
+				style: solid;
+				radius: $radiusSize;
+				// radius: 0 4px 4px 0;
+			}
+
+			&::-webkit-input-placeholder {
+				color: $n500;
+			}
+
+			&:focus {
+				outline: none;
+				border-color: $b400;
+			}
+
+			&:disabled {
+				border: 0;
+				background-color: $n020;
+			}
+
+			&.input-default {
+				border-color: $n040;
+
+				&:focus {
+					outline: none;
+					border-color: $b400;
+				}
+			}
+
+			&.input-error {
+				border-color: $r400;
+			}
+
+			&.input-success {
+				border-color: #36B37E;
+			}
+
+			&.input-warning {
+				border-color: $y300;
+			}
+		}
+
+	}
+
+	&.medium-size {
+		.input-container {
+			height: 38px;
+		}
+	}
+
+	&.large-size {
+		.input-container {
+			height: 48px;
+		}
+	}
+
+}
