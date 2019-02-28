@@ -1,0 +1,20 @@
+.icon {
+	// color: $n500;
+	width: 1em;
+	height: 1em;
+	vertical-align: sub;
+	fill: currentColor;
+	overflow: hidden;
+
+	&.large {
+		font-size: $icon-large;
+	}
+
+	&.medium {
+		font-size: $icon-medium;
+	}
+
+	&.small {
+		font-size: $icon-small;
+	}
+}

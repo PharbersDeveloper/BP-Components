@@ -1,62 +1,95 @@
-@mixin btn-type($color, $bordercolor, $bgcolor) {
+@mixin btn-type($color, $bgcolor) {
 	color: $color;
 	background-color: $bgcolor;
-	border-color: $bgcolor;
+	// border-color: $bgcolor;
 }
 
-@mixin btn-focus($shoadowColor) {
-	box-shadow: 0 0 0 2px $shoadowColor;
-}
+@mixin buttonState($hoverFontColor, $hoverBgColor, $focusFontColor, $focusBgColor) {
+	&:hover {
+		@include btn-type($hoverFontColor, $hoverBgColor);
 
-.p-btn {
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 0 8px;
-	height: 40px;
-	line-height: 40px;
-	min-width: 104px;
-	border-width: 1px;
-	border-style: solid;
-	border-radius: 4px;
-	font-size: 14px;
-	letter-spacing: 1.69px;
-	text-align: center;
-	cursor: pointer;
-
-	&:disabled {
-		cursor: not-allowed;
-	}
-
-	&.btn-block {
-		display: block;
-		width: 100%;
-	}
-
-	.btn-icon {
-		width: 20px;
-		height: 20px;
-		vertical-align: sub;
-	}
-
-	&.default {}
-
-	&.primary {
-		@include btn-type(#FFF, #5E81CF, #5E81CF);
-
-		&:focus {
-			@include btn-focus(rgba(94, 129, 207, .5))
+		&>svg {
+			color: $hoverFontColor;
 		}
 	}
 
+	&:focus {
+		@include btn-type($focusFontColor, $focusBgColor);
+
+		&>svg {
+			color: $focusFontColor;
+		}
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		color: $n060;
+		background-color: $n020;
+	}
+}
+
+.p-btn {
+	display: inline-flex;
+	padding: 0 6*$spacing-compact;
+	height: 4*$spacing;
+	min-width: 80px;
+	border: 0;
+	@extend %defaultRadius;
+	font-size: $p-primary;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+
+	&.btn-block {
+		display: flex;
+	}
+
+	&.icon-only {
+		min-width: 32px;
+	}
+
+	&.default {
+		@include btn-type($n400, rgba(9, 30, 66, 0.04));
+		@include buttonState($n400, $n030, $b400, $b050);
+	}
+
+	&.subtle {
+		@include btn-type($n400, transparent);
+		@include buttonState($n400, $n030, $b400, $b050);
+
+	}
+
+	&.link {
+		@include btn-type($link-text, transparent);
+		@include buttonState($b300, transparent, $b500, transparent);
+	}
+
+	&.link-subtle {
+		@include btn-type($link-subtle, transparent);
+		@include buttonState($n080, transparent, $n300, transparent);
+
+	}
+
+	&.primary {
+		@include btn-type($n000, $primary);
+		@include buttonState($n000, $b300, $n000, $b500);
+	}
+
 	&.secondary {
-		@include btn-type(#999, #999, #FFF);
+		@include btn-type(#999, #FFF);
 
 		&.reverse {
-			@include btn-type(#FFF, #FFF, #575757);
+			@include btn-type(#FFF, #575757);
 		}
 	}
 
 	&.danger {
-		@include btn-type(#FFF, #FA6F80, #FA6F80);
+		@include btn-type(#FFF, $danger);
+		@include buttonState($n000, $r300, $n000, $r500);
+	}
+
+	&.warning {
+		@include btn-type($n400, $warning);
+		@include buttonState($n400, $y200, $n400, $y400);
 	}
 }

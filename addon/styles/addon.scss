@@ -1,6 +1,6 @@
+@import './common/common';
 @import './bp-layout.scss';
 @import './choose-group/item.scss';
-@import './bp-input.scss';
 @import './bp-button.scss';
 @import './bp-search-bar.scss';
 @import './bp-button-group.scss';
@@ -12,14 +12,20 @@
 @import './bp-progress.scss';
 @import './bp-progress/bar.scss';
 @import './bp-tabs.scss';
+@import './bp-empty-state.scss';
+@import './bp-page-header.scss';
+@import './bp-icon.scss';
+@import './bp-pagination.scss';
+@import './bp-tag';
+@import './bp-input';
 
 *,
 ::after,
 ::before {
 	box-sizing: border-box;
-	font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI",
-		"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue",
-		Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-		"Segoe UI Symbol";
+	font-family: system, -apple-system, BlinkMacSystemFont,
+		"PingFang SC", "Hiragino Sans GB", "Segoe UI", "Roboto", "Microsoft YaHei",
+		"Helvetica Neue", Helvetica, Arial, sans-serif;
+	;
 
 }

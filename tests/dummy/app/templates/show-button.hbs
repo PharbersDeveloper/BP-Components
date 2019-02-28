@@ -18,7 +18,8 @@
 	{{#bp-button type="default" disabled=true}}disabled default{{/bp-button}}
 	{{#bp-button type="primary"
 		onClick=(action 'submit')
-		icon="https://s3.amazonaws.com/uifaces/faces/twitter/damenleeturks/128.jpg"}}
+		icon="raised-hand"
+		iconColor='red'}}
 		primary
 	{{/bp-button}}
 	<hr>
@@ -27,9 +28,7 @@
 	{{#bp-button type="secondary" reverse=true onClick=(action 'submit')}}reverse secondary{{/bp-button}}
 	{{#bp-button type="danger" reverse=true onClick=(action 'submit')}}reverse danger{{/bp-button}}
 	{{#bp-button type="default" reverse=true disabled=true}}reverse default{{/bp-button}}
-	{{#bp-button type="primary" 
+	{{#bp-button type="danger" 
 		reverse=true 
-		onClick=(action 'submit')
-		icon="https://s3.amazonaws.com/uifaces/faces/twitter/damenleeturks/128.jpg"}}reverse
-		primary{{/bp-button}}
+		icon="#trash"}}reverse ?{{/bp-button}}
 </section>

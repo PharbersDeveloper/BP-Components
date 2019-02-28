@@ -1,14 +1,27 @@
-<div {{action 'changeShowProperty'}} class="dd-title">
+{{!-- <div {{action 'changeShowProperty'}} class="dd-title {{if titleActive 'title-active'}}">
 	{{#if icon}}
-		<img src={{icon}} alt={{title}}>
+		{{bp-icon icon=icon color=iconColor size=iconSize}}
 	{{/if}}
 	{{title}}
 </div>
 <ul class="bp-nav-dd-ul">
 	{{yield
 			(hash
-				item=(component ddItem)
+				item=(component ddItem onClick=(action 'chooseDdList'))
 				link-to=(component ddLinkTo)
+			)
+		}}
+</ul> --}}
+<div {{action 'changeShowProperty'}} class="dd-title {{if titleActive 'title-active'}}">
+	{{#if icon}}
+		{{bp-icon icon=icon color=iconColor size=iconSize}}
+	{{/if}}
+	<span>{{title}}</span>
+</div>
+<ul class="bp-nav-dd-ul">
+	{{yield
+			(hash
+				link-to=(component ddLinkTo onClick=(action 'receiveIsActive'))
 			)
 		}}
 </ul>

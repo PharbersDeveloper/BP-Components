@@ -20,7 +20,7 @@
 	button {
 		border-radius: 0;
 		color: #555;
-		border: 1px solid #555;
+		// border: 1px solid #555;
 		background-color: #fff;
 
 		& {
@@ -32,7 +32,7 @@
 		}
 
 		&:last-child {
-			border-right: 1px solid #555;
+			// border-right: 1px solid #555;
 			border-radius: 0 5px 5px 0;
 		}
 
@@ -59,18 +59,17 @@
 		width: 100%;
 		border-radius: 0;
 		color: #555;
-		border-left: 1px solid #555;
-		border-top: 1px solid #555;
-		border-right: 1px solid #555;
+		// border-left: 1px solid #555;
+		// border-top: 1px solid #555;
+		// border-right: 1px solid #555;
 		background-color: #fff;
 
 		&:first-child {
-			border-radius: 5px 5px 0 0;
+			border-radius: $radiusSize $radiusSize 0 0;
 		}
 
 		&:last-child {
-			border-bottom: 1px solid #555;
-			border-radius: 0 0 5px 5px;
+			border-radius: 0 0 $radiusSize $radiusSize;
 
 		}
 	}

@@ -5,7 +5,15 @@ export default Component.extend({
 	layout,
 	tagName: 'li',
 	ariaRole: 'navigation"s item',
+	/**
+	 * 是否冒泡
+	 * @property bubble
+	 * @type {boolean}
+	 * @default false
+	 * @public
+	 */
 	bubble: false,
+
 	/**
 	 * Called when clicking the nav item
 	 *
@@ -14,6 +22,7 @@ export default Component.extend({
 	 */
 	onClick() { },
 	click() {
+
 		this.get('onClick')(this.get('value'));
 		return this.get('bubble');
 	},

@@ -1,14 +1,15 @@
 import Component from '@ember/component';
 import layout from '../../templates/components/choose-group/item';
 import { computed } from '@ember/object';
+import { equal } from '@ember/object/computed';
 import { isArray } from '@ember/array';
 
 export default Component.extend({
 	layout,
-	tagName: 'section',
+	tagName: 'label',
 	radio: null,
 	classNames: ['private-choose-item'],
-	classNameBindings: ['block:item-block', 'active'],
+	classNameBindings: ['block', 'active'],
 	/**
 	 * Property to block level item
 	 * @property block
@@ -53,8 +54,8 @@ export default Component.extend({
 	 * @type string
 	 * @private
 	 */
-	chooseGroupType: false,
-
+	chooseGroupType: '',
+	isRadio: equal('chooseGroupType', 'radio'),
 	/**
 	 * @property active
 	 * @type boolean

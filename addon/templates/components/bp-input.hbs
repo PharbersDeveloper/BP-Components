@@ -1,14 +1,18 @@
-{{#if title}}
-	<div class="input-prepend">
-		<label for={{title}} class="input-prepend-text">{{title}}</label>
-	</div>
+{{#if label}}
+	<label for={{label}} class="input-label-text">{{label}}</label>
 {{/if}}
-<div class="input-container">
-	<input type="text" name={{title}} onInput={{action 'change'}} class="form-control" placeholder={{placeholder}}
-	 aria-label="input">
-	{{#if icon}}
-		<span class="input-suffix">
-			<img src={{icon}} alt='i' title={{title}} />
-		</span>
+{{#if helpText}}
+	<p class="input-help-text">{{helpText}}</p>
+{{/if}}
+<div class="input-container {{if prependDirClass 'reverse'}}">
+	{{#if prepend}}
+		<div class="input-prepend">
+			<span>{{prepend}}</span>
+		</div>
 	{{/if}}
+	<input type={{type}} class={{showInputState}} name={{label}} disabled={{disabled}} onInput={{action 'change'}}
+	 placeholder={{placeholder}} aria-label="input">
 </div>
+{{#if valueLength}}
+	<p>{{valueLength}}/{{maxLength}}</p>
+{{/if}}
