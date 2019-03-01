@@ -7,8 +7,6 @@
 @import './bp-card/header.scss';
 @import './bp-card.scss';
 @import './bp-dropdown.scss';
-@import './bp-nav.scss';
-@import './bp-nav/dropdown.scss';
 @import './bp-progress.scss';
 @import './bp-progress/bar.scss';
 @import './bp-tabs.scss';
@@ -18,6 +16,8 @@
 @import './bp-pagination.scss';
 @import './bp-tag';
 @import './bp-input';
+@import './bp-nav';
+@import './bp-nav/dropdown';
 
 *,
 ::after,

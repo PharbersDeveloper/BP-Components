@@ -1,36 +1,3 @@
-{{!-- <li class="page-item {{if previousFlag '' 'disabled'}}">
-	{{#bp-button class='page-link' onClick=(action 'onFirstClick')}}
-		首页
-	{{/bp-button}}
-</li>
-<li class="page-item {{if previousFlag '' 'disabled'}}">
-	{{#bp-button class='page-link' onClick=(action 'onPreviousClick')}}
-		上一页
-	{{/bp-button}}
-</li>
-{{#each pageGroup as |item index|}}
-	{{#if (bp-eq curPage item.pageNum)}}
-		<li class="page-item page-num-item active">
-			<button class="page-link" {{action 'pagiOnClick' item.pageNum}}>{{item.pageNum}}</button>
-		</li>
-	{{else}}
-		<li class="page-item page-num-item">
-			<button class="page-link" {{action 'pagiOnClick' item.pageNum}}>{{item.pageNum}}</button>
-		</li>
-	{{/if}}
-{{/each}}
-<li class="page-item {{if nextFlag '' 'disabled'}}">
-	<button class="page-link" {{action 'onNextClick'}}>下一页</button>
-</li>
-<li class="page-item {{if nextFlag '' 'disabled'}}">
-	{{#bp-button class='page-link' onClick=(action 'onLastClick')}}
-		尾页
-	{{/bp-button}}
-</li>
-<p class="pagination-count mb-0">共{{pageCount}}页</p> --}}
-{{!-- <li class="bp-pagination-item {{if previousFlag '' 'disabled'}}">
-	<button class="page-link" {{action 'onFirstClick'}}>首页</button>
-</li> --}}
 <li class="bp-pagination-item {{if previousFlag '' 'disabled'}}">
 	<button class="page-link" {{action 'onPreviousClick'}}>上一页</button>
 </li>
