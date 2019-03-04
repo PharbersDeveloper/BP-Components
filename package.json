@@ -5,7 +5,7 @@
 	"keywords": [
 		"ember-addon"
 	],
-	"repository": "",
+	"repository": "https://github.com/PharbersDeveloper/BP-Components",
 	"license": "MIT",
 	"author": "Frank Wang",
 	"directories": {
@@ -53,5 +53,6 @@
 	},
 	"ember-addon": {
 		"configPath": "tests/dummy/config"
-	}
+	},
+	"homepage": "https://PharbersDeveloper.github.io/BP-Components"
 }

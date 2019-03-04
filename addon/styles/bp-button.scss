@@ -1,7 +1,6 @@
 @mixin btn-type($color, $bgcolor) {
 	color: $color;
 	background-color: $bgcolor;
-	// border-color: $bgcolor;
 }
 
 @mixin buttonState($hoverFontColor, $hoverBgColor, $focusFontColor, $focusBgColor) {
@@ -32,7 +31,7 @@
 	display: inline-flex;
 	padding: 0 6*$spacing-compact;
 	height: 4*$spacing;
-	min-width: 80px;
+	// min-width: 80px;
 	border: 0;
 	@extend %defaultRadius;
 	font-size: $p-primary;
@@ -71,6 +70,7 @@
 	}
 
 	&.primary {
+		min-width: 80px;
 		@include btn-type($n000, $primary);
 		@include buttonState($n000, $b300, $n000, $b500);
 	}

@@ -7,18 +7,18 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function () {
-  this.route('bm-radio');
-  this.route('bp-input');
-  this.route('bp-search-bar');
-  this.route('show-button');
-  this.route('button-group');
-  this.route('layout');
-  this.route('card');
-  this.route('dropdown');
-  this.route('show-nav');
-  this.route('progress');
-  this.route('modal');
-  this.route('tabs');
+    this.route('bm-radio');
+    this.route('bp-input');
+    this.route('bp-search-bar');
+    this.route('show-button');
+    this.route('button-group');
+    this.route('layout');
+    this.route('card');
+    this.route('dropdown');
+    this.route('show-nav');
+    this.route('progress');
+    this.route('modal');
+    this.route('tabs');
 });
 
 export default Router;
