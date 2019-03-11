@@ -1,7 +1,13 @@
 .bp-dropdown {
 
 	button {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
 		display: flex;
+		-webkit-box-pack: justify;
+		-webkit-justify-content: space-between;
+		-ms-flex-pack: justify;
 		justify-content: space-between;
 		width: 360px;
 		height: 40px;
@@ -11,6 +17,7 @@
 			margin: 0;
 			width: 304px;
 			overflow: hidden;
+			-o-text-overflow: ellipsis;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			text-align: left;
@@ -31,6 +38,7 @@
 			line-height: 32px;
 			color: $n600;
 			overflow: hidden;
+			-o-text-overflow: ellipsis;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			cursor: pointer;

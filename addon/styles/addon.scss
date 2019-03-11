@@ -18,10 +18,12 @@
 @import './bp-tag';
 @import './bp-nav';
 @import './bp-nav/dropdown';
+@import './bp-line';
 
 *,
 ::after,
 ::before {
+	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	font-family: system, -apple-system, BlinkMacSystemFont,
 		"PingFang SC", "Hiragino Sans GB", "Segoe UI", "Roboto", "Microsoft YaHei",
