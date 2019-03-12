@@ -3,9 +3,9 @@
 	display: -webkit-flex;
 	display: -ms-flexbox;
 	display: flex;
-	-webkit-flex-wrap: wrap;
-	-ms-flex-wrap: wrap;
-	flex-wrap: wrap;
+	-webkit-flex-wrap: nowrap;
+	-ms-flex-wrap: nowrap;
+	flex-wrap: nowrap;
 	margin: 0;
 	width: 240px;
 	list-style: none;
@@ -55,6 +55,7 @@
 		flex-direction: column !important;
 		padding: 2*$spacing 2*$spacing 3*$spacing;
 		height: 100%;
+		overflow-y: scroll;
 
 		li.bp-nav-dropdown {
 			min-height: 40px;
