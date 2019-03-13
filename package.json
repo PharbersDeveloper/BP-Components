@@ -1,11 +1,12 @@
 {
 	"name": "bp-components",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"description": "Ember addon for B&P companies.",
 	"keywords": [
 		"ember-addon",
 		"pharbers",
-		"blackMirror"
+		"blackMirror",
+		"UI-component"
 	],
 	"repository": "https://github.com/PharbersDeveloper/BP-Components",
 	"license": "MIT",
