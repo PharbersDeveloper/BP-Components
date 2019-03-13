@@ -1,0 +1,54 @@
+<section class="layout-container">
+	<h3>bp-layout 的使用方法</h3>
+	<h3>
+		布局器有五个非必选属性,包括: direction / main / cross / wrap / multi;
+	</h3>
+	<ul>
+		<li>direction: 目前支持
+			{{#bp-button onClick=(action (mut direction) 'col')}}col{{/bp-button}}
+			以及
+			{{#bp-button onClick=(action (mut direction) 'row')}}row{{/bp-button}}
+			;默认为 'row'.
+		</li>
+		<li>main: 定义元素在主轴 (main) 上的排列方式.
+			支持的值有:
+			{{#bp-button onClick=(action (mut main) 'start')}}start{{/bp-button}}
+			{{#bp-button onClick=(action (mut main) 'end')}}end{{/bp-button}}
+			{{#bp-button onClick=(action (mut main) 'center')}}center{{/bp-button}}
+			{{#bp-button onClick=(action (mut main) 'between')}}between{{/bp-button}}
+			{{#bp-button onClick=(action (mut main) 'around')}}around{{/bp-button}}
+			;默认值: 'start'.
+		</li>
+		<li>cross: 定义元素在交叉轴 (cross Axis) 上的排列方式.支持的值有:
+			{{#bp-button onClick=(action (mut cross) 'start')}}start{{/bp-button}}
+			{{#bp-button onClick=(action (mut cross) 'end')}}end{{/bp-button}}
+			{{#bp-button onClick=(action (mut cross) 'center')}}center{{/bp-button}}
+			{{#bp-button onClick=(action (mut cross) 'stretch')}}stretch{{/bp-button}}
+			{{#bp-button onClick=(action (mut cross) 'baseline')}}baseline{{/bp-button}}
+			;默认值: 'stretch'.
+		</li>
+		<li>wrap: 定义是否换行.默认为 false.
+			{{#bp-button onClick=(action (mut wrap) true)}}Wrap to true{{/bp-button}}
+			{{#bp-button onClick=(action (mut wrap) false)}}Wrap to false{{/bp-button}}
+		</li>
+		<li>multi: 定义多行的排列方式,在 wrap 为false 的时候,不起作用.支持的值有:
+			{{#bp-button onClick=(action (mut multi) 'start')}}start{{/bp-button}}
+			{{#bp-button onClick=(action (mut multi) 'end')}}end{{/bp-button}}
+			{{#bp-button onClick=(action (mut multi) 'center')}}center{{/bp-button}}
+			{{#bp-button onClick=(action (mut multi) 'between')}}between{{/bp-button}}
+			{{#bp-button onClick=(action (mut multi) 'around')}}around{{/bp-button}}
+			{{#bp-button onClick=(action (mut multi) 'stretch')}}stretch{{/bp-button}}
+			;默认值:
+			'stretch'.</li>
+	</ul>
+	{{#bp-layout direction main cross wrap multi class="layout-demo"}}
+		<div>1</div>
+		<div>2</div>
+		<div>3</div>
+		<div>4</div>
+		<div>5</div>
+		<div>6</div>
+		<div>7</div>
+		<div>8</div>
+	{{/bp-layout}}
+</section>

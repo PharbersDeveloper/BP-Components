@@ -1,0 +1,19 @@
+<h4>单选</h4>
+{{#choose-group
+		type="radio" 
+		vertical=vertical 
+		onChange=(action 'chooseItem') as |choose|}}
+	{{#each model as |radio|}}
+		{{choose.item type="default" radio=radio}}
+	{{/each}}
+{{/choose-group}}
+<h4>多选</h4>
+{{#choose-group
+		type="checkbox" 
+		vertical=vertical 
+		onChange=(action 'chooseItem') as |choose|}}
+	{{#each model as |radio|}}
+		{{choose.item type="default" radio=radio}}
+	{{/each}}
+{{/choose-group}}
+{{outlet}}

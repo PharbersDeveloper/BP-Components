@@ -1,0 +1,18 @@
+{{#if label}}
+	<label for={{label}} class="input-label-text">{{label}}</label>
+{{/if}}
+{{#if helpText}}
+	<p class="input-help-text">{{helpText}}</p>
+{{/if}}
+<div class="input-container {{if prependDirClass 'reverse'}}">
+	{{#if prepend}}
+		<div class="input-prepend">
+			<span>{{prepend}}</span>
+		</div>
+	{{/if}}
+	<input type={{type}} class={{showInputState}} name={{label}} disabled={{disabled}} onInput={{action 'change'}}
+	 placeholder={{placeholder}} aria-label="input">
+</div>
+{{#if valueLength}}
+	<p>{{valueLength}}/{{maxLength}}</p>
+{{/if}}

@@ -1,0 +1,10 @@
+<li class="bp-pagination-item {{if previousFlag '' 'disabled'}}">
+	{{#bp-button type="subtle" iconOnly=true icon="left"
+		onClick=(action 'onPreviousClick')}}
+	{{/bp-button}}
+</li>
+<li class="bp-pagination-item {{if nextFlag '' 'disabled'}}">
+	{{#bp-button type="subtle" iconOnly=true icon="right"
+		onClick=(action 'onNextClick')}}
+	{{/bp-button}}
+</li>

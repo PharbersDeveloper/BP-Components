@@ -1,0 +1,14 @@
+.bp-tag {
+
+	&.tag-open {
+		font-weight: 400;
+
+		background-color: #79F2C0;
+	}
+
+	&.tag-close {
+		font-weight: 400;
+
+		background-color: $n040;
+	}
+}
