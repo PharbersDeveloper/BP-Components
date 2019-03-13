@@ -1,0 +1,17 @@
+{{yield
+	(hash 
+		item=(
+			component itemComponent
+		)
+		tablist=(
+			component listComponent 
+			selection=selection 
+			tabsContainer=this
+		) 
+		pane=(
+			component panelComponent
+			selection=selection 
+			tabsContainer=this
+		)
+	)
+}}

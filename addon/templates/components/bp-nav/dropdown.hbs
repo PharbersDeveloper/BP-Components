@@ -1,0 +1,13 @@
+<div {{action 'changeShowProperty'}} class="dd-title ">
+	{{#if icon}}
+		{{bp-icon icon=icon color=iconColor size=iconSize}}
+	{{/if}}
+	<span>{{title}}</span>
+</div>
+<ul class="bp-nav-dd-ul">
+	{{yield
+			(hash
+				link-to=(component ddLinkTo onClick=(action 'receiveIsActive'))
+			)
+		}}
+</ul>

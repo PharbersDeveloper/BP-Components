@@ -1,0 +1,107 @@
+@mixin btn-type($color, $bgcolor) {
+	color: $color;
+	background-color: $bgcolor;
+}
+
+@mixin buttonState($hoverFontColor, $hoverBgColor, $focusFontColor, $focusBgColor) {
+	&:hover {
+		@include btn-type($hoverFontColor, $hoverBgColor);
+
+		&>svg {
+			color: $hoverFontColor;
+		}
+	}
+
+	&:focus {
+		@include btn-type($focusFontColor, $focusBgColor);
+
+		&>svg {
+			color: $focusFontColor;
+		}
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		color: $n060;
+		background-color: $n020;
+	}
+}
+
+.p-btn {
+	display: -webkit-inline-box;
+	display: -webkit-inline-flex;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	padding: 0 6*$spacing-compact;
+	height: 4*$spacing;
+	// min-width: 80px;
+	border: 0;
+	@extend %defaultRadius;
+	font-size: $p-primary;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	cursor: pointer;
+
+	&.btn-block {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+	}
+
+	&.icon-only {
+		min-width: 32px;
+	}
+
+	&.default {
+		@include btn-type($n400, rgba(9, 30, 66, 0.04));
+		@include buttonState($n400, $n030, $b400, $b050);
+	}
+
+	&.subtle {
+		@include btn-type($n400, transparent);
+		@include buttonState($n400, $n030, $b400, $b050);
+
+	}
+
+	&.link {
+		@include btn-type($link-text, transparent);
+		@include buttonState($b300, transparent, $b500, transparent);
+	}
+
+	&.link-subtle {
+		@include btn-type($link-subtle, transparent);
+		@include buttonState($n080, transparent, $n300, transparent);
+
+	}
+
+	&.primary {
+		min-width: 80px;
+		@include btn-type($n000, $primary);
+		@include buttonState($n000, $b300, $n000, $b500);
+	}
+
+	&.secondary {
+		@include btn-type(#999, #FFF);
+
+		&.reverse {
+			@include btn-type(#FFF, #575757);
+		}
+	}
+
+	&.danger {
+		@include btn-type(#FFF, $danger);
+		@include buttonState($n000, $r300, $n000, $r500);
+	}
+
+	&.warning {
+		@include btn-type($n400, $warning);
+		@include buttonState($n400, $y200, $n400, $y400);
+	}
+}

@@ -1,0 +1,21 @@
+<li class="bp-pagination-item {{if previousFlag '' 'disabled'}}">
+	{{#bp-button type="subtle" iconOnly=true icon="left"
+		onClick=(action 'onPreviousClick')}}
+	{{/bp-button}}
+</li>
+<li class="bp-pagination-item page-num-item {{if (bp-not-eq curPage totalPageCounts) 'active'}}">
+	<button class="page-link" {{action 'pageOnClick' currentPage}}>
+		{{currentPage}}
+	</button>
+</li>
+<span>/</span>
+<li class="bp-pagination-item page-num-item {{if (bp-eq curPage totalPageCounts) 'active'}}">
+	<button class="page-link" {{action 'pageOnClick' totalPageCounts}}>
+		{{totalPageCounts}}
+	</button>
+</li>
+<li class="bp-pagination-item {{if nextFlag '' 'disabled'}}">
+	{{#bp-button type="subtle" iconOnly=true icon="right"
+		onClick=(action 'onNextClick')}}
+	{{/bp-button}}
+</li>

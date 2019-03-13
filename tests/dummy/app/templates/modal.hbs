@@ -1,0 +1,25 @@
+<h2>Simple modal</h2>
+<div class="bs-example">
+	<!-- BEGIN-SNIPPET modal-custom -->
+	{{#bp-modal open=modal3 onSubmit=(action "submit") onHidden=(action (mut modal3) false) as |modal|}}
+		{{#modal.header}}
+			<h4 class="modal-title">
+				Custom Dialog
+				<div class="badge">2</div>
+			</h4>
+		{{/modal.header}}
+		{{#modal.body}}
+			<input type="text" autofocus="autofocus">
+		{{/modal.body}}
+		{{#modal.footer}}
+			{{#bp-button onClick=(action modal.close)}}Cancel{{/bp-button}}
+			{{#bp-button type="danger"}}Delete{{/bp-button}}
+			{{#bp-button type="success" onClick=(action modal.submit)}}Save{{/bp-button}}
+		{{/modal.footer}}
+	{{/bp-modal}}
+	{{#bp-button onClick=(action (mut modal3) true)}}Open Modal{{/bp-button}}
+	<!-- END-SNIPPET -->
+</div>
+{{!-- <div class="highlight">
+	{{code-snippet name="modal-custom.hbs"}}
+</div> --}}

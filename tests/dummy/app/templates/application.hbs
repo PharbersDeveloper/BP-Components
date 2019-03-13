@@ -1,0 +1,63 @@
+<h2 id="title">Welcome to BP-Components</h2>
+<section class="container">
+	<aside>
+		<nav>
+			{{!-- {{#bp-nav as |n|}}
+				{{#n.item}}
+					{{#n.link-to "layout"}}
+						<img src="https://www.easyicon.net/api/resizeApi.php?id=1185721&size=72" alt="">
+						Layout{{/n.link-to}}
+				{{/n.item }}
+				{{#n.dropdown
+					title='Buttons' 
+					icon="https://www.easyicon.net/api/resizeApi.php?id=1228842&size=24" 
+					as |dd|}}
+					{{#dd.item}}
+						{{#dd.link-to "show-button"}}
+							<img src="https://www.easyicon.net/api/resizeApi.php?id=1228842&size=24" alt="">
+							Button{{/dd.link-to}}
+					{{/dd.item}}
+					{{#dd.item}}
+						{{#dd.link-to "button-group"}}
+							<img src="https://www.easyicon.net/api/resizeApi.php?id=1181927&size=24" alt="">
+							ButtonGroup{{/dd.link-to}}
+					{{/dd.item}}
+				{{/n.dropdown}}
+				{{#n.item}}
+					{{#n.link-to "dropdown"}}Dropdown{{/n.link-to}}
+				{{/n.item}}
+				{{#n.item}}
+					{{#n.link-to "bm-radio"}}Radio&Checkbox{{/n.link-to}}
+				{{/n.item}}
+				{{#n.dropdown title='Inputs' as |dd|}}
+					{{#dd.item}}
+						{{#dd.link-to "bp-input"}}
+							BaiscInput{{/dd.link-to}}
+					{{/dd.item}}
+					{{#dd.item}}
+						{{#dd.link-to "bp-search-bar"}}
+							SearchBar{{/dd.link-to}}
+					{{/dd.item}}
+				{{/n.dropdown}}
+				{{#n.item}}
+					{{#n.link-to "card"}}Card{{/n.link-to}}
+				{{/n.item}}
+				{{#n.item}}
+					{{#n.link-to "show-nav"}}Nav{{/n.link-to}}
+				{{/n.item}}
+				{{#n.item}}
+					{{#n.link-to "progress"}}Progress{{/n.link-to}}
+				{{/n.item}}
+				{{#n.item}}
+					{{#n.link-to "modal"}}Modal{{/n.link-to}}
+				{{/n.item}}
+				{{#n.item}}
+					{{#n.link-to "tabs"}}Tabs{{/n.link-to}}
+				{{/n.item}}
+			{{/bp-nav}} --}}
+		</nav>
+	</aside>
+	<section class="content">
+		{{outlet}}
+	</section>
+</section>
