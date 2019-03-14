@@ -19,6 +19,7 @@ Router.map(function () {
   this.route('progress');
   this.route('modal');
   this.route('tabs');
+  this.route('charts');
 });
 
 export default Router;

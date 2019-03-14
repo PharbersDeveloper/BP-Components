@@ -1,118 +1,188 @@
 import Component from '@ember/component';
-import layout from '../templates/components/bp-dropdown';
 import { computed } from '@ember/object';
-import { A as initArray } from '@ember/array';
-import { once } from '@ember/runloop';
-
-const isSelectedOption = (option) => option.$().is(':selected');
-
+import { bind } from '@ember/runloop';
+import layout from '../templates/components/bp-dropdown';
 
 export default Component.extend({
 	layout,
-	tagName: 'select',
 	classNames: ['bp-dropdown'],
-	dropDownOption: 'bp-dropdown/option',
-	/**
-	 * 当前所有的选项.
-	 *
-	 * @private
-	 * @property options
-	 */
-	options: computed(function () {
-		return initArray([]);
-	}),
-	/**
-	 *  `onClick` 函数
-	 *
-	 * @property onClick
-	 * @type Function
-	 */
-	onClick() { },
+	classNameBindings: ['containerClass'],
 
 	/**
-	 *  `onChange` 函数
+	 * This property reflects the state of the dropdown, whether it is open or closed.
 	 *
-	 * @property onChange
-	 * @type Function
-	 */
-	onChange() { },
-	/**
-	 * 当发生 change/click 事件时，需要调用 onClick/onChange.
-	 *
-	 * @method _handleAction
-	 * @type Function
-	 * @param {String} action
-	 * @param {String|Object} value
-	 * @param {Object} event
-	 */
-	_handleAction(action, value, event) {
-		this.get(action)(value, event);
-	},
-
-	/**
-	 * change 事件
-	 */
-	change(event) {
-		this._handleAction('onChange', this._getValue(), event);
-	},
-
-	/**
-	 * click 事件
-	 */
-	click(event) {
-		this._handleAction('onClick', this._getValue(), event);
-	},
-	/**
-	 * 读取当前选中的 option 的值.
-	 *
-	 * @private
-	 * @return {Array|Object} 当前选中的值
-	 */
-	_getValue() {
-		let selectedValue = this.get('options').find(isSelectedOption);
-
-		return selectedValue ? selectedValue.get('value') : null;
-	},
-	/**
-	 * 设置默认值
-	 *
+	 * @property isOpen
+	 * @default false
+	 * @type boolean
 	 * @private
 	 */
-	_setDefaultValues() {
-		once(this, this.__setDefaultValues);
-	},
+	isOpen: false,
 
-	__setDefaultValues() {
-		let canSet = !this.isDestroying && !this.isDestroyed;
+	/**
+	 * By default clicking on an open dropdown menu will close it. Set this property to false for the menu to stay open.
+	 *
+	 * @property closeOnMenuClick
+	 * @default true
+	 * @type boolean
+	 * @public
+	 */
+	closeOnMenuClick: true,
 
-		if (canSet && this.get('value') === null) {
-			// 调用 `onChange` 来设置默认值
-			this._handleAction('onChange', this._getValue(), event);
+	/**
+	 * By default the dropdown menu will expand downwards. Other options include, 'up', 'left' and 'right'
+	 *
+	 * @property direction
+	 * @type string
+	 * @default 'down'
+	 * @public
+	 */
+	direction: 'down',
+
+	/**
+	 * Indicates the dropdown is being used as a navigation item dropdown.
+	 *
+	 * @property inNav
+	 * @type boolean
+	 * @default false
+	 * @private
+	 */
+	inNav: false,
+
+	/**
+	 * A computed property to generate the suiting class for the dropdown container, either "dropdown", "dropup" or "btn-group".
+	 * BS4 only: "dropleft", "dropright"
+	 *
+	 * @property containerClass
+	 * @type string
+	 * @readonly
+	 * @private
+	 */
+	containerClass: computed('toggle.tagName', 'direction', function () {
+		if (this.get('toggle.tagName') === 'button' && !this.get('toggle.block')) {
+			return this.get('direction') !== 'down' ? `btn-group drop${this.get('direction')}` : 'btn-group';
 		}
-	},
+		return `drop${this.get('direction')}`;
+	}),
+
+	/**
+	 * @property menuElement
+	 * @private
+	 */
+	menuElement: computed(function () {
+		return document.getElementById(`${this.get('elementId')}__menu`);
+	}).volatile(),
+
+	/**
+	 * @property toggleElement
+	 * @private
+	 */
+	toggleElement: computed('toggle', function () {
+		return typeof FastBoot === 'undefined' ? this.get('toggle.element') || null : null;
+	}),
+
+	/**
+	 * Reference to the child toggle (Toggle or Button)
+	 *
+	 * @property toggle
+	 * @private
+	 */
+	toggle: null,
+
+	/**
+	 * Action is called when dropdown is about to be shown
+	 *
+	 * @event onShow
+	 * @param {*} value
+	 * @public
+	 */
+	onShow(value) { }, // eslint-disable-line no-unused-vars
+
+	/**
+	 * Action is called when dropdown is about to be hidden
+	 *
+	 * @event onHide
+	 * @param {*} value
+	 * @public
+	 */
+	onHide(value) { }, // eslint-disable-line no-unused-vars
 
 	actions: {
-
-		/**
-		* 当 p-option 插入 select 组件中后，添加 option 进入 options
-		*
-		* @param {<p-option>} option - p-option component.
-		* @private
-		*/
-		registerOption(option) {
-			this.get('options').push(option);
-			this._setDefaultValues();
+		toggleDropdown() {
+			if (this.get('isOpen')) {
+				this.send('closeDropdown');
+			} else {
+				this.send('openDropdown');
+			}
 		},
 
-		/**
-		 * 当 p-option 卸载，移除 option
-		 *
-		 * @param {<p-option>} option - p-option component.
-		 * @private
-		 */
-		unregisterOption(option) {
-			this.get('options').removeObject(option);
-			this._setDefaultValues();
+		openDropdown() {
+			this.set('isOpen', true);
+			this.addClickListener();
+			this.get('onShow')();
+		},
+
+		closeDropdown() {
+			this.set('isOpen', false);
+			this.removeClickListener();
+			this.get('onHide')();
 		}
-	}
+	},
+
+	addClickListener() {
+		if (!this.clickListener) {
+			this.clickListener = bind(this, this.closeOnClickHandler);
+			document.addEventListener('click', this.clickListener, true);
+		}
+	},
+
+	removeClickListener() {
+		if (this.clickListener) {
+			document.removeEventListener('click', this.clickListener, true);
+			this.clickListener = null;
+		}
+	},
+
+	willDestroyElement() {
+		this._super(...arguments);
+		this.removeClickListener();
+	},
+
+	/**
+	 * Handler for click events to close the dropdown
+	 *
+	 * @method closeOnClickHandler
+	 * @param e
+	 * @protected
+	 */
+	closeOnClickHandler(e) {
+		let { target } = e,
+			{ toggleElement, menuElement } = this.getProperties('toggleElement', 'menuElement');
+
+		if (!this.get('isDestroyed') &&
+			(toggleElement && !toggleElement.contains(target)) &&
+			(menuElement && !menuElement.contains(target) || this.get('closeOnMenuClick'))) {
+			this.send('closeDropdown');
+		}
+	},
+
+	/**
+	 * @property buttonComponent
+	 * @type {String}
+	 * @private
+	 */
+	buttonComponent: 'bp-dropdown/button',
+
+	/**
+	 * @property toggleComponent
+	 * @type {String}
+	 * @private
+	 */
+	toggleComponent: 'bp-dropdown/toggle',
+
+	/**
+	 * @property menuComponent
+	 * @type {String}
+	 * @private
+	 */
+	menuComponent: 'bp-dropdown/menu'
 });

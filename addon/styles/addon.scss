@@ -1,4 +1,16 @@
+*,
+::after,
+::before {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	font-family: system, -apple-system, BlinkMacSystemFont,
+		"PingFang SC", "Hiragino Sans GB", "Segoe UI", "Roboto", "Microsoft YaHei",
+		"Helvetica Neue", Helvetica, Arial, sans-serif;
+	;
+}
+
 @import './common/common';
+@import './bp-input';
 @import './bp-layout.scss';
 @import './choose-group/item.scss';
 @import './bp-button.scss';
@@ -7,25 +19,16 @@
 @import './bp-card/header.scss';
 @import './bp-card.scss';
 @import './bp-dropdown.scss';
-@import './bp-nav.scss';
-@import './bp-nav/dropdown.scss';
 @import './bp-progress.scss';
 @import './bp-progress/bar.scss';
 @import './bp-tabs.scss';
-@import './bp-empty-state.scss';
+@import 'bp-empty-state';
 @import './bp-page-header.scss';
 @import './bp-icon.scss';
 @import './bp-pagination.scss';
 @import './bp-tag';
-@import './bp-input';
-
-*,
-::after,
-::before {
-	box-sizing: border-box;
-	font-family: system, -apple-system, BlinkMacSystemFont,
-		"PingFang SC", "Hiragino Sans GB", "Segoe UI", "Roboto", "Microsoft YaHei",
-		"Helvetica Neue", Helvetica, Arial, sans-serif;
-	;
-
-}
+@import './bp-nav';
+@import './bp-nav/dropdown';
+@import './bp-line';
+@import './bp-bar';
+@import './bp-pie';

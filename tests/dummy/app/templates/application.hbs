@@ -2,7 +2,7 @@
 <section class="container">
 	<aside>
 		<nav>
-			{{#bp-nav as |n|}}
+			{{!-- {{#bp-nav as |n|}}
 				{{#n.item}}
 					{{#n.link-to "layout"}}
 						<img src="https://www.easyicon.net/api/resizeApi.php?id=1185721&size=72" alt="">
@@ -54,39 +54,8 @@
 				{{#n.item}}
 					{{#n.link-to "tabs"}}Tabs{{/n.link-to}}
 				{{/n.item}}
-			{{/bp-nav}}
+			{{/bp-nav}} --}}
 		</nav>
-		{{!-- <nav>
-			<ol>
-				{{#link-to "layout" tagName='li'  activeClass="nav-active"}}
-					Layout
-				{{/link-to}}
-				{{#link-to "show-button" tagName='li' activeClass="nav-active"}}
-					Button
-				{{/link-to}}
-				{{#link-to "button-group" tagName='li' activeClass="nav-active"}}
-					ButtonGroup
-				{{/link-to}}
-				{{#link-to "dropdown" tagName='li' activeClass="nav-active"}}
-					dropdown
-				{{/link-to}}
-				{{#link-to "bm-radio" tagName='li' activeClass="nav-active"}}
-					Radio&Checkbox
-				{{/link-to}}
-				{{#link-to "bp-input" tagName='li' activeClass="nav-active"}}
-					Input
-				{{/link-to}}
-				{{#link-to "bp-search-bar" tagName='li' activeClass="nav-active"}}
-					SearchBar
-				{{/link-to}}
-				{{#link-to "card" tagName='li' activeClass="nav-active"}}
-					Card
-				{{/link-to}}
-				{{#link-to "show-nav" tagName='li' activeClass="nav-active"}}
-					Nav
-				{{/link-to}}
-			</ol>
-		</nav> --}}
 	</aside>
 	<section class="content">
 		{{outlet}}

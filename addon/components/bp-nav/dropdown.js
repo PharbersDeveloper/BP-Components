@@ -1,12 +1,13 @@
 import Component from '@ember/component';
 import layout from '../../templates/components/bp-nav/dropdown';
-import { computed } from '@ember/object';
 
 export default Component.extend({
 	layout,
 	tagName: 'li',
 	classNames: ['bp-nav-dropdown'],
-	classNameBindings: ['active', 'showChildList:show-child-list:hidden-child-list'],
+	classNameBindings: ['active',
+		'showChildList:show-child-list:hidden-child-list',
+		'titleActive'],
 	/**
 	 * @property showChildList
 	 * @type {boolean}
@@ -21,9 +22,7 @@ export default Component.extend({
 	 * @default false
 	 * @private
 	 */
-	titleActive: computed('showChildList', function () {
-		return !this.get('showChildList');
-	}),
+	titleActive: false,
 	/**
 	 * @property ddItem
 	 * @type {String}
@@ -36,7 +35,21 @@ export default Component.extend({
 	 * @private
 	 */
 	ddLinkTo: 'bp-nav/link-to',
+	/**
+	 * @method checkSubLiHasActive
+	 * @private
+	 */
+	checkSubLiHasActive() {
+		let subLiHasActive = this.$('.bp-nav-dd-ul li').hasClass('active'),
+			showChildList = this.get('showChildList'),
+			isTitleActive = Boolean(subLiHasActive & !showChildList);
 
+		this.set('titleActive', isTitleActive);
+	},
+	didInsertElement() {
+		this._super(...arguments);
+		this.checkSubLiHasActive();
+	},
 	actions: {
 		/**
 		 * @method changeShowProperty
@@ -44,13 +57,14 @@ export default Component.extend({
 		 */
 		changeShowProperty() {
 			this.toggleProperty('showChildList');
+			this.checkSubLiHasActive();
 		},
-		receiveIsActive(value) {
-			if (value !== false) {
-				this.set('active', true);
-			} else {
-				this.set('active', false);
-			}
+		/**
+		 * @method receiveIsActive
+		 * @private
+		 */
+		receiveIsActive() {
+			this.checkSubLiHasActive();
 		}
 	}
 });

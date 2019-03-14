@@ -1,0 +1,18 @@
+{{#bp-page-header as |ph|}}
+	{{#ph.body as |body|}}
+		{{#body.left as |left|}}
+			{{#left.item}}
+				{{title}}
+			{{/left.item}}
+			{{#left.item}}
+				{{#if linkTo}}
+					{{#link-to linkTo}}
+						{{linkToText}}
+					{{/link-to}}
+				{{else}}
+					{{desc}}
+				{{/if}}
+			{{/left.item}}
+		{{/body.left}}
+	{{/ph.body}}
+{{/bp-page-header}}

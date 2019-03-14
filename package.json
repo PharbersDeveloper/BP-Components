@@ -1,11 +1,14 @@
 {
 	"name": "bp-components",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"description": "Ember addon for B&P companies.",
 	"keywords": [
-		"ember-addon"
+		"ember-addon",
+		"pharbers",
+		"blackMirror",
+		"UI-component"
 	],
-	"repository": "",
+	"repository": "https://github.com/PharbersDeveloper/BP-Components",
 	"license": "MIT",
 	"author": "Frank Wang",
 	"directories": {
@@ -31,6 +34,7 @@
 		"ember-ajax": "^3.0.0",
 		"ember-cli": "~2.18.2",
 		"ember-cli-dependency-checker": "^2.0.0",
+		"ember-cli-echarts": "^0.1.8",
 		"ember-cli-eslint": "^4.2.1",
 		"ember-cli-htmlbars-inline-precompile": "^1.0.0",
 		"ember-cli-inject-live-reload": "^1.4.1",
@@ -53,5 +57,6 @@
 	},
 	"ember-addon": {
 		"configPath": "tests/dummy/config"
-	}
+	},
+	"homepage": "https://PharbersDeveloper.github.io/BP-Components"
 }

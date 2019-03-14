@@ -3,10 +3,9 @@
 	display: -webkit-flex;
 	display: -ms-flexbox;
 	display: flex;
-	-webkit-flex-wrap: wrap;
-	-ms-flex-wrap: wrap;
-	flex-wrap: wrap;
-	// padding-left: 0;
+	-webkit-flex-wrap: nowrap;
+	-ms-flex-wrap: nowrap;
+	flex-wrap: nowrap;
 	margin: 0;
 	width: 240px;
 	list-style: none;
@@ -29,27 +28,6 @@
 		}
 	}
 
-	// &.nav-light {
-
-	// 	li {
-	// 		color: $n400;
-	// 		background-color: transparent;
-
-	// 		a {
-	// 			color: $n400;
-	// 			background-color: transparent;
-
-	// 			&.active {
-	// 				color: $b400;
-	// 				background-color: $opacity04;
-
-	// 				svg {
-	// 					color: $b400;
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
 	&.nav-light {
 
 		li {
@@ -77,7 +55,7 @@
 		flex-direction: column !important;
 		padding: 2*$spacing 2*$spacing 3*$spacing;
 		height: 100%;
-		// background-color: #363E55;
+		overflow-y: auto;
 
 		li.bp-nav-dropdown {
 			min-height: 40px;
@@ -107,15 +85,10 @@
 				padding-right: 16px;
 				text-decoration: none;
 
-
 				/* 为disable 提前写样式 same bs*/
 				&.disabled {
 					color: #6c757d;
 				}
-
-				// &.active {
-				// 	background-color: #5E81CF;
-				// }
 
 				&:focus,
 				&:hover {

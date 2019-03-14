@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-nav';
 import { equal } from '@ember/object/computed';
+import $ from 'jquery';
 
 export default Component.extend({
 	layout,
@@ -51,5 +52,33 @@ export default Component.extend({
 	 * @type {String}
 	 * @private
 	 */
-	bpNavDropdown: 'bp-nav/dropdown'
+	bpNavDropdown: 'bp-nav/dropdown',
+	checkSiblingHasActive() {
+		let siblingsDOM = this.$('> li'),
+			siblingsDOMHasActive = siblingsDOM.hasClass('active');
+
+		return siblingsDOMHasActive;
+
+	},
+	didInsertElement() {
+		this._super(...arguments);
+		this.checkSiblingHasActive();
+	},
+	click() {
+		let linkActive = this.checkSiblingHasActive(),
+			dropdowns = this.$('.bp-nav-dropdown');
+
+		// 判断dropdown 中的li是否再活跃状态，没有则remove title-avtive
+		dropdowns.each(function () {
+			if ($(this).find('li').hasClass('active')) {
+				$(this).siblings().removeClass('title-active');
+			}
+		});
+
+		if (linkActive) {
+			this.$('.hidden-child-list').removeClass('title-active');
+		}
+
+		return false;
+	}
 });

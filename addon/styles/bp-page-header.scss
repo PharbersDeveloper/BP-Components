@@ -1,5 +1,6 @@
 .bp-page-header {
 	padding: 0 24px;
+	background-color: $white;
 
 	.p-h-body,
 	.p-h-footer {
@@ -51,14 +52,14 @@
 				margin-bottom: 8px;
 				font-size: 24px;
 				line-height: 33px;
-				color: #172B4D;
+				color: $n800;
 			}
 
 			p:nth-child(2) {
 				margin-bottom: 20px;
 				font-size: 14px;
 				line-height: 20px;
-				color: #3172E0;
+				color: $n100;
 			}
 		}
 	}

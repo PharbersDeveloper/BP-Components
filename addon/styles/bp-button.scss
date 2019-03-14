@@ -1,7 +1,6 @@
 @mixin btn-type($color, $bgcolor) {
 	color: $color;
 	background-color: $bgcolor;
-	// border-color: $bgcolor;
 }
 
 @mixin buttonState($hoverFontColor, $hoverBgColor, $focusFontColor, $focusBgColor) {
@@ -29,18 +28,30 @@
 }
 
 .p-btn {
+	display: -webkit-inline-box;
+	display: -webkit-inline-flex;
+	display: -ms-inline-flexbox;
 	display: inline-flex;
 	padding: 0 6*$spacing-compact;
 	height: 4*$spacing;
-	min-width: 80px;
+	// min-width: 80px;
 	border: 0;
 	@extend %defaultRadius;
 	font-size: $p-primary;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
 	align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-ms-flex-pack: center;
 	justify-content: center;
 	cursor: pointer;
 
 	&.btn-block {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
 		display: flex;
 	}
 
@@ -71,6 +82,7 @@
 	}
 
 	&.primary {
+		min-width: 80px;
 		@include btn-type($n000, $primary);
 		@include buttonState($n000, $b300, $n000, $b500);
 	}
