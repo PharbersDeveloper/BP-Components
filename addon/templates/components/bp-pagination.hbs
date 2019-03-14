@@ -3,10 +3,12 @@
 		onClick=(action 'onPreviousClick')}}
 	{{/bp-button}}
 </li>
-<li class="bp-pagination-item page-num-item {{if (bp-eq curPage 1) 'active'}}">
-	<button class="page-link" {{action 'pageOnClick' 1}}>
-		1</button>
-</li>
+{{#if (bp-not-eq totalPageCounts 1)}}
+	<li class="bp-pagination-item page-num-item {{if (bp-eq curPage 1) 'active'}}">
+		<button class="page-link" {{action 'pageOnClick' 1}}>
+			1</button>
+	</li>
+{{/if}}
 {{#if leftMoreIcon}}
 	{{bp-icon icon='more'}}
 {{/if}}

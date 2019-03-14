@@ -1,0 +1,11 @@
+{{#bp-empty-state as |empty|}}
+	{{#empty.title src=src}}
+		{{title}}
+	{{/empty.title}}
+	{{#empty.body}}
+		{{desc}}
+	{{/empty.body}}
+	{{#empty.footer}}
+		{{#bp-button type="link" onClick=(action 'click')}}{{btnText}}{{/bp-button}}
+	{{/empty.footer}}
+{{/bp-empty-state}}
