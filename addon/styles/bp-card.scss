@@ -4,6 +4,7 @@
 	background-color: $white;
 	@extend %shadow-z200;
 	@extend %defaultRadius;
+	cursor: pointer;
 
 	&>img {
 		width: 100%;

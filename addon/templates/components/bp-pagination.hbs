@@ -42,9 +42,11 @@
 		onClick=(action 'onNextClick')}}
 	{{/bp-button}}
 </li>
-<li class="jump-page">
-	<span>到第</span>
-	{{bp-input value=jumpToPageValue }}
-	<span>页</span>
-	{{#bp-button onClick=(action 'jumpToPage' jumpToPageValue)}}确定{{/bp-button}}
-</li>
+{{#if showJump}}
+	<li class="jump-page">
+		<span>到第</span>
+		{{bp-input value=jumpToPageValue }}
+		<span>页</span>
+		{{#bp-button onClick=(action 'jumpToPage' jumpToPageValue)}}确定{{/bp-button}}
+	</li>
+{{/if}}
