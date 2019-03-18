@@ -5,7 +5,6 @@ import { equal } from '@ember/object/computed';
 
 export default Component.extend({
 	layout,
-	tagName: 'section',
 	/**
 	 * 设置是否折行.
 	 *

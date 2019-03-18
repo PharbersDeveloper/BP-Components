@@ -104,8 +104,8 @@ export default Component.extend({
 	 * input's value
 	 * @property value
 	 * @type {any}
-	 * @default '''
-	 * @private
+	 * @default ''
+	 * @public
 	 */
 	value: '',
 	/**

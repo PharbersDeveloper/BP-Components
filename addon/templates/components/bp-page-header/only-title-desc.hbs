@@ -1,18 +1,21 @@
-{{#bp-page-header as |ph|}}
+{{#bp-page-header classNames=class as |ph|}}
 	{{#ph.body as |body|}}
 		{{#body.left as |left|}}
 			{{#left.item}}
 				{{title}}
 			{{/left.item}}
-			{{#left.item}}
-				{{#if linkTo}}
+			{{#if linkTo}}
+				{{#left.item}}
 					{{#link-to linkTo}}
 						{{linkToText}}
 					{{/link-to}}
-				{{else}}
+				{{/left.item}}
+			{{/if}}
+			{{#if desc}}
+				{{#left.item}}
 					{{desc}}
-				{{/if}}
-			{{/left.item}}
+				{{/left.item}}
+			{{/if}}
 		{{/body.left}}
 	{{/ph.body}}
 {{/bp-page-header}}

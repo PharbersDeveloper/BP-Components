@@ -151,4 +151,9 @@
 		}
 	}
 
+	.length-hint {
+		margin-top: 2*$spacing-compact;
+		@extend %p-small;
+		color: $n100;
+	}
 }

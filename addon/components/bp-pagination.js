@@ -76,7 +76,9 @@ export default Component.extend({
 		let { totalPageCounts, pageGroup } =
 			this.getProperties('totalPageCounts', 'pageGroup');
 
-		if (totalPageCounts - pageGroup.lastObject > 1) {
+		if (totalPageCounts === 1) {
+			return false;
+		} else if (totalPageCounts - pageGroup.lastObject > 1) {
 			return true;
 		}
 		return false;
