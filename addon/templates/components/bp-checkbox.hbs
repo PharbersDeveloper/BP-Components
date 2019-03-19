@@ -2,11 +2,11 @@
 	<p class="bp-radio-title">{{title}}</p>
 {{/if}}
 {{#choose-group
-	type="radio" 
+	type="checkbox" 
 	vertical=vertical 
-	value=curValue
-	onChange=(action (mut curValue )) as |choose|}}
-	{{#each radios as |radio|}}
+	value=curValues
+	onChange=(action (mut curValues)) as |choose|}}
+	{{#each checkboxs as |radio|}}
 		{{choose.item radio=radio}}
 	{{/each}}
 {{/choose-group}}

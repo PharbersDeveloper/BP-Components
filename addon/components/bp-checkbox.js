@@ -1,16 +1,16 @@
 import Component from '@ember/component';
-import layout from '../templates/components/bp-radio';
+import layout from '../templates/components/bp-checkbox';
 
 export default Component.extend({
 	layout,
 	/**
 	 * 当前的值
-	 * @property curValue
-	 * @type {string|object}
+	 * @property curValues
+	 * @type {Array}
 	 * @default null
 	 * @public
 	 */
-	curValue: null,
+	curValues: null,
 	/**
 	 * 是否垂直分布
 	 * @property vertical
@@ -31,10 +31,10 @@ export default Component.extend({
 
 	/**
 	 * 要展示的选项
-	 * @property radios
+	 * @property checkboxs
 	 * @type {Array}
 	 * @default null
 	 * @public
 	 */
-	radios: null
+	checkboxs: null
 });

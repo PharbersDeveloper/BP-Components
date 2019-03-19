@@ -1,3 +1,13 @@
+.bp-dropdown-simple-title {
+	margin-bottom: 2*$spacing-compact;
+	@extend %p-primary;
+}
+
+.bp-dropdown-simple-desc {
+	margin-bottom: $spacing;
+	@extend %p-secondary;
+}
+
 .bp-dropdown {
 
 	button {

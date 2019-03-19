@@ -1,0 +1,33 @@
+{{#if title}}
+	<p class="bp-dropdown-simple-title">{{title}}</p>
+{{/if}}
+{{#if desc}}
+	<p class="bp-dropdown-simple-desc">{{desc}}</p>
+{{/if}}
+{{#bp-dropdown as |dd|}}
+	{{#dd.button }}
+		{{!-- 本意是点击 option 选择的是一个 item(object)，但是在 bmsaas 中，
+	是直接将选中的 item 对像中的值拿出来。所以就是这个样子。 --}}
+		{{#if choosedValue}}
+			{{!-- {{#if optionIsObject}}
+				<p>{{custom-key choosedValue optionKey}}</p>
+			{{else}} --}}
+			<p>{{choosedValue}}</p>
+			{{!-- {{/if}} --}}
+		{{else}}
+			请选择
+		{{/if}}
+		{{bp-icon icon='down'}}
+	{{/dd.button}}
+	{{#dd.menu as |menu|}}
+		{{#each options as |item|}}
+			{{#menu.option value=item onClick=(action 'changeValue')}}
+				{{!-- {{#if optionIsObject}} --}}
+				{{custom-key item optionKey}}
+				{{!-- {{else}}
+					{{item}}
+				{{/if}} --}}
+			{{/menu.option}}
+		{{/each}}
+	{{/dd.menu}}
+{{/bp-dropdown}}

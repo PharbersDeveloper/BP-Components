@@ -46,10 +46,12 @@ $icon-small: 16px;
 
 %p-primary {
 	@include fontRegular($p-primary);
+	color: $p-primary-color;
 }
 
 %p-secondary {
 	@include fontRegular($p-primary);
+	color: $p-secondary-color;
 }
 
 %p-small {
