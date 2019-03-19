@@ -411,6 +411,7 @@ export default Component.extend(TransitionSupport, {
 	 */
 	onShown() {
 	},
+	showClass: 'show',
 
 	actions: {
 		close() {

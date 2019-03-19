@@ -1,0 +1,10 @@
+<p class="bp-radio-title">{{title}}</p>
+{{#choose-group
+	type="radio" 
+	vertical=vertical 
+	value=curValue
+	onChange=(action (mut curValue )) as |choose|}}
+	{{#each radios as |radio|}}
+		{{choose.item radio=radio}}
+	{{/each}}
+{{/choose-group}}

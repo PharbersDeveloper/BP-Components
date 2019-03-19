@@ -57,6 +57,19 @@ export default Component.extend({
 	chooseGroupType: '',
 	isRadio: equal('chooseGroupType', 'radio'),
 	/**
+	 * item是否是object 类型
+	 * @property isOnlyValue
+	 * @type {boolean}
+	 * @default true
+	 * @private
+	 */
+	itemIsObject: computed('value', function () {
+		let value = this.get('radio'),
+			valueType = typeof value;
+
+		return valueType === 'object';
+	}),
+	/**
 	 * @property active
 	 * @type boolean
 	 * @readonly
@@ -64,14 +77,17 @@ export default Component.extend({
 	 */
 	active: computed('chooseGroupType', 'groupValue', 'value', function () {
 		let value = this.get('radio'),
-			groupValue = this.get('groupValue');
+			groupValue = this.get('groupValue'),
+			valueType = typeof value;
 
 		if (this.get('chooseGroupType') === 'radio') {
 
 			if (!value || !groupValue) {
 				return false;
 			}
-			if (typeof value.id !== 'undefined') {
+			if (valueType === 'string') {
+				return value === groupValue;
+			} else if (typeof value.id !== 'undefined') {
 				return value.id === groupValue.id;
 			}
 			return value.value === groupValue.value;
