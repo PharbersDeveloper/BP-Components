@@ -89,8 +89,9 @@
 
 		input {
 			margin-bottom: 0;
-			padding-left: $spacing;
+			padding: 0 0 0 $spacing;
 			width: 240px;
+			height: 100%;
 			@extend %p-primary;
 			color: $n600;
 
