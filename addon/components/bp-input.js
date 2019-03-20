@@ -117,7 +117,7 @@ export default Component.extend({
 	 */
 	valueLength: computed('value', function () {
 		let maxLength = this.get('maxLength'),
-			value = this.get('value');
+			value = this.get('value') || '';
 
 		return maxLength !== 0 ? value.length : 0;
 	}),
