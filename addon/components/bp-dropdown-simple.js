@@ -5,14 +5,6 @@ import { computed } from '@ember/object';
 export default Component.extend({
 	layout,
 	/**
-	 * 选中item后要输出的key名
-	 * @property valueKey
-	 * @type {string}
-	 * @default ''
-	 * @public
-	 */
-	valueKey: '',
-	/**
 	 * 选中item后要输出的id
 	 * @property valueId
 	 * @type {string}
@@ -21,27 +13,33 @@ export default Component.extend({
 	 */
 	valueId: '',
 	/**
+	 * become dropdown state to disabled
+	 * @property disabled
+	 * @default false
+	 * @type {boolean}
+	 * @public
+	 */
+	disabled: false,
+	/**
 	 * 传入id之后要同步修改 choosedValue 的值
 	 * @property valueById
 	 * @type {string}
 	 * @default ''
-	 * @public
+	 * @private
 	 */
 	valueById: computed('valueId', 'item', function () {
 		let { valueId, item, optionKey, options } =
-			this.getProperties('valueId', 'item', 'optionKey', 'options');
+			this.getProperties('valueId', 'item', 'optionKey', 'options'),
+			value = '';
 
-		console.log(item);
-		console.log(!item);
 		if (!item) {
-			for (let ele of options) {
+			options.forEach((ele) => {
 				if (ele.id === valueId) {
-					return ele[optionKey];
+					value = ele[optionKey];
 				}
-			}
+			});
 		}
-		return item[optionKey];
-		// this.set('choosedValue', item[valueId]);
+		return value ? value : item[optionKey];
 	}),
 	/**
 	 * 选择的值
