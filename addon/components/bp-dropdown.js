@@ -17,7 +17,14 @@ export default Component.extend({
 	 * @private
 	 */
 	isOpen: false,
-
+	/**
+	 * become dropdown state to disabled
+	 * @property disabled
+	 * @default false
+	 * @type {boolean}
+	 * @public
+	 */
+	disabled: false,
 	/**
 	 * By default clicking on an open dropdown menu will close it. Set this property to false for the menu to stay open.
 	 *

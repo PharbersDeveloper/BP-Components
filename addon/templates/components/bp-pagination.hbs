@@ -1,17 +1,24 @@
+{{!-- left icon --}}
 <li class="bp-pagination-item {{if previousFlag '' 'disabled'}}">
 	{{#bp-button type="subtle" iconOnly=true icon="left"
 		onClick=(action 'onPreviousClick')}}
 	{{/bp-button}}
 </li>
+{{!-- left icon --}}
+{{!-- page 1 --}}
 {{#if (bp-not-eq totalPageCounts 1)}}
 	<li class="bp-pagination-item page-num-item {{if (bp-eq curPage 1) 'active'}}">
 		<button class="page-link" {{action 'pageOnClick' 1}}>
 			1</button>
 	</li>
 {{/if}}
+{{!-- page 1 --}}
+{{!-- left ... --}}
 {{#if leftMoreIcon}}
 	{{bp-icon icon='more'}}
 {{/if}}
+{{!-- left ... --}}
+{{!-- main page group --}}
 {{#each pageGroup as |item|}}
 	{{#if (bp-not-eq item 1 totalPageCounts)}}
 		{{#if (bp-eq curPage item)}}
@@ -29,9 +36,12 @@
 		{{/if}}
 	{{/if}}
 {{/each}}
+{{!-- main page group --}}
+{{!-- right ... --}}
 {{#if rightMoreIcon}}
 	{{bp-icon icon='more'}}
 {{/if}}
+{{!-- right ... --}}
 <li class="bp-pagination-item page-num-item {{if (bp-eq curPage totalPageCounts) 'active'}}">
 	<button class="page-link" {{action 'pageOnClick' totalPageCounts}}>
 		{{totalPageCounts}}
@@ -42,9 +52,11 @@
 		onClick=(action 'onNextClick')}}
 	{{/bp-button}}
 </li>
-<li class="jump-page">
-	<span>到第</span>
-	{{bp-input value=jumpToPageValue }}
-	<span>页</span>
-	{{#bp-button onClick=(action 'jumpToPage' jumpToPageValue)}}确定{{/bp-button}}
-</li>
+{{#if showJump}}
+	<li class="jump-page">
+		<span>到第</span>
+		{{bp-input value=jumpToPageValue }}
+		<span>页</span>
+		{{#bp-button onClick=(action 'jumpToPage' jumpToPageValue)}}确定{{/bp-button}}
+	</li>
+{{/if}}

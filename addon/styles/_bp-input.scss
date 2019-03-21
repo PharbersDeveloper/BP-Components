@@ -16,6 +16,19 @@
 		display: inline-flex;
 	}
 
+	.square {
+		display: inline-block;
+		margin-right: $spacing;
+		width: 2*$spacing;
+		height: 2*$spacing;
+		@extend %defaultRadius;
+
+		&+label {
+			margin-right: $spacing;
+			margin-bottom: 0;
+			min-width: 92px;
+		}
+	}
 
 	.input-label-text {
 		margin-bottom: 2*$spacing-compact;
@@ -42,6 +55,7 @@
 		-webkit-align-items: stretch;
 		-ms-flex-align: stretch;
 		align-items: stretch;
+		width: 240px;
 		height: 32px;
 
 		&.reverse {
@@ -89,8 +103,9 @@
 
 		input {
 			margin-bottom: 0;
-			padding-left: $spacing;
-			width: 240px;
+			padding: 0 0 0 $spacing;
+			height: 100%;
+			width: 100%;
 			@extend %p-primary;
 			color: $n600;
 
@@ -141,7 +156,7 @@
 
 	&.medium-size {
 		.input-container {
-			height: 38px;
+			height: 40px;
 		}
 	}
 
@@ -151,4 +166,15 @@
 		}
 	}
 
+	&.width-small {
+		.input-container {
+			width: 92px;
+		}
+	}
+
+	.length-hint {
+		margin-top: 2*$spacing-compact;
+		@extend %p-small;
+		color: $n100;
+	}
 }

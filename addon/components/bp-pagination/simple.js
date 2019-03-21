@@ -1,5 +1,5 @@
 import Pagination from 'bp-components/components/bp-pagination';
-import layout from '../templates/components/bp-pagination-simple';
+import layout from '../../templates/components/bp-pagination/simple';
 import { computed } from '@ember/object';
 
 export default Pagination.extend({

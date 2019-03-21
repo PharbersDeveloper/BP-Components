@@ -1,0 +1,30 @@
+{{!-- {{#if label}}
+	<label for={{label}} class="input-label-text">{{label}}</label>
+{{/if}}
+<div class="input-container {{if prependDirClass 'reverse'}}">
+	{{#if prepend}}
+		<div class="input-prepend">
+			<span>{{prepend}}</span>
+		</div>
+	{{/if}}
+	<input type={{type}} value={{value}} class={{showInputState}} name={{label}} disabled={{disabled}} onInput={{action 'change'}}
+	 placeholder={{placeholder}} aria-label="input">
+</div>
+{{#if valueLength}}
+	<p class="length-hint">{{valueLength}}/{{maxLength}}</p>
+{{/if}} --}}
+{{#bp-layout cross="center" main="between"}}
+	{{#if color}}
+		<span class="square" style="background-color:{{color}}"></span>
+	{{/if}}
+	<label class="input-label-text">{{title}}</label>
+	{{bp-input
+	type=type
+	value=value
+	size=size
+	showInputState=showInputState
+	disabled=disabled
+	placeholder=placeholder
+	valueLength=0
+	}}
+{{/bp-layout}}

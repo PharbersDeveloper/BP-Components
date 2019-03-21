@@ -1,5 +1,5 @@
 .bp-page-header {
-	padding: 0 24px;
+	padding: 0 3*$spacing;
 	background-color: $white;
 
 	.p-h-body,
@@ -47,30 +47,29 @@
 
 	.p-h-body {
 		.left-area {
-			p:first-child {
-				margin-top: 20px;
+			padding: 20px 0 12px;
+
+			&>p:first-child {
 				margin-bottom: 8px;
-				font-size: 24px;
-				line-height: 33px;
+				@extend %title;
 				color: $n800;
 			}
 
-			p:nth-child(2) {
-				margin-bottom: 20px;
-				font-size: 14px;
-				line-height: 20px;
+			&>p:nth-child(2) {
+				margin-bottom: 8px;
+				@extend %p-primary;
 				color: $n100;
 			}
 		}
 	}
 
 	.p-h-footer {
-		padding: 16px 0;
+		padding: 2*$spacing 0;
 
 		.left-area {
-			p {
-				margin: 0 0 8px 0;
-				font-size: 14px;
+			&>p {
+				margin: 0 0 $spacing 0;
+				@extend %p-primary;
 
 				&:last-child {
 					margin-bottom: 0;
@@ -79,7 +78,23 @@
 		}
 
 		.right-area {
-			font-size: 14px;
+			// @extend %p-primary;
+
+			.footer-right-number,
+			.footer-right-label {
+				margin: 0;
+				text-align: center;
+			}
+
+			.footer-right-number {
+				@extend %heading-medium;
+				color: $n800;
+			}
+
+			.footer-right-label {
+				@extend %p-small;
+				color: $n100;
+			}
 		}
 	}
 
