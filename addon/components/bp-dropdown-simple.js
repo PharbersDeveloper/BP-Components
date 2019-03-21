@@ -84,6 +84,13 @@ export default Component.extend({
 
 		return typeof choosedValue === 'object';
 	}),
+	/**
+	 * 要传递的 action
+	 * @method onChange
+	 * @param item
+	 * @public
+	 */
+	onChange() { },
 	actions: {
 		changeValue(item) {
 			let optionKey = this.get('optionKey');
@@ -91,6 +98,7 @@ export default Component.extend({
 			this.set('item', item);
 			this.set('valueId', item.id);
 			this.set('choosedValue', item[optionKey]);
+			this.get('onChange')(item);
 		}
 	}
 });

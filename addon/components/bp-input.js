@@ -18,6 +18,14 @@ export default Component.extend({
 	 */
 	block: false,
 	/**
+	 * Property to vertical
+	 * @property vertical
+	 * @type {boolean}
+	 * @default false
+	 * @public
+	 */
+	vertical: false,
+	/**
 	 * 控制 input 的 disabled
 	 * @property disabled
 	 * @type {boolean}

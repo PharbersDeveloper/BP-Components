@@ -16,6 +16,19 @@
 		display: inline-flex;
 	}
 
+	.square {
+		display: inline-block;
+		margin-right: $spacing;
+		width: 2*$spacing;
+		height: 2*$spacing;
+		@extend %defaultRadius;
+
+		&+label {
+			margin-right: $spacing;
+			margin-bottom: 0;
+			min-width: 92px;
+		}
+	}
 
 	.input-label-text {
 		margin-bottom: 2*$spacing-compact;
