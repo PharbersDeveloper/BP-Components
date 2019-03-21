@@ -12,6 +12,7 @@ export default Component.extend({
 	classNames: ['nav', 'nav-tabs'],
 	tabComponent: 'bp-tabs/tab',
 	itemComponent: 'bp-tabs/item',
+	linkToComponent: 'bp-tabs/link-to',
 	/**
 	 * Gives focus to the selected tab.
 	 *

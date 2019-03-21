@@ -55,6 +55,7 @@
 		-webkit-align-items: stretch;
 		-ms-flex-align: stretch;
 		align-items: stretch;
+		width: 240px;
 		height: 32px;
 
 		&.reverse {
@@ -103,8 +104,8 @@
 		input {
 			margin-bottom: 0;
 			padding: 0 0 0 $spacing;
-			width: 240px;
 			height: 100%;
+			width: 100%;
 			@extend %p-primary;
 			color: $n600;
 
@@ -162,6 +163,12 @@
 	&.large-size {
 		.input-container {
 			height: 48px;
+		}
+	}
+
+	&.width-small {
+		.input-container {
+			width: 92px;
 		}
 	}
 
