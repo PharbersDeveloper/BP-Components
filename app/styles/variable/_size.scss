@@ -1,8 +1,8 @@
 // fontsize
 $title: 24px;
-$heading-large: 20px;
-$heading-medium: 16px;
-$heading-small: 14px;
+$header-large: 20px;
+$header-medium: 16px;
+$header-small: 14px;
 $p-primary: 14px;
 $p-small: 12px;
 $title: 24px;
@@ -32,20 +32,22 @@ $icon-small: 16px;
 	@include fontMedium($title);
 }
 
-%heading-large {
-	@include fontMedium($heading-large);
+%header-large {
+	@include fontMedium($header-large);
 }
 
-%heading-medium {
-	@include fontMedium($heading-medium);
+%header-medium {
+	@include fontMedium($header-medium);
+	color: $title-color;
 }
 
-%heading-small {
-	@include fontMedium($heading-small);
+%header-small {
+	@include fontMedium($header-small);
 }
 
 %p-primary {
 	@include fontRegular($p-primary);
+	color: $p-primary-color;
 }
 
 %p-secondary {
