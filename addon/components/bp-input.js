@@ -178,7 +178,7 @@ export default Component.extend({
 	 * 只会传送到 maxLength 的值！！！
 	 */
 	onChange() { },
-	onKeyDown() { },
+	onKeyPress() { },
 	actions: {
 		change(event) {
 			let maxLength = this.get('maxLength'),
@@ -191,14 +191,8 @@ export default Component.extend({
 				this.get('onChange')(value);
 			}
 		},
-		keyDown(event) {
-			let maxLength = this.get('maxLength');
-
-			if (maxLength !== 0) {
-				this.get('onKeyDown')(event.target.value.slice(0, maxLength));
-			} else {
-				this.get('onKeyDown')(event.target.value);
-			}
+		keyPress(event) {
+			this.get('onKeyPress')(event);
 		}
 	}
 
