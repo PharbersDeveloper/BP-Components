@@ -11,7 +11,7 @@
 		</div>
 	{{/if}}
 	<input type={{type}} value={{value}} class={{showInputState}} name={{label}} disabled={{disabled}} onInput={{action 'change'}}
-	 placeholder={{placeholder}} aria-label="input">
+	 onkeyPress={{action 'keyPress'}} placeholder={{placeholder}} aria-label="input">
 </div>
 {{#if valueLength}}
 	<p class="length-hint">{{valueLength}}/{{maxLength}}</p>

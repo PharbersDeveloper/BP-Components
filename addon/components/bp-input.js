@@ -175,9 +175,10 @@ export default Component.extend({
 	 * @event onChange
 	 * @param {*} value
 	 * @public
-	 * 只会传送 maxLength 的值！！！
+	 * 只会传送到 maxLength 的值！！！
 	 */
 	onChange() { },
+	onKeyPress() { },
 	actions: {
 		change(event) {
 			let maxLength = this.get('maxLength'),
@@ -189,6 +190,9 @@ export default Component.extend({
 			} else {
 				this.get('onChange')(value);
 			}
+		},
+		keyPress(event) {
+			this.get('onKeyPress')(event);
 		}
 	}
 
