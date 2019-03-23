@@ -1,12 +1,13 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { equal } from '@ember/object/computed';
 import { bind } from '@ember/runloop';
 import layout from '../templates/components/bp-dropdown';
 
 export default Component.extend({
 	layout,
 	classNames: ['bp-dropdown'],
-	classNameBindings: ['containerClass'],
+	classNameBindings: ['containerClass', 'widthAuto'],
 
 	/**
 	 * This property reflects the state of the dropdown, whether it is open or closed.
@@ -17,6 +18,22 @@ export default Component.extend({
 	 * @private
 	 */
 	isOpen: false,
+	/**
+	 * 控制dropdown的宽度
+	 * @property widthSize
+	 * @default 'default'
+	 * @type {string}
+	 * @public
+	 */
+	widthSize: 'default',
+	/**
+	 * auto width
+	 * @property widthAuto
+	 * @default false
+	 * @type {boolean}
+	 * @private
+	 */
+	widthAuto: equal('widthSize', 'auto'),
 	/**
 	 * become dropdown state to disabled
 	 * @property disabled
