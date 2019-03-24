@@ -5,33 +5,39 @@ $black: #000;
 $danger: #DE350B;
 $warning: #FFAB00;
 
-// content color
-$title-color: #172B4D;
-$p-primary-color: #344563;
-$p-secondary-color: #7A869A;
-$placeholder-color: #8993A4;
-$choosed-color: #42526E;
-$state-disabled-color: #B3BAC5;
-$link-text: $primary;
-$link-subtle: #5E6C84;
-$opacity04: rgba(9, 30, 66, 0.04);
-
-// neutrrals color
+// neutrrals  color
 $n900: #091E42;
-$n800: rgba($color: $n900, $alpha: 0.94);
-$n600: rgba($color: $n900, $alpha: 0.82);
-$n500: rgba($color: $n900, $alpha: 0.76);
-$n400: rgba($color: $n900, $alpha: 0.71);
-$n300: rgba($color: $n900, $alpha: 0.66);
-$n100: rgba($color: $n900, $alpha: 0.54);
-$n090: rgba($color: $n900, $alpha: 0.48);
-$n080: rgba($color: $n900, $alpha: 0.42);
-$n060: rgba($color: $n900, $alpha: 0.30);
-$n040: rgba($color: $n900, $alpha: 0.13);
-$n030: rgba($color: $n900, $alpha: 0.08);
-$n020: rgba($color: $n900, $alpha: 0.04);
-$n010: rgba($color: $n900, $alpha: 0.02);
+$n800: #172B4D;
+$n600: #344563;
+$n500: #42526E;
+$n400: #505F79;
+$n300: #5E6C84;
+$n100: #7A869A;
+$n090: #8993A4;
+$n080: #97A0AF;
+$n060: #B3BAC5;
+$n040: #DFE1E6;
+$n030: #EBECF0;
+$n020: #F4F5F7;
+$n010: #FAFBFC;
 $n000: $white;
+
+// neutrrals Alpha color
+$n900a: #091E42;
+$n800a: rgba($color: $n900, $alpha: 0.95);
+$n600a: rgba($color: $n900, $alpha: 0.82);
+$n500a: rgba($color: $n900, $alpha: 0.77);
+$n400a: rgba($color: $n900, $alpha: 0.71);
+$n300a: rgba($color: $n900, $alpha: 0.66);
+$n100a: rgba($color: $n900, $alpha: 0.54);
+$n090a: rgba($color: $n900, $alpha: 0.48);
+$n080a: rgba($color: $n900, $alpha: 0.42);
+$n060a: rgba($color: $n900, $alpha: 0.31);
+$n040a: rgba($color: $n900, $alpha: 0.13);
+$n030a: rgba($color: $n900, $alpha: 0.08);
+$n020a: rgba($color: $n900, $alpha: 0.04);
+$n010a: rgba($color: $n900, $alpha: 0.02);
+$n000a: rgba($color: $n900, $alpha: 0);
 
 // primary
 $b500: #2355A9;
@@ -51,3 +57,6 @@ $r300: #FF5630;
 $y400: #FF991F;
 $y300: $warning;
 $y200: #FFC400;
+
+// success
+$g300: #36B37E;
