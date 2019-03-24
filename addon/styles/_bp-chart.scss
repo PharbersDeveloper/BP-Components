@@ -1,0 +1,19 @@
+.bp-radar {
+	height: 400px;
+
+	.echarts-chart {
+		height: 400px;
+		width: 400px
+	}
+}
+
+.bp-circle {
+	padding: 24px;
+	height: 192px;
+	width: 368px;
+
+	.echarts-chart {
+		height: 100%;
+		width: 100%;
+	}
+}
