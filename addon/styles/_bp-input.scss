@@ -181,6 +181,14 @@
 		}
 	}
 
+	&.width-auto {
+		.input-container {
+			input {
+				width: auto;
+			}
+		}
+	}
+
 	.length-hint {
 		margin-top: 2*$spacing-compact;
 		@extend %p-small;

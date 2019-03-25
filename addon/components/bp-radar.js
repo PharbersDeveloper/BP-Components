@@ -14,65 +14,48 @@ export default Component.extend({
 	 */
 	title: '',
 	/**
-	 * legend
+	 * final result
 	 */
-	legend: computed('radarData', function () {
-		let { legend, radarData } = this.getProperties('legend', 'radarData'),
+	result: computed('title', 'radarColor', 'radarData', function () {
+		let title = this.get('title'),
+			color = this.get('radarColor'),
+			legendData = null,
+			legend = null,
+			radarData = this.get('radarData'),
 			data = null;
 
-		data = radarData.map(ele => {
+		data = radarData.map((ele, index) => {
+			return {
+				value: ele.value,
+				name: ele.name,
+				areaStyle: {
+					color: color[index]
+				}
+			};
+		});
+
+		legendData = radarData.map(ele => {
 			return ele.name;
 		});
-		legend.data = data;
-
-		return legend;
-	}),
-	result: computed('title', function () {
-		let title = this.get('title');
-	}),
-	init() {
-		this._super(...arguments);
-		this.set('radarData', [
-			{
-				value: [43, 1, 28, 35, 50],
-				name: '团队本期初始能力',
-				color: '#979797',
-			},
-			{
-				value: [5, 14, 28, 31, 42],
-				name: '团队平均能力',
-				color: '#3172E0',
-
-			}
-		]);
-		this.set('radarColor', ['#979797', '#3172E0']);
-		this.set('legend', {
-			left: '10%',
-			bottom: '0%',
+		legend = {
+			left: '0%',
+			bottom: '0',
 			orient: 'vertical',
 			textStyle: {
 				fontSize: '14px',
 				color: '#344563'
 			},
-			data: ['团队本期初始能力', '团队平均能力']
-		});
-		this.set('result', {
+			data: legendData
+		};
+		return {
 			title: {
-				text: '基础雷达图'
+				text: title
 			},
-			color: ['#979797', '#3172E0'],
+			color,
 			tooltip: {},
-			legend: {
-				left: '10%',
-				bottom: '0%',
-				orient: 'vertical',
-				textStyle: {
-					fontSize: '14px',
-					color: '#344563'
-				},
-				data: ['团队本期初始能力', '团队平均能力']
-			},
+			legend,
 			radar: {
+				radius: '65%',
 				name: {
 					textStyle: {
 						color: '#7A869A',
@@ -81,11 +64,12 @@ export default Component.extend({
 					}
 				},
 				indicator: [
-					{ name: '产品知识', max: 100 },
+
 					{ name: '工作积极性', max: 100 },
+					{ name: '产品知识', max: 100 },
 					{ name: '行为有效性', max: 100 },
 					{ name: '区域管理能力', max: 100 },
-					{ name: '销售知识', max: 100 },
+					{ name: '销售知识', max: 100 }
 				],
 				splitNumber: 5, //default
 				axisLine: {
@@ -107,23 +91,29 @@ export default Component.extend({
 			series: [{
 				name: '',
 				type: 'radar',
-				data: [
-					{
-						value: [43, 1, 28, 35, 50],
-						name: '团队本期初始能力',
-						areaStyle: {
-							color: '#979797',
-						},
-					},
-					{
-						value: [5, 14, 28, 31, 42],
-						name: '团队平均能力',
-						areaStyle: {
-							color: '#3172E0',
-						},
-					}
-				]
+				data
 			}]
-		})
+		};
+	}),
+	init() {
+		this._super(...arguments);
+		/**
+		 * chart's color
+		 * @property radarColor
+		 * @type {Array}
+		 * @default null
+		 * @public
+		 */
+		this.set('radarColor', ['#979797', '#3172E0']);
+		this.set('radarData', [
+			{
+				value: [0, 0, 0, 0, 0],
+				name: '团队本期初始能力'
+			},
+			{
+				value: [0, 0, 0, 0, 0],
+				name: '团队平均能力'
+			}
+		]);
 	}
 });

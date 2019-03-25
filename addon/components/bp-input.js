@@ -7,7 +7,8 @@ export default Component.extend({
 	layout,
 	tagName: 'div',
 	classNames: ['bp-input'],
-	classNameBindings: ['block::input-inline', 'mediumSize', 'largeSize', 'widthSmall', 'widthMedium'],
+	classNameBindings: ['block::input-inline', 'mediumSize', 'largeSize',
+		'widthSmall', 'widthMedium', 'widthAuto'],
 	attributeBindings: ['disabled'],
 	/**
 	 * Property to block
@@ -111,19 +112,27 @@ export default Component.extend({
 	/**
 	 * input's width size
 	 * @property widthSmall
-	 * @type {string}
-	 * @default 'default'
+	 * @type {boolean}
+	 * @default false
 	 * @private
 	 */
 	widthSmall: equal('widthSize', 'small'),
 	/**
 	 * input's width size
 	 * @property widthSmall
-	 * @type {string}
-	 * @default 'default'
+	 * @type {boolean}
+	 * @default false
 	 * @private
 	 */
 	widthMedium: equal('widthSize', 'medium'),
+	/**
+	 * input's width size
+	 * @property widthAuto
+	 * @type {boolean}
+	 * @default false
+	 * @private
+	 */
+	widthAuto: equal('widthSize', 'auto'),
 	/**
 	 * 控制 input 的最大输入数量
 	 * @property maxLength
