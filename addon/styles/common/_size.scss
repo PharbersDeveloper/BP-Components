@@ -4,57 +4,66 @@ $header-large: 20px;
 $header-medium: 16px;
 $header-small: 14px;
 $p-primary: 14px;
+$p-secondary: 14px;
 $p-small: 12px;
-$title: 24px;
 
 // icon
 $icon-large: 48px;
 $icon-medium: 24px;
 $icon-small: 16px;
 
-%line-height-default {
-	line-height: 1.5;
-}
+// %line-height-default {
+// 	line-height: 1.5;
+// }
 
 @mixin fontMedium($fontsize) {
 	font-size: $fontsize;
 	font-weight: 500;
-	@extend %line-height-default;
 }
 
 @mixin fontRegular($fontsize) {
 	font-size: $fontsize;
 	font-weight: 400;
-	@extend %line-height-default;
 }
 
 %title {
+	line-height: 33px;
 	@include fontMedium($title);
+	color: $n800;
 }
 
 %header-large {
+	line-height: 28px;
 	@include fontMedium($header-large);
+	color: $n800;
 }
 
 %header-medium {
+	line-height: 22px;
 	@include fontMedium($header-medium);
-	color: $title-color;
+	color: $n800;
 }
 
 %header-small {
+	line-height: 20px;
 	@include fontMedium($header-small);
+	color: $n800;
 }
 
 %p-primary {
+	line-height: 20px;
 	@include fontRegular($p-primary);
-	color: $p-primary-color;
+	color: $n600;
 }
 
 %p-secondary {
-	@include fontRegular($p-primary);
-	color: $p-secondary-color;
+	line-height: 20px;
+	@include fontRegular($p-secondary);
+	color: $n100;
 }
 
 %p-small {
+	line-height: 17px;
 	@include fontRegular($p-small);
+	color: $n100;
 }

@@ -63,4 +63,19 @@
 			}
 		}
 	}
+
+	// size
+	&.width-auto {
+		button {
+			width: 100%;
+
+			p {
+				width: auto;
+			}
+		}
+
+		.dropdown-menu {
+			width: 100%;
+		}
+	}
 }
