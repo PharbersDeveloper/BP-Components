@@ -4,6 +4,9 @@ $radiusSize: 4px;
 	border-radius: $radiusSize;
 }
 
+%radiusLarge {
+	border-radius: 2*$radiusSize;
+}
 
 @mixin setBorder($borderWidth, $borderColor) {
 	border-width: $borderWidth;

@@ -2,6 +2,7 @@
 $title: 24px;
 $header-large: 20px;
 $header-medium: 16px;
+$font-normal: 14px;
 $header-small: 14px;
 $p-primary: 14px;
 $p-secondary: 14px;
@@ -52,10 +53,20 @@ $icon-small: 16px;
 	color: $n800;
 }
 
+%header-small-inverse {
+	@extend %header-small;
+	color: $n000;
+}
+
 %p-primary {
 	line-height: 20px;
 	@include fontRegular($p-primary);
 	color: $n600;
+}
+
+%p-primary-inverse {
+	@extend %p-primary;
+	color: $n000;
 }
 
 %p-secondary {
@@ -64,9 +75,39 @@ $icon-small: 16px;
 	color: $n100;
 }
 
+%p-secondary-inverse {
+	@extend %p-secondary;
+	color: rgba($color: #fff, $alpha: 0.6);
+}
+
 %p-small {
 	line-height: 17px;
 	@include fontRegular($p-small);
 	color: $n100;
+}
 
+%p-small-inverse {
+	@extend %p-small;
+	color: rgba($color: #fff, $alpha: 0.45);
+}
+
+// 用于表单的已填写状态
+%p-placeholder {
+	line-height: 20px;
+	@include fontRegular($font-normal);
+	color: $n500;
+}
+
+// 用于表单的未填写状态
+%p-placeholde-novalue {
+	line-height: 20px;
+	@include fontRegular($font-normal);
+	color: $n090;
+}
+
+// 用于表单的禁用状态
+%p-placeholde-disabled {
+	line-height: 20px;
+	@include fontRegular($font-normal);
+	color: $n060;
 }
