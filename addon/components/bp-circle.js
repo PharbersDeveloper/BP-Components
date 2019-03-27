@@ -1,28 +1,60 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-circle';
+import { A } from '@ember/array';
 
 export default Component.extend({
 	layout,
-	classNames: ['bp-radar'],
-	init() {
-		this._super(...arguments);
-		this.set('result', {
+	classNames: ['bp-circle'],
+	/**
+	 * seriesName
+	 * @property seriesName
+	 * @type {string}
+	 * @default ''
+	 * @public
+	 */
+	seriesName: '',
+	/**
+	 * circleData
+	 * @property circleData
+	 * @type {Array}
+	 * @default []
+	 * @public
+	 */
+	circleData: A([
+		{ value: 0, name: '已分配' },
+		{ value: 1, name: '未分配' }
+	]),
+	/**
+	 * circleColor
+	 * @property circleColor
+	 * @type {Array}
+	 * @default ['#00875A', '#F4F5F7']
+	 * @public
+	 */
+	circleColor: A(['#00875A', '#F4F5F7']),
+	generateOption() {
+		let { seriesName, circleData, circleColor } =
+			this.getProperties('seriesName', 'circleData', 'circleColor');
+
+		return {
 			tooltip: {
 				trigger: 'item',
-				formatter: "{a} <br/>{b}: {c} ({d}%)"
+				formatter: '{a} <br/>{b}: {c} ({d}%)'
 			},
-			color: ['#00875A', '#36B37E ', '#57D9A3 ', '#79F2C0'],
+			// color: ['#00875A', '#36B37E ', '#57D9A3 ', '#79F2C0'],
+			color: circleColor,
+
 			legend: {
-				show: false,
-				orient: 'vertical',
-				x: 'left',
-				data: ['业务数据策略分析', '重点目标客户管理', '行政工作', '代表及KPI分析']
+				show: false
+				// orient: 'vertical',
+				// x: 'left',
+				// data: ['已分配', '未分配']
 			},
 			series: [
 				{
-					name: '访问来源',
+					name: seriesName,
 					type: 'pie',
-					radius: ['50%', '60%'],
+					radius: ['50%', '65%'],
 					avoidLabelOverlap: false,
 					label: {
 						normal: {
@@ -30,7 +62,7 @@ export default Component.extend({
 							position: 'center'
 						},
 						emphasis: {
-							show: true,
+							show: false,
 							textStyle: {
 								fontSize: '30',
 								fontWeight: 'bold'
@@ -42,14 +74,24 @@ export default Component.extend({
 							show: false
 						}
 					},
-					data: [
-						{ value: 335, name: '业务数据策略分析' },
-						{ value: 310, name: '重点目标客户管理' },
-						{ value: 234, name: '行政工作' },
-						{ value: 135, name: '代表及KPI分析' },
-					]
+					data: circleData
 				}
 			]
-		})
+		};
+	},
+	didInsertElement() {
+		this._super(...arguments);
+		let option = this.generateOption();
+
+		this.set('result', option);
+	},
+	didUpdateAttrs() {
+		this._super(...arguments);
+		let option = this.generateOption();
+
+		this.set('result', option);
+	},
+	init() {
+		this._super(...arguments);
 	}
 });
