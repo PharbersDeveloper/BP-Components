@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-line';
-import { computed } from '@ember/object';
 import { A } from '@ember/array';
 
 export default Component.extend({
@@ -38,23 +37,53 @@ export default Component.extend({
 	 * @public
 	 */
 	lineColor: A([]),
+	/**
+	 * legend position in init()
+	 * @property legendPosition
+	 * @type {object}
+	 * @default {}
+	 * @public
+	 */
+	legendPosition: '',
 	generateLine() {
+		let { title, subtext, lineData, lineColor, legendPosition } =
+			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition'),
+			legend = null;
 
-	},
-	result: computed('title', 'subText', 'lineData', function () {
-		let lineData = this.get('lineData');
+		if (legendPosition === '') {
+			legend = {
+				right: '10%',
+				data: lineData.map(ele => {
+					return ele.name;
+				})
+			};
+		} else {
+			legend = {
+				top: legendPosition.top === '' ? 'auto' : legendPosition.top,
+				right: legendPosition.right === '' ? 'auto' : legendPosition.right,
+				bottom: legendPosition.bottom === '' ? 'auto' : legendPosition.bottom,
+				left: legendPosition.left === '' ? 'auto' : legendPosition.left,
+				x: legendPosition.x === '' ? 'auto' : legendPosition.x,
+				data: lineData.map(ele => {
+					return ele.name;
+				})
+			};
+		}
 
 		return {
 			title: {
-				text: this.get('title'),
+				text: title,
 				testStyle: {
 					fontSize: 14
 				},
-				subtext: this.get('subText')
+				subtext
+			},
+			grid: {
+				right: 0
 			},
 			xAxis: {
 				type: 'category',
-				data: lineData.firstObject.date,
+				data: lineData.get('firstObject').date,
 				axisTick: {
 					alignWithLabel: true
 				}
@@ -62,13 +91,8 @@ export default Component.extend({
 			tooltip: {
 				trigger: 'axis'
 			},
-			legend: {
-				right: '10%',
-				data: lineData.map(ele => {
-					return ele.name;
-				})
-			},
-			color: this.get('lineColor'),
+			legend,
+			color: lineColor,
 			yAxis: {
 				type: 'value'
 			},
@@ -80,5 +104,26 @@ export default Component.extend({
 				};
 			})
 		};
-	})
+	},
+	didInsertElement() {
+		this._super(...arguments);
+		let option = this.generateLine();
+
+		this.set('result', option);
+	},
+	didUpdateAttrs() {
+		this._super(...arguments);
+		let option = this.generateLine();
+
+		this.set('result', option);
+	},
+	init() {
+		this._super(...arguments);
+		// this.set('legendPosition', {
+		// 	top: '',
+		// 	right: '10%',
+		// 	bottom: '',
+		// 	left: ''
+		// });
+	}
 });

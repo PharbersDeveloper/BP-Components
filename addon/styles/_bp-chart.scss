@@ -8,8 +8,15 @@
 }
 
 .bp-circle {
-	height: 192px;
-	width: 368px;
+	&.size-default {
+		height: 192px;
+		width: 368px;
+	}
+
+	&.size-auto {
+		height: 144px;
+		width: 100%;
+	}
 
 	.echarts-chart {
 		height: 100%;

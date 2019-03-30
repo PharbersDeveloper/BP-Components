@@ -1,10 +1,28 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-circle';
 import { A } from '@ember/array';
-
+import { equal } from '@ember/object/computed';
 export default Component.extend({
 	layout,
 	classNames: ['bp-circle'],
+	classNameBindings: ['sizeDefault', 'sizeAuto'],
+	/**
+	 * widthSize
+	 * @property widthSize
+	 * @type {string}
+	 * @default 'default'
+	 * @public
+	 */
+	widthSize: 'default',
+	/**
+	 * sizeDefault
+	 * @property sizeDefault
+	 * @type {boolean}
+	 * @default true
+	 * @private
+	 */
+	sizeDefault: equal('widthSize', 'default'),
+	sizeAuto: equal('widthSize', 'auto'),
 	/**
 	 * seriesName
 	 * @property seriesName
