@@ -14,9 +14,25 @@
 	}
 
 	&.size-auto {
-		height: 144px;
+		// height: 144px;
+		height: 100%;
 		width: 100%;
 	}
+
+	&.size-small {
+		height: 45px;
+		width: 45px;
+	}
+
+	.echarts-chart {
+		height: 100%;
+		width: 100%;
+	}
+}
+
+.bp-gauge {
+	width: 180px;
+	height: 180px;
 
 	.echarts-chart {
 		height: 100%;

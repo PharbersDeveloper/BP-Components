@@ -5,7 +5,7 @@ import { equal } from '@ember/object/computed';
 export default Component.extend({
 	layout,
 	classNames: ['bp-circle'],
-	classNameBindings: ['sizeDefault', 'sizeAuto'],
+	classNameBindings: ['sizeDefault', 'sizeAuto', 'sizeSmall'],
 	/**
 	 * widthSize
 	 * @property widthSize
@@ -23,6 +23,7 @@ export default Component.extend({
 	 */
 	sizeDefault: equal('widthSize', 'default'),
 	sizeAuto: equal('widthSize', 'auto'),
+	sizeSmall: equal('widthSize', 'small'),
 	/**
 	 * seriesName
 	 * @property seriesName
@@ -50,6 +51,7 @@ export default Component.extend({
 	 * @public
 	 */
 	circleColor: A(['#00875A', '#F4F5F7']),
+
 	generateOption() {
 		let { seriesName, circleData, circleColor } =
 			this.getProperties('seriesName', 'circleData', 'circleColor');
@@ -61,7 +63,6 @@ export default Component.extend({
 			},
 			// color: ['#00875A', '#36B37E ', '#57D9A3 ', '#79F2C0'],
 			color: circleColor,
-
 			legend: {
 				show: false
 				// orient: 'vertical',
@@ -102,6 +103,7 @@ export default Component.extend({
 		let option = this.generateOption();
 
 		this.set('result', option);
+
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);

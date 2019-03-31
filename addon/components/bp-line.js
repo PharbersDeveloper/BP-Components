@@ -46,8 +46,8 @@ export default Component.extend({
 	 */
 	legendPosition: '',
 	generateLine() {
-		let { title, subtext, lineData, lineColor, legendPosition } =
-			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition'),
+		let { title, subtext, lineData, lineColor, legendPosition, xAxisLine } =
+			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition', 'xAxisLine'),
 			legend = null;
 
 		if (legendPosition === '') {
@@ -86,6 +86,16 @@ export default Component.extend({
 				data: lineData.get('firstObject').date,
 				axisTick: {
 					alignWithLabel: true
+				},
+				axisLine: xAxisLine,
+				// axisLine: {
+				// 	lineStyle: {
+				// 		type: 'dotted',
+				// 		color: '#DFE1E6'
+				// 	}
+				// },
+				axisLabel: {
+					color: '#7A869A'
 				}
 			},
 			tooltip: {
@@ -94,7 +104,16 @@ export default Component.extend({
 			legend,
 			color: lineColor,
 			yAxis: {
-				type: 'value'
+				type: 'value',
+				axisLine: {
+					show: false
+				},
+				axisTick: {
+					show: false
+				},
+				axisLabel: {
+					color: '#7A869A'
+				}
 			},
 			series: lineData.map((ele) => {
 				return {
@@ -116,14 +135,5 @@ export default Component.extend({
 		let option = this.generateLine();
 
 		this.set('result', option);
-	},
-	init() {
-		this._super(...arguments);
-		// this.set('legendPosition', {
-		// 	top: '',
-		// 	right: '10%',
-		// 	bottom: '',
-		// 	left: ''
-		// });
 	}
 });
