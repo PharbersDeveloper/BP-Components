@@ -1,10 +1,36 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-radar';
 import { computed } from '@ember/object';
+import { A } from '@ember/array';
 
 export default Component.extend({
 	layout,
 	classNames: ['bp-radar'],
+	/**
+	 * chart's color
+	 * @property radarColor
+	 * @type {Array}
+	 * @default null
+	 * @public
+	 */
+	radarColor: A(['#979797', '#3172E0']),
+	/**
+	 * radar Data
+	 * @property radarData
+	 * @type {Array}
+	 * @default
+	 * @public
+	 */
+	radarData: A([
+		{
+			value: [0, 0, 0, 0, 0],
+			name: '代表本期初始能力'
+		},
+		{
+			value: [0, 0, 0, 0, 0],
+			name: '团队平均能力'
+		}
+	]),
 	/**
 	 * chart's title
 	 * @property title
@@ -14,14 +40,18 @@ export default Component.extend({
 	 */
 	title: '',
 	/**
-	 * final result
+	 * 是否有legend
+	 * @property hasLegend
+	 * @type {boolean}
+	 * @default true
+	 * @public
 	 */
-	result: computed('title', 'radarColor', 'radarData', function () {
-		let title = this.get('title'),
-			color = this.get('radarColor'),
+	hasLegend: true,
+	generateRadar() {
+		let { title, radarColor, hasLegend, radarData } =
+			this.getProperties('title', 'radarColor', 'hasLegend', 'radarData'),
 			legendData = null,
 			legend = null,
-			radarData = this.get('radarData'),
 			data = null;
 
 		data = radarData.map((ele, index) => {
@@ -29,21 +59,21 @@ export default Component.extend({
 				value: ele.value,
 				name: ele.name,
 				areaStyle: {
-					color: color[index]
+					color: radarColor[index]
 				}
 			};
 		});
-
 		legendData = radarData.map(ele => {
-			return ele.name;
+			return { name: ele.name, icon: 'circle' };
 		});
 		legend = {
-			left: '0%',
+			show: hasLegend,
+			left: '30%',
 			bottom: '0',
 			orient: 'vertical',
 			textStyle: {
 				fontSize: '14px',
-				color: '#344563'
+				color: '#7A869A'
 			},
 			data: legendData
 		};
@@ -51,7 +81,7 @@ export default Component.extend({
 			title: {
 				text: title
 			},
-			color,
+			color: radarColor,
 			tooltip: {},
 			legend,
 			radar: {
@@ -94,26 +124,18 @@ export default Component.extend({
 				data
 			}]
 		};
-	}),
-	init() {
+	},
+
+	didInsertElement() {
 		this._super(...arguments);
-		/**
-		 * chart's color
-		 * @property radarColor
-		 * @type {Array}
-		 * @default null
-		 * @public
-		 */
-		this.set('radarColor', ['#979797', '#3172E0']);
-		this.set('radarData', [
-			{
-				value: [0, 0, 0, 0, 0],
-				name: '团队本期初始能力'
-			},
-			{
-				value: [0, 0, 0, 0, 0],
-				name: '团队平均能力'
-			}
-		]);
+		let result = this.generateRadar();
+
+		this.set('result', result);
+	},
+	didUpdateAttrs() {
+		this._super(...arguments);
+		let result = this.generateRadar();
+
+		this.set('result', result);
 	}
 });
