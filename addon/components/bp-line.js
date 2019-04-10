@@ -46,7 +46,7 @@ export default Component.extend({
 	 */
 	legendPosition: '',
 	generateLine() {
-		let { title, subtext, lineData, lineColor, legendPosition, xAxisLine } =
+		let { title, subText, lineData, lineColor, legendPosition, xAxisLine } =
 			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition', 'xAxisLine'),
 			legend = null;
 
@@ -76,7 +76,7 @@ export default Component.extend({
 				testStyle: {
 					fontSize: 14
 				},
-				subtext
+				subtext: subText
 			},
 			grid: {
 				right: 0

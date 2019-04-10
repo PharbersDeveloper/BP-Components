@@ -7,6 +7,46 @@
 	}
 }
 
+.bp-line-tm {
+	height: 400px;
+
+	.echarts-chart {
+		height: 400px;
+	}
+}
+
+.bp-bar-tm {
+	height: 300px;
+
+	.echarts-chart {
+		height: 300px;
+
+		.bar-tm-tooltip {
+			min-width: 153px;
+			font-size: 14px;
+
+			.tooltip-title {
+				color: #fff;
+			}
+
+			p {
+				display: flex;
+
+				span.key {
+					flex: 0 0 70px;
+					margin-right: 8px;
+					@extend %p-primary-inverse;
+				}
+
+				span.value {
+					@extend %p-secondary-inverse;
+				}
+			}
+
+		}
+	}
+}
+
 .bp-circle {
 	&.size-default {
 		height: 192px;
