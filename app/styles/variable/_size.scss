@@ -41,6 +41,12 @@ $icon-small: 16px;
 	color: $n800;
 }
 
+%header-large-inverse {
+	@extend %header-large;
+	color: $n000;
+
+}
+
 %header-medium {
 	line-height: 22px;
 	@include fontMedium($header-medium);

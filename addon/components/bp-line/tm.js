@@ -120,14 +120,19 @@ export default BpLine.extend({
 	},
 	didInsertElement() {
 		this._super(...arguments);
-		let option = this.generateLine();
-
-		this.set('result', option);
+		this.set('result', this.generateLine());
 	},
+
 	didUpdateAttrs() {
 		this._super(...arguments);
 		let option = this.generateLine();
 
 		this.set('result', option);
 	}
+	// beforeSetup(context, chart) {
+
+	// },
+	// afterSetup(context, chart) {
+
+	// }
 });
