@@ -2,12 +2,13 @@ import Component from '@ember/component';
 import layout from '../../templates/components/bp-bar/tm';
 import { A } from '@ember/array';
 import { isEmpty } from '@ember/utils';
+import { formatNumber } from '../../helpers/format-number';
 
 export default Component.extend({
 	layout,
 	classNames: ['bp-bar-tm'],
 	/**
-	 * line chart's title
+	 * bar chart's title
 	 * @property title
 	 * @type {string}
 	 * @default ''
@@ -15,7 +16,7 @@ export default Component.extend({
 	 */
 	title: '',
 	/**
-	 * line chart's subtext
+	 * bar chart's subtext
 	 * @property subText
 	 * @type {string}
 	 * @default ''
@@ -23,16 +24,16 @@ export default Component.extend({
 	 */
 	subText: '',
 	/**
-	 * line Data
+	 * bar Data
 	 * @property barData
 	 * @type {Array}
 	 * @default []
 	 * @public
 	 */
 	// barData: A([]),
-	barData: A([]),
+	barData: null,
 	/**
-	 * line Color
+	 * bar Color
 	 * @property barColor
 	 * @type {Array}
 	 * @default ['#505F79']
@@ -41,8 +42,8 @@ export default Component.extend({
 	barColor: A(['#505F79']),
 
 	generateBarTm() {
-		let { title, subText, barData, barColor } =
-			this.getProperties('title', 'subText', 'barData', 'barColor');
+		let { title, barData, barColor } =
+			this.getProperties('title', 'barData', 'barColor');
 
 		return {
 			title: [{
@@ -53,7 +54,7 @@ export default Component.extend({
 					color: '#172B4D'
 				}
 			}, {
-				text: subText,
+				text: barData.name,
 				left: '110',
 				textStyle: {
 					fontSize: 12,
@@ -77,11 +78,11 @@ export default Component.extend({
 						<p class="tooltip-title mb-2">${data.name}</p>
 						<p class="mb-2"> 
 							<span class="key">销售额</span>
-							<span class="value"> ${barData[0].sales[index]}</span></p>
+							<span class="value"> ${formatNumber(barData.sales[index])}</span></p>
 						<p class="mb-2"> <span class="key">销售指标</span>
-							<span class="value"> ${barData[0].targets[index]}</span></p>
+							<span class="value"> ${formatNumber(barData.salesQuotas[index])}</span></p>
 						<p class="mb-2"> <span class="key">指标达成率</span>
-						<span class="value"> ${barData[0].rates[index]}</span></p></div>`;
+						<span class="value"> ${formatNumber(barData.quotaAchievementes[index])}%</span></p></div>`;
 				}
 			},
 			grid: {
@@ -94,7 +95,7 @@ export default Component.extend({
 			xAxis: [
 				{
 					type: 'category',
-					data: isEmpty(barData) ? A([]) : barData.get('firstObject').date,
+					data: isEmpty(barData) ? A([]) : barData.date,
 					axisTick: {
 						alignWithLabel: true
 					},
@@ -131,6 +132,16 @@ export default Component.extend({
 					},
 					axisLabel: {
 						color: '#7A869A'
+						// formatter: function (value) {
+						// 	let result = 0;
+
+						// 	if (value >= 1000) {
+						// 		result = value / 1000 + 'k';
+						// 	} else if (value < 1000) {
+						// 		result = value;
+						// 	}
+						// 	return result;
+						// }
 					},
 					splitLine: {
 						lineStyle: {
@@ -140,17 +151,15 @@ export default Component.extend({
 					}
 				}
 			],
-			series: isEmpty(barData) ? A([]) : barData.map((ele) => {
-				return {
-					name: title,
-					type: 'bar',
-					barWidth: '8px',
-					data: ele.sales,
-					itemStyle: {
-						barBorderRadius: [5, 5, 0, 0]
-					}
-				};
-			})
+			series: isEmpty(barData) ? A([]) : [{
+				name: title,
+				type: 'bar',
+				barWidth: '8px',
+				data: barData.sales,
+				itemStyle: {
+					barBorderRadius: [5, 5, 0, 0]
+				}
+			}]
 		};
 	},
 	didInsertElement() {

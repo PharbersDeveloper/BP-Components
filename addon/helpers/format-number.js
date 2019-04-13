@@ -2,7 +2,7 @@ import { helper } from '@ember/component/helper';
 import { isEmpty } from '@ember/utils';
 
 export function formatNumber(params/*, hash*/) {
-	let number = params[0],
+	let number = typeof params === 'object' ? params[0] : params,
 		result = '';
 
 	if (isEmpty(number)) {
