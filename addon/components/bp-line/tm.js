@@ -120,7 +120,9 @@ export default BpLine.extend({
 	},
 	didInsertElement() {
 		this._super(...arguments);
-		this.set('result', this.generateLine());
+		let option = this.generateLine();
+
+		this.set('result', option);
 	},
 
 	didUpdateAttrs() {
@@ -129,10 +131,4 @@ export default BpLine.extend({
 
 		this.set('result', option);
 	}
-	// beforeSetup(context, chart) {
-
-	// },
-	// afterSetup(context, chart) {
-
-	// }
 });
