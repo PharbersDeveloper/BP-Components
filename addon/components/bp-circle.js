@@ -47,10 +47,10 @@ export default Component.extend({
 	 * circleColor
 	 * @property circleColor
 	 * @type {Array}
-	 * @default ['#00875A', '#F4F5F7']
+	 * @default ['#172B4D', '#F4F5F7']
 	 * @public
 	 */
-	circleColor: A(['#00875A', '#F4F5F7']),
+	circleColor: A(['#172B4D', '#F4F5F7']),
 	// 千分位，应该提取出去
 	formatNum(number) {
 		if (number.length <= 3) {
@@ -100,18 +100,22 @@ export default Component.extend({
 				{
 					name: seriesName,
 					type: 'pie',
-					radius: ['50%', '65%'],
+					radius: ['80%', '95%'],
 					avoidLabelOverlap: false,
+					hoverOffset: 3,
 					label: {
 						normal: {
 							show: false,
 							position: 'center'
 						},
 						emphasis: {
-							show: false,
+							show: true,
 							textStyle: {
-								fontSize: '30',
-								fontWeight: 'bold'
+								fontSize: '12',
+								fontWeight: 'normal'
+							},
+							formatter: function (params) {
+								return params.percent + '%';
 							}
 						}
 					},
