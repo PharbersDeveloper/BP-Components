@@ -37,7 +37,7 @@
 
 			&.active {
 				color: $b400;
-				background-color: $opacity04;
+				background-color: $n020a;
 
 				svg {
 					color: $b400;
@@ -55,7 +55,7 @@
 		flex-direction: column !important;
 		padding: 2*$spacing 2*$spacing 3*$spacing;
 		height: 100%;
-		overflow-y: scroll;
+		overflow-y: auto;
 
 		li.bp-nav-dropdown {
 			min-height: 40px;

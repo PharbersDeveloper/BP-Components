@@ -1,0 +1,119 @@
+// fontsize
+$title: 24px;
+$header-large: 20px;
+$header-medium: 16px;
+$font-normal: 14px;
+$header-small: 14px;
+$p-primary: 14px;
+$p-secondary: 14px;
+$p-small: 12px;
+
+// icon
+$icon-large: 48px;
+$icon-medium: 24px;
+$icon-small: 16px;
+
+%line-height-default {
+	line-height: 1.5;
+}
+
+@mixin fontMedium($fontsize) {
+	font-size: $fontsize;
+	font-weight: 500;
+	// @extend %line-height-default;
+}
+
+@mixin fontRegular($fontsize) {
+	font-size: $fontsize;
+	font-weight: 400;
+	// @extend %line-height-default;
+}
+
+%title {
+	line-height: 33px;
+	@include fontMedium($title);
+	color: $n800;
+}
+
+%header-large {
+	line-height: 28px;
+	@include fontMedium($header-large);
+	color: $n800;
+}
+
+%header-large-inverse {
+	@extend %header-large;
+	color: $n000;
+
+}
+
+%header-medium {
+	line-height: 22px;
+	@include fontMedium($header-medium);
+	color: $n800;
+}
+
+%header-small {
+	line-height: 20px;
+	@include fontMedium($header-small);
+	color: $n800;
+}
+
+%header-small-inverse {
+	@extend %header-small;
+	color: $n000;
+}
+
+%p-primary {
+	line-height: 20px;
+	@include fontRegular($p-primary);
+	color: $n600;
+}
+
+%p-primary-inverse {
+	@extend %p-primary;
+	color: $n000;
+}
+
+%p-secondary {
+	line-height: 20px;
+	@include fontRegular($p-secondary);
+	color: $n100;
+}
+
+%p-secondary-inverse {
+	@extend %p-secondary;
+	color: rgba($color: #fff, $alpha: 0.6);
+}
+
+%p-small {
+	line-height: 17px;
+	@include fontRegular($p-small);
+	color: $n100;
+}
+
+%p-small-inverse {
+	@extend %p-small;
+	color: rgba($color: #fff, $alpha: 0.45);
+}
+
+// 用于表单的已填写状态
+%p-placeholder {
+	line-height: 20px;
+	@include fontRegular($font-normal);
+	color: $n500;
+}
+
+// 用于表单的未填写状态
+%p-placeholde-novalue {
+	line-height: 20px;
+	@include fontRegular($font-normal);
+	color: $n090;
+}
+
+// 用于表单的禁用状态
+%p-placeholde-disabled {
+	line-height: 20px;
+	@include fontRegular($font-normal);
+	color: $n060;
+}

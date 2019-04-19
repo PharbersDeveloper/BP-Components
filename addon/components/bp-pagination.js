@@ -17,6 +17,14 @@ export default Component.extend({
 	 */
 	curPage: 1,
 	/**
+	 * 跳转功能展示
+	 * @property showJump
+	 * @type {boolean}
+	 * @default false
+	 * @public
+	 */
+	showJump: false,
+	/**
 	 * 当前展示的页数数组
 	 * @property pageGroup
 	 * @type {Array}
@@ -68,7 +76,9 @@ export default Component.extend({
 		let { totalPageCounts, pageGroup } =
 			this.getProperties('totalPageCounts', 'pageGroup');
 
-		if (totalPageCounts - pageGroup.lastObject > 1) {
+		if (totalPageCounts === 1) {
+			return false;
+		} else if (totalPageCounts - pageGroup.lastObject > 1) {
 			return true;
 		}
 		return false;

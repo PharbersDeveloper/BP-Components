@@ -1,0 +1,21 @@
+{{#bp-page-header classNames=class as |ph|}}
+	{{#ph.body as |body|}}
+		{{#body.left as |left|}}
+			{{#left.item}}
+				{{title}}
+			{{/left.item}}
+			{{#if linkTo}}
+				{{#left.item}}
+					{{#link-to linkTo}}
+						{{linkToText}}
+					{{/link-to}}
+				{{/left.item}}
+			{{/if}}
+			{{#if desc}}
+				{{#left.item}}
+					{{desc}}
+				{{/left.item}}
+			{{/if}}
+		{{/body.left}}
+	{{/ph.body}}
+{{/bp-page-header}}

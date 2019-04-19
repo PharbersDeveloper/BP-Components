@@ -7,7 +7,8 @@ export default Component.extend({
 	layout,
 	tagName: 'div',
 	classNames: ['bp-input'],
-	classNameBindings: ['block::input-inline', 'mediumSize', 'largeSize'],
+	classNameBindings: ['block::input-inline', 'mediumSize', 'largeSize',
+		'widthSmall', 'widthMedium', 'widthAuto'],
 	attributeBindings: ['disabled'],
 	/**
 	 * Property to block
@@ -17,6 +18,14 @@ export default Component.extend({
 	 * @public
 	 */
 	block: false,
+	/**
+	 * Property to vertical
+	 * @property vertical
+	 * @type {boolean}
+	 * @default false
+	 * @public
+	 */
+	vertical: false,
 	/**
 	 * 控制 input 的 disabled
 	 * @property disabled
@@ -69,7 +78,7 @@ export default Component.extend({
 	 */
 	type: 'text',
 	/**
-	 * input's size
+	 * input's height size
 	 * @property size
 	 * @type {string}
 	 * @default 'default'
@@ -93,6 +102,38 @@ export default Component.extend({
 	 */
 	largeSize: equal('size', 'large'),
 	/**
+	 * input's width size
+	 * @property widthSize
+	 * @type {string}
+	 * @default 'default'
+	 * @public
+	 */
+	widthSize: 'default',
+	/**
+	 * input's width size
+	 * @property widthSmall
+	 * @type {boolean}
+	 * @default false
+	 * @private
+	 */
+	widthSmall: equal('widthSize', 'small'),
+	/**
+	 * input's width size
+	 * @property widthSmall
+	 * @type {boolean}
+	 * @default false
+	 * @private
+	 */
+	widthMedium: equal('widthSize', 'medium'),
+	/**
+	 * input's width size
+	 * @property widthAuto
+	 * @type {boolean}
+	 * @default false
+	 * @private
+	 */
+	widthAuto: equal('widthSize', 'auto'),
+	/**
 	 * 控制 input 的最大输入数量
 	 * @property maxLength
 	 * @type {number}
@@ -104,8 +145,8 @@ export default Component.extend({
 	 * input's value
 	 * @property value
 	 * @type {any}
-	 * @default '''
-	 * @private
+	 * @default ''
+	 * @public
 	 */
 	value: '',
 	/**
@@ -117,7 +158,7 @@ export default Component.extend({
 	 */
 	valueLength: computed('value', function () {
 		let maxLength = this.get('maxLength'),
-			value = this.get('value');
+			value = this.get('value') || '';
 
 		return maxLength !== 0 ? value.length : 0;
 	}),
@@ -151,9 +192,10 @@ export default Component.extend({
 	 * @event onChange
 	 * @param {*} value
 	 * @public
-	 * 只会传送 maxLength 的值！！！
+	 * 只会传送到 maxLength 的值！！！
 	 */
 	onChange() { },
+	onKeyPress() { },
 	actions: {
 		change(event) {
 			let maxLength = this.get('maxLength'),
@@ -165,6 +207,9 @@ export default Component.extend({
 			} else {
 				this.get('onChange')(value);
 			}
+		},
+		keyPress(event) {
+			this.get('onKeyPress')(event);
 		}
 	}
 

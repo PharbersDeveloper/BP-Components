@@ -1,5 +1,10 @@
 <span class="{{if isRadio 'circle' 'square'}} {{if active 'active'}}">
 	<span class="inner"></span>
-	{{!-- <span class="choosed"></span> --}}
 </span>
-<span class="text">{{radio.value}}</span>
+{{#if itemIsObject}}
+	<span class="text">{{radio.value}}</span>
+{{else}}
+	<span class="text">{{radio}}</span>
+{{/if}}
+{{!-- <span class="text">{{radio.value}}</span> --}}
+{{!-- <span class="text">{{radio}}</span> --}}

@@ -6,7 +6,9 @@
 )}} --}}
 <img class="bp-card-img-top" src={{src}} alt="Card image cap">
 {{#if tagState}}
-	{{#bp-tag tagType=tagType}}{{tagState}}{{/bp-tag}}
+	{{#bp-tag tagType=tagType}}
+		{{tagState}}
+	{{/bp-tag}}
 {{/if}}
 <div class="bp-card-body">
 	<p class="bp-card-category p-regular">{{category}}</p>

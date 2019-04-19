@@ -5,7 +5,6 @@ import { isArray, A } from '@ember/array';
 
 export default Component.extend({
 	layout,
-	tagName: 'section',
 	classNames: ['choose-group'],
 	classNameBindings: ['vertical'],
 	/**
@@ -27,7 +26,7 @@ export default Component.extend({
 	/**
 	 * 当前选中的item的值
 	 * @property value
-	 * @type array/object
+	 * @type array/object/string
 	 * @public
 	 */
 	value: null,

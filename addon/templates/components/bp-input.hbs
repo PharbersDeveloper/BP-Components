@@ -10,9 +10,9 @@
 			<span>{{prepend}}</span>
 		</div>
 	{{/if}}
-	<input type={{type}} class={{showInputState}} name={{label}} disabled={{disabled}} onInput={{action 'change'}}
-	 placeholder={{placeholder}} aria-label="input">
+	<input type={{type}} value={{value}} class={{showInputState}} name={{label}} disabled={{disabled}} onInput={{action 'change'}}
+	 onkeyPress={{action 'keyPress'}} placeholder={{placeholder}} aria-label="input">
 </div>
 {{#if valueLength}}
-	<p>{{valueLength}}/{{maxLength}}</p>
+	<p class="length-hint">{{valueLength}}/{{maxLength}}</p>
 {{/if}}

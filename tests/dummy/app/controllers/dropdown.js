@@ -13,7 +13,6 @@ export default Controller.extend({
 
 	actions: {
 		changeOption(value) {
-			console.table(value);
 			this.set('option', value);
 		}
 	}

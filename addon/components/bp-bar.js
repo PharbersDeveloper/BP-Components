@@ -38,8 +38,11 @@ export default Component.extend({
 	 * @public
 	 */
 	barColor: A([]),
-	result: computed('title', 'subText', 'barData', function () {
-		let barData = this.get('barData').sort((a, b) => {
+	generateBar() {
+		let { title } =
+			this.getProperties('title'),
+			originalBarData = this.get('barData') || A([]),
+			barData = originalBarData.sort((a, b) => {
 				return b.value - a.value;
 			}),
 			colorList = barData.map(ele => {
@@ -55,7 +58,7 @@ export default Component.extend({
 		return {
 			color: ['#0070c0', '#c4bd97', '#ff0000'],
 			title: {
-				text: this.get('title'),
+				text: title,
 				subtext: this.get('subText')
 			},
 			xAxis: {
@@ -119,5 +122,17 @@ export default Component.extend({
 				data: 0
 			}]
 		};
-	})
+	},
+	didInsertElement() {
+		this._super(...arguments);
+		let option = this.generateBar();
+
+		this.set('result', option);
+	},
+	didUpdateAttrs() {
+		this._super(...arguments);
+		let option = this.generateBar();
+
+		this.set('result', option);
+	}
 });

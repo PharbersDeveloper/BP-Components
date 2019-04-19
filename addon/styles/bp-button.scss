@@ -71,12 +71,12 @@
 	}
 
 	&.link {
-		@include btn-type($link-text, transparent);
+		@include btn-type($primary, transparent);
 		@include buttonState($b300, transparent, $b500, transparent);
 	}
 
 	&.link-subtle {
-		@include btn-type($link-subtle, transparent);
+		@include btn-type($n300, transparent);
 		@include buttonState($n080, transparent, $n300, transparent);
 
 	}
