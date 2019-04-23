@@ -36,7 +36,7 @@ export default Component.extend({
 	 * @default []
 	 * @public
 	 */
-	lineColor: A([]),
+	lineColor: A(['#79E2F2', '#FFE380', '#8777D9 ', '#579AFF', '#36B37E']),
 	/**
 	 * legend position in init()
 	 * @property legendPosition
@@ -79,51 +79,81 @@ export default Component.extend({
 				subtext: subText
 			},
 			grid: {
-				right: 0
+				left: '3%',
+				right: '4%',
+				bottom: '3%',
+				containLabel: true
 			},
-			xAxis: {
-				type: 'category',
-				data: lineData.get('firstObject').date,
-				axisTick: {
-					alignWithLabel: true
-				},
-				axisLine: xAxisLine,
-				// axisLine: {
-				// 	lineStyle: {
-				// 		type: 'dotted',
-				// 		color: '#DFE1E6'
-				// 	}
-				// },
-				axisLabel: {
-					color: '#7A869A'
+			toolbox: {
+				feature: {
+					saveAsImage: {}
 				}
-			},
-			tooltip: {
-				trigger: 'axis'
 			},
 			legend,
 			color: lineColor,
-			yAxis: {
-				type: 'value',
-				axisLine: {
-					show: false
-				},
-				axisTick: {
-					show: false
+			tooltip: {
+				trigger: 'axis'
+			},
+			xAxis: {
+				type: 'category',
+				splitLine: {
+					show: false,
+					lineStyle: {
+						color: ['#DFE1E6'],
+						width: 2,
+						type: '#DFE1E6'
+					}
 				},
 				axisLabel: {
 					color: '#7A869A'
+				},
+				axisLine: {
+					lineStyle: {
+						type: 'dashed',
+						color: '#DFE1E6'
+					}
+				},
+				boundaryGap: false,
+				data: lineData.get('firstObject') ? lineData.get('firstObject').date : []
+			},
+			yAxis: {
+				type: 'value',
+				axisLabel: {
+					color: '#7A869A'
+				},
+				axisLine: {
+					lineStyle: {
+						type: 'solid',
+						color: 'transparent'
+					}
+				},
+				splitLine: {
+					show: true,
+					lineStyle: {
+						color: ['#D2D4D9'],
+						width: 1,
+						type: 'dashed'
+					}
 				}
 			},
 			series: lineData.map((ele) => {
 				return {
 					name: ele.name,
 					type: 'line',
-					data: ele.data
+					data: ele.data,
+					symbolSize: 6,//拐点大小
+					itemStyle: {
+						normal: {
+							lineStyle: {
+								width: 4//设置线条粗细
+							}
+						}
+					}
 				};
 			})
 		};
 	},
+
 	didInsertElement() {
 		this._super(...arguments);
 		let option = this.generateLine();
