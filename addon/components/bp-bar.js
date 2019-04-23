@@ -99,27 +99,6 @@ export default Component.extend({
 				data: barData.map(ele => {
 					return ele.value;
 				})
-			},
-			{
-				name: 'MNC',
-				type: 'bar',
-				stack: '',
-				barWidth: 0,
-				data: 0
-			},
-			{
-				name: 'Local',
-				type: 'bar',
-				stack: '',
-				barWidth: 0,
-				data: 0
-			},
-			{
-				name: 'Lilly',
-				type: 'bar',
-				stack: '',
-				barWidth: 0,
-				data: 0
 			}]
 		};
 	},
