@@ -1,4 +1,6 @@
 // fontsize
+$display-large: 29px;
+
 $title: 24px;
 $header-large: 20px;
 $header-medium: 16px;
@@ -27,6 +29,12 @@ $icon-small: 16px;
 	font-size: $fontsize;
 	font-weight: 400;
 	// @extend %line-height-default;
+}
+
+%display-large {
+	line-height: 40px;
+	@include fontMedium($title);
+	color: $n800;
 }
 
 %title {

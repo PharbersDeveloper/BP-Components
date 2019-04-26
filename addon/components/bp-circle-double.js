@@ -1,10 +1,19 @@
 import Component from '@ember/component';
-import layout from '../templates/components/bp-circle-double';
-import { A } from '@ember/array';
+import layout from '../templates/components/bp-chart';
 import { isEmpty } from '@ember/utils';
+import { A } from '@ember/array';
+import echarts from 'echarts';
+import $ from 'jquery';
+
 export default Component.extend({
 	layout,
-	classNames: ['chart-container'],
+	tagName: '',
+	init() {
+		this._super(...arguments);
+		this.set('opts', {
+			renderer: 'svg' // canvas of svg
+		});
+	},
 	/**
 	 * circleData
 	 * @property circleData
@@ -15,14 +24,12 @@ export default Component.extend({
 	circleData: A([
 		{
 			seriesName: '2018Q1', data: A([
-				{ value: 10, name: 'rose1' },
-				{ value: 51, name: 'rose2' },
-				{ value: 15, name: 'rose3' },
-				{ value: 25, name: 'rose4' },
-				{ value: 20, name: 'rose5' },
-				{ value: 35, name: 'rose6' },
-				{ value: 30, name: 'rose7' },
-				{ value: 40, name: 'rose8' }
+				{ value: 64000, name: 'rose1' },
+				{ value: 20220, name: 'rose2' },
+				{ value: 28331, name: 'rose3' },
+				{ value: 26381, name: 'rose4' },
+				{ value: 1000, name: 'rose5' },
+				{ value: 37133, name: 'rose6' }
 			])
 		},
 		{
@@ -32,9 +39,7 @@ export default Component.extend({
 				{ value: 145, name: 'rose3' },
 				{ value: 253, name: 'rose4' },
 				{ value: 220, name: 'rose5' },
-				{ value: 355, name: 'rose6' },
-				{ value: 302, name: 'rose7' },
-				{ value: 410, name: 'rose8' }
+				{ value: 355, name: 'rose6' }
 			])
 		}
 	]),
@@ -58,7 +63,8 @@ export default Component.extend({
 		let { circleData, circleColor, circleSize } =
 			this.getProperties('circleData', 'circleColor', 'circleSize'),
 			series = A([]),
-			title = A([]);
+			title = A([]),
+			that = this;
 
 
 		if (isEmpty(circleData)) {
@@ -72,23 +78,23 @@ export default Component.extend({
 				type: 'pie',
 				radius: circleSize,
 				center: [centerX, '50%'],
-				legendHoverLink: true,
+				legendHoverLink: false,
 				label: {
 					normal: {
 						show: false
 					},
 					emphasis: {
-						show: true
-					}
-				},
-				lableLine: {
-					normal: {
 						show: false
-					},
-					emphasis: {
-						show: true
 					}
 				},
+				// lableLine: {
+				// 	normal: {
+				// 		show: false
+				// 	},
+				// 	emphasis: {
+				// 		show: true
+				// 	}
+				// },
 				data: ele.data
 			};
 		});
@@ -112,27 +118,125 @@ export default Component.extend({
 			title,
 			tooltip: {
 				trigger: 'item',
-				formatter: '{a} <br/>{b} : {c} ({d}%)'
+				// formatter: '{a} <br/>{b} : {c} ({d}%)'
+				formatter: function (params) {
+					let seriesIndex = params.seriesIndex,
+						data = circleData[seriesIndex].data,
+						onlyData = data.map(ele => ele.value),
+						tooltipItems = A([]),
+						tooltipItemsString = '';
+
+					tooltipItems = data.map((ele, index) => {
+						let percent = that.getPercentWithPrecision(onlyData, index);
+
+						return `<tr class='item'>
+							<td>
+								<span class='point mr-2' style='background:${circleColor[index]}'></span>
+								<span class='keys'>${ele.name}</span>
+							</td>
+							<td class='values'>${ele.value}</td>
+							<td class='values'>${percent}</td>
+						</tr>`;
+					});
+					tooltipItemsString = ''.concat(...tooltipItems);
+
+					return `<table class="table m-0 circle-double-tooltip">
+							<thead><th></th><th>销售额</th><th>占比</th></thead>	
+							<tbody>${tooltipItemsString}</tbody>
+						</table>`;
+				},
+				backgroundColor: 'rgba(9,30,66,0.54)'
 			},
 			color: circleColor,
 			legend: {
 				x: 'center',
-				y: 'bottom'
+				y: 'bottom',
+				data: circleData.get('firstObject').data.map(ele => {
+					return { name: ele.name, icon: 'circle' };
+				})
 			},
 			series
 		};
+	},
+	reGenerateChart(self, option) {
+		const selector = `#${this.get('eid')}`,
+			$el = $(selector),
+			opts = this.get('opts'),
+			echartInstance = echarts.getInstanceByDom($el[0]);
+
+		if (isEmpty(echartInstance)) {
+			self.set('result', option);
+		} else {
+			echartInstance.clear();
+			if (!isEmpty(option)) {
+				echartInstance.setOption(option, opts);
+			} else {
+				echartInstance.setOption({}, opts);
+			}
+		}
 	},
 	didInsertElement() {
 		this._super(...arguments);
 		let option = this.generateOption();
 
-		this.set('result', option);
-
+		this.reGenerateChart(this, option);
+		// this.set('result', option);
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);
 		let option = this.generateOption();
 
-		this.set('result', option);
+		this.reGenerateChart(this, option);
+	},
+
+	/**
+	 * 最大余额法获取百分比
+	 * @param  {array} valueList 数值数组
+	 * @param  {number} idx 要求的item的index
+	 * @param  {number} precision 精度（2）
+	 */
+	getPercentWithPrecision(valueList, idx, precision = 2) {
+		if (!valueList[idx]) {
+			return 0;
+		}
+
+		let sum = valueList.reduce(function (acc, val) {
+				return acc + (isNaN(val) ? 0 : val);
+			}, 0),
+			digits = Math.pow(10, precision),
+			votesPerQuota = valueList.map(function (val) {
+				return (isNaN(val) ? 0 : val) / sum * digits * 100;
+			}),
+			targetSeats = digits * 100,
+			seats = votesPerQuota.map(function (votes) {
+				return Math.floor(votes);
+			}),
+			currentSum = seats.reduce(function (acc, val) {
+				return acc + val;
+			}, 0),
+			remainder = votesPerQuota.map(function (votes, index) {
+				return votes - seats[index];
+			});
+
+		if (sum === 0) {
+			return 0;
+		}
+		while (currentSum < targetSeats) {
+			// Find next largest remainder. 找到下一个最大的余额
+			let max = Number.NEGATIVE_INFINITY,
+				maxId = null;
+
+			for (let i = 0, len = remainder.length; i < len; ++i) {
+				if (remainder[i] > max) {
+					max = remainder[i];
+					maxId = i;
+				}
+			}
+			++seats[maxId];
+			remainder[maxId] = 0;
+			++currentSum;
+		}
+
+		return seats[idx] / digits;
 	}
 });

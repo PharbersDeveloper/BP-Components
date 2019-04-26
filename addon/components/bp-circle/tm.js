@@ -141,11 +141,11 @@ export default Component.extend({
 			if (!isEmpty(option)) {
 				later(this, function () {
 					echartInstance.setOption(option, opts);
-				}, 500);
+				}, 1000);
 			} else {
 				later(this, function () {
 					echartInstance.setOption({}, opts);
-				}, 500);
+				}, 1000);
 			}
 		}
 	},
