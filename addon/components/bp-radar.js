@@ -1,9 +1,10 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-chart';
-import { A } from '@ember/array';
 import { isEmpty } from '@ember/utils';
-import $ from 'jquery';
+import { later } from '@ember/runloop';
+import { A } from '@ember/array';
 import echarts from 'echarts';
+import $ from 'jquery';
 
 export default Component.extend({
 	layout,
@@ -143,7 +144,15 @@ export default Component.extend({
 			self.set('result', option);
 		} else {
 			echartInstance.clear();
-			echartInstance.setOption(option, opts);
+			if (!isEmpty(option)) {
+				later(this, function () {
+					echartInstance.setOption(option, opts);
+				}, 500);
+			} else {
+				later(this, function () {
+					echartInstance.setOption({}, opts);
+				}, 500);
+			}
 		}
 	},
 	didInsertElement() {

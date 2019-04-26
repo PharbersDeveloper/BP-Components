@@ -180,7 +180,11 @@ export default Component.extend({
 			self.set('result', option);
 		} else {
 			echartInstance.clear();
-			echartInstance.setOption(option, opts);
+			if (!isEmpty(option)) {
+				echartInstance.setOption(option, opts);
+			} else {
+				echartInstance.setOption({}, opts);
+			}
 		}
 	},
 	didInsertElement() {

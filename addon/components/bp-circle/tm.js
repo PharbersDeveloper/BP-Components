@@ -4,6 +4,7 @@ import { A } from '@ember/array';
 import echarts from 'echarts';
 import $ from 'jquery';
 import { isEmpty } from '@ember/utils';
+import { later } from '@ember/runloop';
 
 export default Component.extend({
 	layout,
@@ -137,7 +138,15 @@ export default Component.extend({
 			self.set('result', option);
 		} else {
 			echartInstance.clear();
-			echartInstance.setOption(option, opts);
+			if (!isEmpty(option)) {
+				later(this, function () {
+					echartInstance.setOption(option, opts);
+				}, 500);
+			} else {
+				later(this, function () {
+					echartInstance.setOption({}, opts);
+				}, 500);
+			}
 		}
 	},
 	didInsertElement() {
