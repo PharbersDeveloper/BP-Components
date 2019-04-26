@@ -1,11 +1,19 @@
 import Component from '@ember/component';
-import layout from '../templates/components/bp-radar';
-import { computed } from '@ember/object';
+import layout from '../templates/components/bp-chart';
 import { A } from '@ember/array';
+import { isEmpty } from '@ember/utils';
+import $ from 'jquery';
+import echarts from 'echarts';
 
 export default Component.extend({
 	layout,
-	classNames: ['bp-radar'],
+	tagName: '',
+	init() {
+		this._super(...arguments);
+		this.set('opts', {
+			renderer: 'canvas' // canvas of svg
+		});
+	},
 	/**
 	 * chart's color
 	 * @property radarColor
@@ -47,7 +55,7 @@ export default Component.extend({
 	 * @public
 	 */
 	hasLegend: true,
-	generateRadar() {
+	generateOption() {
 		let { title, radarColor, hasLegend, radarData } =
 			this.getProperties('title', 'radarColor', 'hasLegend', 'radarData'),
 			legendData = null,
@@ -68,7 +76,7 @@ export default Component.extend({
 		});
 		legend = {
 			show: hasLegend,
-			left: '30%',
+			x: 'center',
 			bottom: '0',
 			orient: 'vertical',
 			textStyle: {
@@ -125,17 +133,30 @@ export default Component.extend({
 			}]
 		};
 	},
+	reGenerateChart(self, option) {
+		const selector = `#${this.get('eid')}`,
+			$el = $(selector),
+			opts = this.get('opts'),
+			echartInstance = echarts.getInstanceByDom($el[0]);
 
+		if (isEmpty(echartInstance)) {
+			self.set('result', option);
+		} else {
+			echartInstance.clear();
+			echartInstance.setOption(option, opts);
+		}
+	},
 	didInsertElement() {
 		this._super(...arguments);
-		let result = this.generateRadar();
+		let option = this.generateOption();
 
-		this.set('result', result);
+		this.reGenerateChart(this, option);
+		// this.set('result', option);
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);
-		let result = this.generateRadar();
+		let option = this.generateOption();
 
-		this.set('result', result);
+		this.reGenerateChart(this, option);
 	}
 });

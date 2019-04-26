@@ -1,1 +1,5 @@
-{{echarts-chart option=result opts=opts}}
+{{echarts-chart
+	option=result 
+	opts=opts 
+	beforeSetup=(action beforeSetup)
+	afterSetup=(action afterSetup)}}

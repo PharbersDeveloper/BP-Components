@@ -1,12 +1,20 @@
 import BpLine from 'bp-components/components/bp-line';
-import layout from '../../templates/components/bp-line/tm';
+import layout from '../../templates/components/bp-chart';
 import { isEmpty } from '@ember/utils';
 import { A } from '@ember/array';
+import echarts from 'echarts';
+import $ from 'jquery';
 
 export default BpLine.extend({
 	layout,
-	classNames: ['bp-line-tm'],
-	generateLine() {
+	tagName: '',
+	init() {
+		this._super(...arguments);
+		this.set('opts', {
+			renderer: 'canvas' // canvas of svg
+		});
+	},
+	generateOption() {
 		let { title, subText, lineData, lineColor, legendPosition } =
 			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition'),
 			legend = null;
@@ -118,17 +126,30 @@ export default BpLine.extend({
 			})
 		};
 	},
+	reGenerateChart(self, option) {
+		const selector = `#${this.get('eid')}`,
+			$el = $(selector),
+			opts = this.get('opts'),
+			echartInstance = echarts.getInstanceByDom($el[0]);
+
+		if (isEmpty(echartInstance)) {
+			self.set('result', option);
+		} else {
+			echartInstance.clear();
+			echartInstance.setOption(option, opts);
+		}
+	},
 	didInsertElement() {
 		this._super(...arguments);
-		let option = this.generateLine();
+		let option = this.generateOption();
 
-		this.set('result', option);
+		this.reGenerateChart(this, option);
+		// this.set('result', option);
 	},
-
 	didUpdateAttrs() {
 		this._super(...arguments);
-		let option = this.generateLine();
+		let option = this.generateOption();
 
-		this.set('result', option);
+		this.reGenerateChart(this, option);
 	}
 });

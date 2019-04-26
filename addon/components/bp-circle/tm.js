@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import layout from '../templates/components/bp-chart';
+import layout from '../../templates/components/bp-circle/tm';
 import { A } from '@ember/array';
 import echarts from 'echarts';
 import $ from 'jquery';
@@ -41,6 +41,14 @@ export default Component.extend({
 	 * @public
 	 */
 	circleColor: A(['#172B4D', '#F4F5F7']),
+	/**
+	 * 内圆半径/外圆半径
+	 * @property circleSize
+	 * @type {Array}
+	 * @default ['80%', '95%']
+	 * @public
+	 */
+	circleSize: A(['80%', '95%']),
 	// 千分位，应该提取出去
 	formatNum(number) {
 		if (number.length <= 3) {
@@ -61,8 +69,8 @@ export default Component.extend({
 		return String(String(a) + b) + c;
 	},
 	generateOption() {
-		let { seriesName, circleData, circleColor } =
-			this.getProperties('seriesName', 'circleData', 'circleColor'),
+		let { seriesName, circleData, circleColor, circleSize } =
+			this.getProperties('seriesName', 'circleData', 'circleColor', 'circleSize'),
 			that = this;
 
 		return {
@@ -90,7 +98,7 @@ export default Component.extend({
 				{
 					name: seriesName,
 					type: 'pie',
-					radius: ['80%', '95%'],
+					radius: circleSize,
 					avoidLabelOverlap: false,
 					hoverOffset: 3,
 					label: {

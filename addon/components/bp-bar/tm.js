@@ -1,12 +1,20 @@
 import Component from '@ember/component';
-import layout from '../../templates/components/bp-bar/tm';
-import { A } from '@ember/array';
-import { isEmpty } from '@ember/utils';
+import layout from '../../templates/components/bp-chart';
 import { formatNumber } from '../../helpers/format-number';
+import { isEmpty } from '@ember/utils';
+import { A } from '@ember/array';
+import echarts from 'echarts';
+import $ from 'jquery';
 
 export default Component.extend({
 	layout,
-	classNames: ['bp-bar-tm'],
+	tagName: '',
+	init() {
+		this._super(...arguments);
+		this.set('opts', {
+			renderer: 'canvas' // canvas of svg
+		});
+	},
 	/**
 	 * bar chart's title
 	 * @property title
@@ -41,7 +49,7 @@ export default Component.extend({
 	 */
 	barColor: A(['#505F79']),
 
-	generateBarTm() {
+	generateOption() {
 		let { title, barData, barColor } =
 			this.getProperties('title', 'barData', 'barColor');
 
@@ -162,16 +170,30 @@ export default Component.extend({
 			}]
 		};
 	},
+	reGenerateChart(self, option) {
+		const selector = `#${this.get('eid')}`,
+			$el = $(selector),
+			opts = this.get('opts'),
+			echartInstance = echarts.getInstanceByDom($el[0]);
+
+		if (isEmpty(echartInstance)) {
+			self.set('result', option);
+		} else {
+			echartInstance.clear();
+			echartInstance.setOption(option, opts);
+		}
+	},
 	didInsertElement() {
 		this._super(...arguments);
-		let option = this.generateBarTm();
+		let option = this.generateOption();
 
-		this.set('result', option);
+		this.reGenerateChart(this, option);
+		// this.set('result', option);
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);
-		let option = this.generateBarTm();
+		let option = this.generateOption();
 
-		this.set('result', option);
+		this.reGenerateChart(this, option);
 	}
 });
