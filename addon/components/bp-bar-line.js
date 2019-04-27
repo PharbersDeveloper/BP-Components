@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-chart';
 import { isEmpty } from '@ember/utils';
-import { later } from '@ember/runloop';
 import { A } from '@ember/array';
 import echarts from 'echarts';
 import $ from 'jquery';
@@ -225,13 +224,9 @@ export default Component.extend({
 		} else {
 			echartInstance.clear();
 			if (!isEmpty(option)) {
-				later(this, function () {
-					echartInstance.setOption(option, opts);
-				}, 500);
+				echartInstance.setOption(option, opts);
 			} else {
-				later(this, function () {
-					echartInstance.setOption({}, opts);
-				}, 500);
+				echartInstance.setOption({}, opts);
 			}
 		}
 	},
