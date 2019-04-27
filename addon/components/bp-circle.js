@@ -11,6 +11,7 @@ export default Component.extend({
 	tagName: '',
 	init() {
 		this._super(...arguments);
+		this.set('result', {});
 		this.set('opts', {
 			renderer: 'svg' // canvas of svg
 		});

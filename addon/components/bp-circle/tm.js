@@ -4,13 +4,13 @@ import { A } from '@ember/array';
 import echarts from 'echarts';
 import $ from 'jquery';
 import { isEmpty } from '@ember/utils';
-import { later } from '@ember/runloop';
 
 export default Component.extend({
 	layout,
 	tagName: '',
 	init() {
 		this._super(...arguments);
+		this.set('result', {});
 		this.set('opts', {
 			renderer: 'svg' // canvas of svg
 		});
@@ -139,13 +139,9 @@ export default Component.extend({
 		} else {
 			echartInstance.clear();
 			if (!isEmpty(option)) {
-				later(this, function () {
-					echartInstance.setOption(option, opts);
-				}, 1000);
+				echartInstance.setOption(option, opts);
 			} else {
-				later(this, function () {
-					echartInstance.setOption({}, opts);
-				}, 1000);
+				echartInstance.setOption({}, opts);
 			}
 		}
 	},

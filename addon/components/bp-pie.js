@@ -6,6 +6,10 @@ import { computed } from '@ember/object';
 export default Component.extend({
 	layout,
 	classNames: ['bp-pie'],
+	init() {
+		this._super(...arguments);
+		this.set('result', {});
+	},
 	/**
 	 * pie chart's title
 	 * @property title

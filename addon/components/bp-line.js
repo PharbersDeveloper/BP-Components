@@ -5,6 +5,10 @@ import { A } from '@ember/array';
 export default Component.extend({
 	layout,
 	classNames: ['bp-line'],
+	init() {
+		this._super(...arguments);
+		this.set('result', {});
+	},
 	/**
 	 * line chart's title
 	 * @property title

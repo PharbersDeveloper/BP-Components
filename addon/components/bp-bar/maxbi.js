@@ -7,6 +7,10 @@ import { formatNumber } from '../../helpers/format-number';
 export default Component.extend({
 	layout,
 	classNames: ['bp-bar-max'],
+	init() {
+		this._super(...arguments);
+		this.set('result', {});
+	},
 	/**
 	 * bar chart's title
 	 * @property title

@@ -4,7 +4,10 @@ import layout from '../templates/components/bp-gauge';
 export default Component.extend({
 	layout,
 	classNames: ['bp-gauge'],
-
+	init() {
+		this._super(...arguments);
+		this.set('result', {});
+	},
 	seriesName: '',
 	value: 180,
 	maxValue: 360,

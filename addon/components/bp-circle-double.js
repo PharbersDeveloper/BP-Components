@@ -10,6 +10,7 @@ export default Component.extend({
 	tagName: '',
 	init() {
 		this._super(...arguments);
+		this.set('result', {});
 		this.set('opts', {
 			renderer: 'svg' // canvas of svg
 		});
@@ -201,8 +202,8 @@ export default Component.extend({
 		}
 
 		let sum = valueList.reduce(function (acc, val) {
-				return acc + (isNaN(val) ? 0 : val);
-			}, 0),
+			return acc + (isNaN(val) ? 0 : val);
+		}, 0),
 			digits = Math.pow(10, precision),
 			votesPerQuota = valueList.map(function (val) {
 				return (isNaN(val) ? 0 : val) / sum * digits * 100;

@@ -10,6 +10,7 @@ export default BpLine.extend({
 	tagName: '',
 	init() {
 		this._super(...arguments);
+		this.set('result', {});
 		this.set('opts', {
 			renderer: 'canvas' // canvas of svg
 		});

@@ -1,12 +1,15 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-bar';
 import { A } from '@ember/array';
-import { computed } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 
 export default Component.extend({
 	layout,
 	classNames: ['bp-bar'],
+	init() {
+		this._super(...arguments);
+		this.set('result', {});
+	},
 	/**
 	 * bar chart's title
 	 * @property title
