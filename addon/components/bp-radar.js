@@ -16,6 +16,14 @@ export default Component.extend({
 		});
 	},
 	/**
+	 * radar value max value
+	 * @property maxValue
+	 * @type {number}
+	 * @default 100
+	 * @public
+	 */
+	maxValue: 100,
+	/**
 	 * chart's color
 	 * @property radarColor
 	 * @type {Array}
@@ -57,8 +65,8 @@ export default Component.extend({
 	 */
 	hasLegend: true,
 	generateOption() {
-		let { title, radarColor, hasLegend, radarData } =
-			this.getProperties('title', 'radarColor', 'hasLegend', 'radarData'),
+		let { title, radarColor, hasLegend, radarData, maxValue } =
+			this.getProperties('title', 'radarColor', 'hasLegend', 'radarData', 'maxValue'),
 			legendData = null,
 			legend = null,
 			data = null;
@@ -90,6 +98,9 @@ export default Component.extend({
 			title: {
 				text: title
 			},
+			grid: {
+				left: 'center'
+			},
 			color: radarColor,
 			tooltip: {},
 			legend,
@@ -103,12 +114,11 @@ export default Component.extend({
 					}
 				},
 				indicator: [
-
-					{ name: '工作积极性', max: 100 },
-					{ name: '产品知识', max: 100 },
-					{ name: '行为有效性', max: 100 },
-					{ name: '区域管理能力', max: 100 },
-					{ name: '销售知识', max: 100 }
+					{ name: '工作积极性', max: maxValue },
+					{ name: '产品知识', max: maxValue },
+					{ name: '行为有效性', max: maxValue },
+					{ name: '区域管理能力', max: maxValue },
+					{ name: '销售知识', max: maxValue }
 				],
 				splitNumber: 5, //default
 				axisLine: {

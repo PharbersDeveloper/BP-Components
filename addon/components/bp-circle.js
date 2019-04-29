@@ -24,6 +24,14 @@ export default Component.extend({
 	 */
 	seriesName: '',
 	/**
+	 * circle size 内圆心的半径与外圆的半径
+	 * @property circleSize
+	 * @type {Array}
+	 * @default ['80%', '95%']
+	 * @public
+	 */
+	circleSize: A(['80%', '95%']),
+	/**
 	 * circleData
 	 * @property circleData
 	 * @type {Array}
@@ -62,8 +70,8 @@ export default Component.extend({
 		return String(String(a) + b) + c;
 	},
 	generateOption() {
-		let { seriesName, circleData, circleColor } =
-			this.getProperties('seriesName', 'circleData', 'circleColor'),
+		let { seriesName, circleData, circleColor, circleSize } =
+			this.getProperties('seriesName', 'circleData', 'circleColor', 'circleSize'),
 			that = this;
 
 		return {
@@ -72,10 +80,11 @@ export default Component.extend({
 				formatter: function (params) {
 					let sName = params.seriesName,
 						name = params.name,
-						value = that.formatNum(params.value),
-						percent = params.percent;
+						value = that.formatNum(params.value);
+					// percent = params.percent;
 
-					return `${sName}<br/>${name}:${value}(${percent}%)`;
+					// return `${sName}<br/>${name}:${value}(${percent}%)`;
+					return `${sName}<br/>${name}:${value}%`;
 				},
 				alwaysShowContent: false,
 				hideDelay: '60'
@@ -91,7 +100,7 @@ export default Component.extend({
 				{
 					name: seriesName,
 					type: 'pie',
-					radius: ['80%', '95%'],
+					radius: circleSize,
 					avoidLabelOverlap: false,
 					hoverOffset: 3,
 					label: {
@@ -102,7 +111,7 @@ export default Component.extend({
 						emphasis: {
 							show: true,
 							textStyle: {
-								fontSize: '12',
+								fontSize: '14',
 								fontWeight: 'normal'
 							},
 							formatter: function (params) {
