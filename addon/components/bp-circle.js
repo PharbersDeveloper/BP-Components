@@ -80,11 +80,10 @@ export default Component.extend({
 				formatter: function (params) {
 					let sName = params.seriesName,
 						name = params.name,
-						value = that.formatNum(params.value);
-					// percent = params.percent;
+						value = that.formatNum(params.value),
+						percent = params.percent;
 
-					// return `${sName}<br/>${name}:${value}(${percent}%)`;
-					return `${sName}<br/>${name}:${value}%`;
+					return `${sName}<br/>${name}:${value}(${percent}%)`;
 				},
 				alwaysShowContent: false,
 				hideDelay: '60'
