@@ -15,9 +15,16 @@ export default BpLine.extend({
 			renderer: 'canvas' // canvas of svg
 		});
 	},
+	/**
+	 * y轴顶部的说明
+	 * @property yAsixName
+	 * @default ''
+	 * @public
+	 */
+	yAsixName: '',
 	generateOption() {
-		let { title, subText, lineData, lineColor, legendPosition } =
-			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition'),
+		let { title, subText, lineData, lineColor, legendPosition, yAsixName } =
+			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition', 'yAsixName'),
 			legend = null;
 
 		if (isEmpty(legendPosition)) {
@@ -96,7 +103,22 @@ export default BpLine.extend({
 				}
 			},
 			tooltip: {
-				trigger: 'axis'
+				trigger: 'axis',
+				formatter: function (params) {
+					let items = params.map(ele => {
+							return `<p class="item my-1">
+							${ele.marker}${ele.seriesName}:${ele.data}%
+							</p>`;
+						}),
+						stringItems = '';
+
+					items.forEach(ele => {
+						stringItems += ele;
+					});
+
+					return `<p class="my-1">${params[0].axisValue}</p>
+						${stringItems}`;
+				}
 			},
 			legend,
 			color: lineColor,
@@ -109,7 +131,8 @@ export default BpLine.extend({
 					show: false
 				},
 				axisLabel: {
-					color: '#7A869A'
+					color: '#7A869A',
+					formatter: '{value} ' + yAsixName
 				},
 				splitLine: {
 					lineStyle: {

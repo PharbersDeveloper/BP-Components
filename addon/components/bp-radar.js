@@ -118,7 +118,7 @@ export default Component.extend({
 					{ name: '产品知识', max: maxValue },
 					{ name: '行为有效性', max: maxValue },
 					{ name: '区域管理能力', max: maxValue },
-					{ name: '销售知识', max: maxValue }
+					{ name: '销售能力', max: maxValue }
 				],
 				splitNumber: 5, //default
 				axisLine: {
