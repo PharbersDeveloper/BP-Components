@@ -30,7 +30,7 @@ export default Component.extend({
 	 * @default null
 	 * @public
 	 */
-	radarColor: A(['#979797', '#3172E0']),
+	radarColor: A(['#3172E0', '#979797']),
 	/**
 	 * radar Data
 	 * @property radarData
@@ -41,7 +41,7 @@ export default Component.extend({
 	radarData: A([
 		{
 			value: [0, 0, 0, 0, 0],
-			name: '代表本期初始能力'
+			name: '代表个人能力'
 		},
 		{
 			value: [0, 0, 0, 0, 0],
@@ -71,6 +71,9 @@ export default Component.extend({
 			legend = null,
 			data = null;
 
+		if (radarData.length === 1) {
+			radarColor = ['#C1C7D0'];
+		}
 		data = radarData.map((ele, index) => {
 			return {
 				value: ele.value,

@@ -75,6 +75,16 @@ export default Component.extend({
 			that = this;
 
 		return {
+			title: {
+				text: circleData.lastObject.value,
+				textStyle: {
+					color: '#172B4D',
+					fontSize: 20
+				},
+
+				x: 'center',
+				y: 'center'
+			},
 			tooltip: {
 				trigger: 'item',
 				formatter: function (params) {
