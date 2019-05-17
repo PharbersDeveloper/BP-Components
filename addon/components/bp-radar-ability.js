@@ -19,10 +19,10 @@ export default Component.extend({
 	 * radar value max value
 	 * @property maxValue
 	 * @type {number}
-	 * @default 100
+	 * @default 5
 	 * @public
 	 */
-	maxValue: 100,
+	maxValue: 5,
 	/**
 	 * chart's color
 	 * @property radarColor
@@ -41,11 +41,7 @@ export default Component.extend({
 	radarData: A([
 		{
 			value: [0, 0, 0, 0, 0],
-			name: '代表个人能力'
-		},
-		{
-			value: [0, 0, 0, 0, 0],
-			name: '团队平均能力'
+			name: '能力分析'
 		}
 	]),
 	/**
@@ -60,10 +56,10 @@ export default Component.extend({
 	 * 是否有legend
 	 * @property hasLegend
 	 * @type {boolean}
-	 * @default true
+	 * @default false
 	 * @public
 	 */
-	hasLegend: true,
+	hasLegend: false,
 	/**
 	 * 定义每一项
 	 * @property items
@@ -71,15 +67,16 @@ export default Component.extend({
 	 * @default  ['工作积极性', '产品知识','行为有效性', '区域管理能力','销售能力']
 	 * @public
 	 */
-	items: A(['工作积极性', '产品知识', '行为有效性', '区域管理能力', '销售能力']),
+	items: A(['区域划分能力', '领导力', '自我时间管理能力', '资源优化能力', '指标分配能力']),
+	score: A(['D', 'C', 'B', 'A', 'S']),
 	generateOption() {
-		let { title, radarColor, hasLegend, radarData, maxValue, items } =
-			this.getProperties('title', 'radarColor', 'hasLegend', 'radarData', 'maxValue', 'items'),
+		let { title, radarColor, hasLegend, radarData, maxValue, items, score } =
+			this.getProperties('title', 'radarColor', 'hasLegend', 'radarData', 'maxValue', 'items', 'score'),
 			legendData = null,
 			legend = null,
 			data = null,
-			indicator = items.map(ele => {
-				return { name: ele, max: maxValue };
+			indicator = isEmpty(items) ? [] : items.map((ele, index) => {
+				return { name: ele, max: maxValue, value: radarData[0].value[index] };
 			});
 
 		if (radarData.length === 1) {
@@ -116,11 +113,31 @@ export default Component.extend({
 				left: 'center'
 			},
 			color: radarColor,
-			tooltip: {},
+			tooltip: {
+				show: false
+			},
 			legend,
 			radar: {
 				radius: '65%',
 				name: {
+					formatter: function (value, indi) {
+						let code = score[indi.value - 1];
+
+						return `{a|${code}}\n{b|${value}}`;
+					},
+					rich: {
+						a: {
+							color: '#172B4D',
+							fontSize: 20,
+							lineHeight: 28,
+							align: 'center'
+						},
+						b: {
+							color: '#344563',
+							fontSize: 14,
+							lineHeight: 20
+						}
+					},
 					textStyle: {
 						color: '#7A869A',
 						borderRadius: 3,
