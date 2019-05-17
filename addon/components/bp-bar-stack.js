@@ -24,6 +24,22 @@ export default Component.extend({
 	 */
 	title: '',
 	/**
+	 * stack
+	 * @property stack
+	 * @type {string}
+	 * @default ''
+	 * @public
+	 */
+	stack: 'stack',
+	/**
+	 * xData
+	 * @property xData
+	 * @type {string}
+	 * @default ''
+	 * @public
+	 */
+	xData: A(['Region1', 'Region2', 'Region3', 'Region4', 'Region5', 'Region6']),
+	/**
 	 * chartData
 	 * @property chartData
 	 * @type {Array}
@@ -31,12 +47,9 @@ export default Component.extend({
 	 * @public
 	 */
 	chartData: A([
-		[[66666, 57, 100000, 'label1']],
-		[[12225, 81, 100000, 'label2']],
-		[[55555, 57, 100000, 'label3']],
-		[[33333, 45, 100000, 'label4']],
-		[[22222, 57, 255555, 'label5']]
-	]),
+		{ name: 'keyong', data: [5, 20, 36, 10, 10, 20] },
+		{ name: 'bukeyong', data: [40, 22, 18, 35, 42, 40] },
+		{ name: 'qita', data: [40, 22, 18, 35, 42, 40] }]),
 	/**
 	 * chartColor
 	 * @property chartColor
@@ -44,74 +57,62 @@ export default Component.extend({
 	 * @default ['#172B4D', '#F4F5F7']
 	 * @public
 	 */
-	chartColor: A(['rgb(115,171,255)', 'rgb(255,227,128)', 'rgb(73,229,245)',
-		'rgb(52,246,188)', 'rgb(54,179,126)']),
+	chartColor: A(['orange', 'green', 'red']),
 
-	generateColor(color) {
-		let rgba = `rgba(${color.slice(4, -1)},0.3)`;
-
-		return A([{
-			offset: 0,
-			color: rgba
-		}, {
-			offset: 1,
-			color: color
-		}]);
-	},
 	generateOption() {
-		let { title, chartData, chartColor } =
-			this.getProperties('title', 'chartData', 'chartColor'),
-			that = this,
+		let { title, chartData, chartColor, stack, xData } =
+			this.getProperties('title', 'chartData', 'chartColor', 'stack', 'xData'),
 			seriesData = A([]);
 
-		seriesData = chartData.map((ele, index) => {
-			let currentColor = chartColor[index],
-				color = that.generateColor(currentColor);
-
+		seriesData = chartData.map(ele => {
 			return {
-				data: ele,
-				type: 'scatter',
-				symbolSize: function (data) {
-					return Math.sqrt(data[2]) / 5;
-				},
-				label: {
-					emphasis: {
-						show: true,
-						fontSize: 14,
-						formatter: function (param) {
-							return param.data[3];
-						},
-						position: 'top'
-					}
-				},
-				itemStyle: {
-					normal: {
-						shadowBlur: 10,
-						shadowColor: `rgba(${currentColor.slice(4, -1)},0.3)`,
-						shadowOffsetY: 5,
-						color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, color)
-					}
-				}
+				name: ele.name,
+				type: 'bar',
+				barWidth: 24,
+				stack,
+				data: ele.data
 			};
 		});
 		return {
 			backgroundColor: 'white',
-			title: { text: title },
+			color: chartColor,
+			title: {
+				text: title,
+				left: '20px',
+				textStyle: {
+					color: '#436EEE',
+					fontSize: 14
+				}
+			},
+			tooltip: {
+				trigger: 'axis'
+			},
+			grid: {
+				right: 200
+			},
+			legend: {
+				type: 'scroll',
+				orient: 'vertical',
+				itemWidth: 8,
+				itemHeight: 8,
+				right: 24,
+				y: 'center',
+				padding: 5,
+				icon: 'circle',
+				data: chartData.map(ele => ele.name)
+			},
 			xAxis: {
+				data: xData,
 				splitLine: {
-					show: true,
-					lineStyle: {
-						color: '#DFE1E6',
-						width: 1,
-						type: 'dotted'
-					}
+					show: false
 				},
 				axisLabel: {
 					color: '#7A869A'
 				},
 				axisLine: {
+					show: true,
 					lineStyle: {
-						type: 'dotted',
+						type: 'solid',
 						color: '#DFE1E6'
 					}
 				}
@@ -126,7 +127,7 @@ export default Component.extend({
 					color: '#7A869A'
 				},
 				axisLine: {
-					show: false,
+					show: true,
 					lineStyle: {
 						type: 'dotted',
 						color: '#DFE1E6'
