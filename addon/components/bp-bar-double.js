@@ -12,7 +12,7 @@ export default Component.extend({
 		this._super(...arguments);
 		this.set('result', {});
 		this.set('opts', {
-			renderer: 'svg' // canvas of svg
+			renderer: 'canvas' // canvas of svg
 		});
 	},
 	/**
@@ -38,7 +38,7 @@ export default Component.extend({
 	 * @default ''
 	 * @public
 	 */
-	xData: A(['Region1', 'Region2', 'Region3', 'Region4', 'Region5', 'Region6']),
+	xData: A(['city1', 'city2', 'city3', 'city4', 'city5', 'city6']),
 	/**
 	 * chartData
 	 * @property chartData
@@ -46,10 +46,13 @@ export default Component.extend({
 	 * @default []
 	 * @public
 	 */
-	chartData: A([
-		{ name: 'keyong', data: [5, 20, 36, 10, 10, 20] },
-		{ name: 'bukeyong', data: [40, 22, 18, 35, 42, 40] },
-		{ name: 'qita', data: [40, 22, 18, 35, 42, 40] }]),
+	chartData: A([{
+		name: '蒸发量',
+		data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7]
+	}, {
+		name: '降水量',
+		data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7]
+	}]),
 	/**
 	 * chartColor
 	 * @property chartColor
@@ -57,7 +60,7 @@ export default Component.extend({
 	 * @default ['#172B4D', '#F4F5F7']
 	 * @public
 	 */
-	chartColor: A(['orange', 'green', 'red']),
+	chartColor: A(['#4C9AFF', '#FFE380']),
 
 	generateOption() {
 		let { title, chartData, chartColor, stack, xData } =
@@ -74,67 +77,84 @@ export default Component.extend({
 			};
 		});
 		return {
-			backgroundColor: 'white',
 			color: chartColor,
-			title: {
-				text: title,
-				left: '20px',
-				textStyle: {
-					color: '#436EEE',
-					fontSize: 14
-				}
-			},
+			backgroundColor: 'white',
 			tooltip: {
-				trigger: 'axis'
-			},
-			grid: {
-				right: 200
-			},
-			legend: {
-				type: 'scroll',
-				orient: 'vertical',
-				itemWidth: 8,
-				itemHeight: 8,
-				right: 24,
-				y: 'center',
-				padding: 5,
-				icon: 'circle',
-				data: chartData.map(ele => ele.name)
-			},
-			xAxis: {
-				data: xData,
-				splitLine: {
-					show: false
-				},
-				axisLabel: {
-					color: '#7A869A'
-				},
-				axisLine: {
-					show: true,
-					lineStyle: {
-						type: 'solid',
-						color: '#DFE1E6'
-					}
+				trigger: 'axis',
+				axisPointer: { // 坐标轴指示器，坐标轴触发有效
+					type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
 				}
 			},
-			yAxis: {
-				splitLine: {
-					lineStyle: {
-						type: 'dotted'
-					}
-				},
-				axisLabel: {
-					color: '#7A869A'
-				},
-				axisLine: {
-					show: true,
-					lineStyle: {
-						type: 'dotted',
-						color: '#DFE1E6'
+			xAxis: [
+				{
+					type: 'category',
+					data: xData,
+					axisLabel: {
+						color: '#7A869A'
+					},
+					axisLine: {
+						show: true,
+						lineStyle: {
+							type: 'solid',
+							color: '#DFE1E6'
+						}
 					}
 				}
-			},
-			series: seriesData
+			],
+			yAxis: [
+				{
+					type: 'value',
+					min: 0,
+					max: yAxisLeftMax,
+					//interval: yAxisLeftinterval,
+					splitLine: {
+						lineStyle: {
+							type: 'dotted'
+						}
+					},
+					axisLabel: {
+						formatter: '{value} %',
+						color: '#7A869A'
+					},
+					axisLine: {
+						show: false,
+						lineStyle: {
+							type: 'solid',
+							color: '#DFE1E6'
+						}
+					}
+				},
+				{
+					type: 'value',
+					min: 0,
+					max: yAxisRightMax,
+					//interval: yAxisRightinterval,
+					splitLine: {
+						lineStyle: {
+							type: 'dotted'
+						}
+					},
+					axisLabel: {
+						color: '#7A869A'
+					},
+					axisLine: {
+						show: false,
+						lineStyle: {
+							type: 'solid',
+							color: '#DFE1E6'
+						}
+					}
+				}
+			],
+			series: chartData.map(ele => {
+				return {
+					name: ele.name,
+					type: 'bar',
+					barGap: 0,
+					barWidth: 8,
+					data: ele.data
+				};
+			})
 		};
 	},
 	reGenerateChart(self, option) {
