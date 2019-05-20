@@ -32,13 +32,13 @@ export default Component.extend({
 	 */
 	stack: 'stack',
 	/**
-	 * xData
-	 * @property xData
+	 * xAxisData
+	 * @property xAxisData
 	 * @type {string}
 	 * @default ''
 	 * @public
 	 */
-	xData: A(['city1', 'city2', 'city3', 'city4', 'city5', 'city6']),
+	xAxisData: A(['city1', 'city2', 'city3', 'city4', 'city5', 'city6']),
 	/**
 	 * chartData
 	 * @property chartData
@@ -48,10 +48,20 @@ export default Component.extend({
 	 */
 	chartData: A([{
 		name: '蒸发量',
+		type: 'bar',
+		yAxisIndex: 1,
 		data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7]
-	}, {
+	},
+	{
 		name: '降水量',
+		type: 'bar',
+		yAxisIndex: 1,
 		data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7]
+	},
+	{
+		name: '平均温度',
+		type: 'line',
+		data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2]
 	}]),
 	/**
 	 * chartColor
@@ -60,35 +70,111 @@ export default Component.extend({
 	 * @default ['#172B4D', '#F4F5F7']
 	 * @public
 	 */
-	chartColor: A(['#4C9AFF', '#FFE380']),
+	chartColor: A(['#73ABFF', '#2355A9', '#FFC400']),
 
 	generateOption() {
-		let { title, chartData, chartColor, stack, xData } =
-			this.getProperties('title', 'chartData', 'chartColor', 'stack', 'xData'),
-			seriesData = A([]);
+		let { chartData, chartColor, xAxisData } =
+			this.getProperties('chartData', 'chartColor', 'xAxisData'),
+			yAxisBarMax = 0,
+			yAxisLineMax = 0,
+			totalBarData = A([]),
+			totalLineData = A([]);
 
-		seriesData = chartData.map(ele => {
-			return {
-				name: ele.name,
-				type: 'bar',
-				barWidth: 24,
-				stack,
-				data: ele.data
-			};
-		});
+
+		if (isEmpty(chartData)) {
+			return {};
+		}
+		totalBarData = chartData.map(ele => {
+			if (ele.type === 'bar') {
+				return ele.data;
+			}
+		}).reduce((result, ele) => result.concat(ele), []).filter(Boolean);
+
+		totalLineData = chartData.map(ele => {
+			if (ele.type !== 'bar') {
+				return ele.data;
+			}
+		}).reduce((result, ele) => result.concat(ele), []).filter(Boolean);
+
+		yAxisBarMax = Math.floor(Math.max(...totalBarData) * 5 / 4);
+
+		yAxisLineMax = Math.floor(Math.max(...totalLineData) * 5 / 4);
+
 		return {
 			color: chartColor,
 			backgroundColor: 'white',
 			tooltip: {
 				trigger: 'axis',
-				axisPointer: { // 坐标轴指示器，坐标轴触发有效
-					type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+				axisPointer: {
+					type: 'cross',
+					crossStyle: {
+						color: '#999'
+					}
 				}
 			},
+			toolbox: {
+				show: false,
+				feature: {
+					dataView: { show: true, readOnly: false },
+					magicType: { show: true, type: ['line', 'bar'] },
+					restore: { show: true },
+					saveAsImage: { show: true }
+				}
+			},
+			grid: {
+				right: 200
+			},
+			legend: [{
+				type: 'scroll',
+				orient: 'vertical',
+				itemWidth: 8,
+				itemHeight: 8,
+				right: 24,
+				y: 50,
+				padding: 5,
+				itemGap: 15,
+				icon: 'circle',
+				textStyle: {
+					//图例文字的样式
+					color: '#7A869A',
+					fontSize: 14
+				},
+				data: chartData.map(ele => {
+					if (ele.type === 'bar') {
+						return ele.name;
+					}
+					return false;
+				}).filter(Boolean)
+			},
+			{
+				type: 'scroll',
+				orient: 'vertical',
+				itemWidth: 16,
+				itemHeight: 4,
+				right: 24,
+				y: 110,
+				padding: 5,
+				itemGap: 15,
+				icon: 'rect',
+				textStyle: {
+					//图例文字的样式
+					color: '#7A869A',
+					fontSize: 14
+				},
+				data: chartData.map(ele => {
+					if (ele.type !== 'bar') {
+						return ele.name;
+					}
+					return false;
+				}).filter(Boolean)
+			}],
 			xAxis: [
 				{
 					type: 'category',
-					data: xData,
+					data: xAxisData,
+					axisPointer: {
+						type: 'shadow'
+					},
 					axisLabel: {
 						color: '#7A869A'
 					},
@@ -105,8 +191,9 @@ export default Component.extend({
 				{
 					type: 'value',
 					min: 0,
-					max: yAxisLeftMax,
-					//interval: yAxisLeftinterval,
+					max: yAxisLineMax,
+					// splitNumber: 8,
+					// interval: yAxisLeftinterval,
 					splitLine: {
 						lineStyle: {
 							type: 'dotted'
@@ -127,8 +214,9 @@ export default Component.extend({
 				{
 					type: 'value',
 					min: 0,
-					max: yAxisRightMax,
-					//interval: yAxisRightinterval,
+					max: yAxisBarMax,
+					// splitNumber: 8,
+					// interval: yAxisRightinterval,
 					splitLine: {
 						lineStyle: {
 							type: 'dotted'
@@ -146,15 +234,25 @@ export default Component.extend({
 					}
 				}
 			],
-			series: chartData.map(ele => {
+			series: chartData.map((ele) => {
 				return {
 					name: ele.name,
-					type: 'bar',
+					type: ele.type,
 					barGap: 0,
+					yAxisIndex: ele.yAxisIndex,
 					barWidth: 8,
-					data: ele.data
+					data: ele.data,
+					itemStyle: {
+						normal: {
+							lineStyle: {
+								width: 2,
+								type: 'dotted'
+							}
+						}
+					}
 				};
 			})
+
 		};
 	},
 	reGenerateChart(self, option) {
