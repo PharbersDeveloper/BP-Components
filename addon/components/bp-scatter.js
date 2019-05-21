@@ -85,6 +85,10 @@ export default Component.extend({
 					return Math.sqrt(data[2]) / baseNumber;
 				},
 				label: {
+					show: true,
+					formatter: function (param) {
+						return param.data[3];
+					},
 					emphasis: {
 						show: true,
 						fontSize: 14,
@@ -126,6 +130,12 @@ export default Component.extend({
 					}
 				}
 			},
+			// tooltip: {
+			// 	trigger: 'axis',
+			// 	axisPointer: {
+			// 		type: 'cross'
+			// 	}
+			// },
 			yAxis: {
 				splitLine: {
 					lineStyle: {
