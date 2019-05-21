@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-line';
 import { A } from '@ember/array';
+import { isEmpty } from '@ember/utils';
 
 export default Component.extend({
 	layout,
@@ -49,9 +50,17 @@ export default Component.extend({
 	 * @public
 	 */
 	legendPosition: '',
+	/**
+	 * grid
+	 * @property grid
+	 * @type {object}
+	 * @default {}
+	 * @public
+	 */
+	grid: null,
 	generateLine() {
-		let { title, subText, lineData, lineColor, legendPosition, xAxisLine } =
-			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition', 'xAxisLine'),
+		let { title, subText, lineData, lineColor, legendPosition, xAxisLine, grid } =
+			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition', 'xAxisLine', 'grid'),
 			legend = null;
 
 		if (legendPosition === '') {
@@ -63,6 +72,8 @@ export default Component.extend({
 			};
 		} else {
 			legend = {
+				// type: isEmpty(legendPosition.type) ? 'plain' : legendPosition.type,
+				orient: isEmpty(legendPosition.orient) ? 'horizontal' : legendPosition.orient,
 				top: legendPosition.top === '' ? 'auto' : legendPosition.top,
 				right: legendPosition.right === '' ? 'auto' : legendPosition.right,
 				bottom: legendPosition.bottom === '' ? 'auto' : legendPosition.bottom,
@@ -71,6 +82,22 @@ export default Component.extend({
 				data: lineData.map(ele => {
 					return ele.name;
 				})
+			};
+		}
+		if (isEmpty(grid)) {
+			grid = {
+				left: '3%',
+				right: '4%',
+				bottom: '3%',
+				containLabel: true
+			};
+		} else {
+
+			grid = {
+				left: isEmpty(grid.left) ? '3%' : grid.left,
+				right: isEmpty(grid.right) ? '3%' : grid.right,
+				bottom: isEmpty(grid.bottom) ? '3%' : grid.bottom,
+				containLabel: isEmpty(grid.containLabel) ? true : grid.containLabel
 			};
 		}
 
@@ -82,12 +109,7 @@ export default Component.extend({
 				},
 				subtext: subText
 			},
-			grid: {
-				left: '3%',
-				right: '4%',
-				bottom: '3%',
-				containLabel: true
-			},
+			grid,
 			toolbox: {
 				feature: {
 					saveAsImage: {}

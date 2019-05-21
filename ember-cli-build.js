@@ -12,6 +12,7 @@ module.exports = function (defaults) {
 		}
 	});
 
+	app.import('node_modules/echarts/dist/echarts.js');
 	/*
 	  This build file specifies the options for the dummy test app of this
 	  addon, located in `/tests/dummy`
