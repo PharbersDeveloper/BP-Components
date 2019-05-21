@@ -24,6 +24,14 @@ export default Component.extend({
 	 */
 	title: '',
 	/**
+	 * 圆圈的底数
+	 * @property baseNumber
+	 * @type {number}
+	 * @default 5e2
+	 * @public
+	 */
+	baseNumber: 5e2,
+	/**
 	 * chartData
 	 * @property chartData
 	 * @type {Array}
@@ -44,8 +52,10 @@ export default Component.extend({
 	 * @default ['#172B4D', '#F4F5F7']
 	 * @public
 	 */
-	chartColor: A(['rgb(115,171,255)', 'rgb(255,227,128)', 'rgb(73,229,245)',
-		'rgb(52,246,188)', 'rgb(54,179,126)']),
+	chartColor: A(['rgb(115,171,255)', 'rgb(121,226,242)',
+		'rgb(121,242,192)', 'rgb(54,179,126)', 'rgb(255,227,128)',
+		'rgb(255,171,0)', 'rgb(192,182,242)', 'rgb(101,84,192)',
+		'rgb(255,189,173)', 'rgb(255,143,115)', 'rgb(35,85,169)']),
 
 	generateColor(color) {
 		let rgba = `rgba(${color.slice(4, -1)},0.3)`;
@@ -59,8 +69,8 @@ export default Component.extend({
 		}]);
 	},
 	generateOption() {
-		let { title, chartData, chartColor } =
-			this.getProperties('title', 'chartData', 'chartColor'),
+		let { title, chartData, chartColor, baseNumber } =
+			this.getProperties('title', 'chartData', 'chartColor', 'baseNumber'),
 			that = this,
 			seriesData = A([]);
 
@@ -72,7 +82,7 @@ export default Component.extend({
 				data: ele,
 				type: 'scatter',
 				symbolSize: function (data) {
-					return Math.sqrt(data[2]) / 5;
+					return Math.sqrt(data[2]) / baseNumber;
 				},
 				label: {
 					emphasis: {
