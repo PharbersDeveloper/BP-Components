@@ -110,11 +110,11 @@ export default Component.extend({
 				subtext: subText
 			},
 			grid,
-			toolbox: {
-				feature: {
-					saveAsImage: {}
-				}
-			},
+			// toolbox: {
+			// 	feature: {
+			// 		saveAsImage: {}
+			// 	}
+			// },
 			legend,
 			color: lineColor,
 			tooltip: {

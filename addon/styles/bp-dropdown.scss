@@ -38,6 +38,8 @@
 		width: 360px;
 		border: 0;
 		@extend %shadow-z200;
+		max-height: 160px;
+		overflow-y: auto;
 
 		.dropdown-option {
 			margin: 0;
@@ -67,10 +69,6 @@
 	&.width-auto {
 		button {
 			width: 100%;
-
-			// p {
-			// 	width: auto;
-			// }
 		}
 
 		.dropdown-menu {
