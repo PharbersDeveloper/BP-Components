@@ -86,12 +86,14 @@ export default Component.extend({
 				},
 				label: {
 					show: true,
+					color: '#344563',
 					formatter: function (param) {
 						return param.data[3];
 					},
 					emphasis: {
 						show: true,
 						fontSize: 14,
+						color: '#344563',
 						formatter: function (param) {
 							return param.data[3];
 						},
