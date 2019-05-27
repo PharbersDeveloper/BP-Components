@@ -16,6 +16,14 @@ export default Component.extend({
 		});
 	},
 	/**
+	 * 是否显示 seriesName
+	 * @property showSeriesName
+	 * @type {Boolean}
+	 * @default true
+	 * @public
+	 */
+	showSeriesName: true,
+	/**
 	 * circleData
 	 * @property circleData
 	 * @type {Array}
@@ -72,13 +80,19 @@ export default Component.extend({
 			return;
 		}
 		series = circleData.map((ele, index) => {
-			let centerX = 25 + index * 50 + '%';
+			let centerX = '';
+
+			if (circleData.length > 1) {
+				centerX = 25 + index * 50 + '%';
+			} else {
+				centerX = '50%';
+			}
 
 			return {
 				name: ele.seriesName,
 				type: 'pie',
 				radius: circleSize,
-				center: [centerX, '50%'],
+				center: [centerX, circleSize[1] + 24],
 				legendHoverLink: false,
 				label: {
 					normal: {
@@ -149,6 +163,9 @@ export default Component.extend({
 				backgroundColor: 'rgba(9,30,66,0.54)'
 			},
 			color: circleColor,
+			grid: {
+				top: 24
+			},
 			legend: {
 				x: 'center',
 				y: 'bottom',
@@ -202,8 +219,8 @@ export default Component.extend({
 		}
 
 		let sum = valueList.reduce(function (acc, val) {
-			return acc + (isNaN(val) ? 0 : val);
-		}, 0),
+				return acc + (isNaN(val) ? 0 : val);
+			}, 0),
 			digits = Math.pow(10, precision),
 			votesPerQuota = valueList.map(function (val) {
 				return (isNaN(val) ? 0 : val) / sum * digits * 100;
