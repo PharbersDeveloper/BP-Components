@@ -69,8 +69,8 @@ export default Component.extend({
 	 */
 	circleSize: A([60, 90]),
 	generateOption() {
-		let { circleData, circleColor, circleSize } =
-			this.getProperties('circleData', 'circleColor', 'circleSize'),
+		let { circleData, circleColor, circleSize, showSeriesName } =
+			this.getProperties('circleData', 'circleColor', 'circleSize', 'showSeriesName'),
 			series = A([]),
 			title = A([]),
 			that = this;
@@ -89,7 +89,7 @@ export default Component.extend({
 			}
 
 			return {
-				name: ele.seriesName,
+				name: showSeriesName ? ele.seriesName : '',
 				type: 'pie',
 				radius: circleSize,
 				center: [centerX, circleSize[1] + 24],
@@ -117,7 +117,7 @@ export default Component.extend({
 			let xPosition = index * 50 + '%';
 
 			return {
-				text: ele.seriesName,
+				text: showSeriesName ? ele.seriesName : '',
 				x: xPosition,
 				top: 16,
 				textStyle: {
@@ -142,15 +142,16 @@ export default Component.extend({
 						tooltipItemsString = '';
 
 					tooltipItems = data.map((ele, index) => {
-						let percent = that.getPercentWithPrecision(onlyData, index);
+						let percent = that.getPercentWithPrecision(onlyData, index),
+							formatValue = Number.prototype.toLocaleString.call(ele.value);
 
 						return `<tr class='item'>
 							<td>
 								<span class='point mr-2' style='background:${circleColor[index]}'></span>
 								<span class='keys'>${ele.name}</span>
 							</td>
-							<td class='values'>${ele.value}</td>
-							<td class='values'>${percent}</td>
+							<td class='values'>￥${formatValue}</td>
+							<td class='values'>${percent}%</td>
 						</tr>`;
 					});
 					tooltipItemsString = ''.concat(...tooltipItems);
