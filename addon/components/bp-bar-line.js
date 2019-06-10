@@ -30,26 +30,27 @@ export default Component.extend({
 	 * @default []
 	 * @public
 	 */
-	chartData: A([
-		{
-			name: '销售额',
-			date: ['2018Q1', '2018Q2', '2018Q3', '2018Q4', '2019Q1', '2019Q2', '2019Q3', '2019Q4'],
-			data: [782.0, 874.9, 787.0, 23.2, 25.6, 4135.6, 162.2, 4160],
-			yAxisIndex: 1
-		},
-		{
-			name: '指标',
-			date: ['2018Q1', '2018Q2', '2018Q3', '2018Q4', '2019Q1', '2019Q2', '2019Q3', '2019Q4'],
-			data: [3983, 3407, 2432, 965, 1177, 20.0, 263.4, 334.3],
-			yAxisIndex: 1
-		},
-		{
-			name: '指标达成率',
-			date: ['2018Q1', '2018Q2', '2018Q3', '2018Q4', '2019Q1', '2019Q2', '2019Q3', '2019Q4'],
-			data: [45.0, 52.2, 20.3, 34.4, 23.0, 12.5, 22.0, 6.2],
-			yAxisIndex: 0
-		}
-	]),
+	chartData: A([]),
+	// chartData: A([
+	// 	{
+	// 		name: '销售额',
+	// 		date: ['2018Q1', '2018Q2', '2018Q3', '2018Q4', '2019Q1', '2019Q2', '2019Q3', '2019Q4'],
+	// 		data: [782.0, 874.9, 787.0, 23.2, 25.6, 4135.6, 162.2, 4160],
+	// 		yAxisIndex: 1
+	// 	},
+	// 	{
+	// 		name: '指标',
+	// 		date: ['2018Q1', '2018Q2', '2018Q3', '2018Q4', '2019Q1', '2019Q2', '2019Q3', '2019Q4'],
+	// 		data: [3983, 3407, 2432, 965, 1177, 20.0, 263.4, 334.3],
+	// 		yAxisIndex: 1
+	// 	},
+	// 	{
+	// 		name: '指标达成率',
+	// 		date: ['2018Q1', '2018Q2', '2018Q3', '2018Q4', '2019Q1', '2019Q2', '2019Q3', '2019Q4'],
+	// 		data: [45.0, 52.2, 20.3, 34.4, 23.0, 12.5, 22.0, 6.2],
+	// 		yAxisIndex: 0
+	// 	}
+	// ]),
 	/**
 	 * chartColor
 	 * @property chartColor
@@ -75,8 +76,12 @@ export default Component.extend({
 				return {
 					name: ele.name,
 					type: 'bar',
-					yAxisIndex: 1,
-					data: ele.data
+					yAxisIndex: 0,
+					barWidth: '8px',
+					data: ele.data,
+					itemStyle: {
+						barBorderRadius: [5, 5, 0, 0]
+					}
 				};
 			}
 			yAxisLeftMax.push(...ele.data);
@@ -95,17 +100,17 @@ export default Component.extend({
 						}])
 					}
 				},
-				yAxisIndex: 0,
+				yAxisIndex: 1,
 				data: ele.data
 			};
 		});
-		yAxisRightMax = Math.floor(Math.max(...yAxisRightMax) * 5 / 4);
-		yAxisLeftMax = Math.floor(Math.max(...yAxisLeftMax) * 5 / 4);
+		// yAxisRightMax = Math.floor(Math.max(...yAxisRightMax) * 5 / 4);
+		// yAxisLeftMax = Math.floor(Math.max(...yAxisLeftMax) * 5 / 4);
 
 		return {
 			grid: {
 				top: 24,
-				right: 24
+				right: 42
 			},
 			tooltip: {
 				trigger: 'axis'
@@ -161,13 +166,14 @@ export default Component.extend({
 			yAxis: [
 				{
 					type: 'value',
-					// name: '温度',
+					show: true,
+					// name: '水量',
 					min: 0,
-					max: yAxisLeftMax,
-					// interval: 10,
+					// max: yAxisRightMax,
+					// interval: 50,
 					axisLabel: {
-						color: '#7A869A',
-						formatter: '{value} %'
+						color: '#7A869A'
+						// formatter: '{value}'
 					},
 					axisLine: {
 						lineStyle: {
@@ -183,16 +189,16 @@ export default Component.extend({
 							type: 'dashed'
 						}
 					}
-				}, {
+				},
+				{
 					type: 'value',
-					show: false,
-					// name: '水量',
+					name: '',
 					min: 0,
-					max: yAxisRightMax,
-					// interval: 50,
+					// max: yAxisLeftMax,
+					// interval: 6,
 					axisLabel: {
 						color: '#7A869A',
-						formatter: '{value}'
+						formatter: '{value} %'
 					},
 					axisLine: {
 						lineStyle: {
