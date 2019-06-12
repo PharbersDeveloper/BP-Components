@@ -22,9 +22,16 @@ export default BpLine.extend({
 	 * @public
 	 */
 	yAsixName: '',
+	/**
+	 * Y轴的单位
+	 * @property unitYaxis
+	 * @default ''
+	 * @public
+	 */
+	unitYaxis:'',
 	generateOption() {
-		let { title, subText, lineData, lineColor, legendPosition, yAsixName } =
-			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition', 'yAsixName'),
+		let { title, subText, lineData, lineColor, legendPosition, unitYaxis } =
+			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition','unitYaxis'),
 			legend = null;
 
 		if (isEmpty(legendPosition)) {
@@ -106,8 +113,10 @@ export default BpLine.extend({
 				trigger: 'axis',
 				formatter: function (params) {
 					let items = params.map(ele => {
+						let percent = Number((ele.data*100).toFixed(2));
+
 							return `<p class="item my-1">
-							${ele.marker}${ele.seriesName}:${ele.data}%
+							${ele.marker}${ele.seriesName}:${percent}%
 							</p>`;
 						}),
 						stringItems = '';
@@ -132,7 +141,9 @@ export default BpLine.extend({
 				},
 				axisLabel: {
 					color: '#7A869A',
-					formatter: '{value} ' + yAsixName
+					formatter: function(value) {
+						return value * 100 + unitYaxis;
+					}
 				},
 				splitLine: {
 					lineStyle: {
