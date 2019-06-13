@@ -28,16 +28,18 @@ export default BpLine.extend({
 	 * @default ''
 	 * @public
 	 */
-	unitYaxis:'',
+	unitYaxis: '',
 	generateOption() {
 		let { title, subText, lineData, lineColor, legendPosition, unitYaxis } =
-			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition','unitYaxis'),
+			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition', 'unitYaxis'),
 			legend = null;
 
 		if (isEmpty(legendPosition)) {
 			legend = {
-				top: '38px',
-				left: 'center',
+				// top: '38px',
+				// left: 'center',
+				x: 'center',
+				y: 'top',
 				textStyle: {
 					fontSize: 14,
 					color: '#7A869A'
@@ -79,7 +81,7 @@ export default BpLine.extend({
 
 			grid: {
 				left: 48,
-				top: 82,
+				// top:16,
 				right: 48
 			},
 			xAxis: {
@@ -113,7 +115,7 @@ export default BpLine.extend({
 				trigger: 'axis',
 				formatter: function (params) {
 					let items = params.map(ele => {
-						let percent = Number((ele.data*100).toFixed(2));
+							let percent = Number((ele.data * 100).toFixed(2));
 
 							return `<p class="item my-1">
 							${ele.marker}${ele.seriesName}:${percent}%
@@ -141,7 +143,7 @@ export default BpLine.extend({
 				},
 				axisLabel: {
 					color: '#7A869A',
-					formatter: function(value) {
+					formatter: function (value) {
 						return value * 100 + unitYaxis;
 					}
 				},

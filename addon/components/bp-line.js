@@ -1,7 +1,9 @@
 import Component from '@ember/component';
-import layout from '../templates/components/bp-line';
-import { A } from '@ember/array';
+import layout from '../templates/components/bp-chart';
 import { isEmpty } from '@ember/utils';
+import { A } from '@ember/array';
+import echarts from 'echarts';
+import $ from 'jquery';
 
 export default Component.extend({
 	layout,
@@ -58,7 +60,7 @@ export default Component.extend({
 	 * @public
 	 */
 	grid: null,
-	generateLine() {
+	generateOption() {
 		let { title, subText, lineData, lineColor, legendPosition, xAxisLine, grid } =
 			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition', 'xAxisLine', 'grid'),
 			legend = null;
@@ -179,17 +181,30 @@ export default Component.extend({
 			})
 		};
 	},
+	reGenerateChart(self, option) {
+		const selector = `#${this.get('eid')}`,
+			$el = $(selector),
+			opts = this.get('opts'),
+			echartInstance = echarts.getInstanceByDom($el[0]);
 
+		if (isEmpty(echartInstance)) {
+			self.set('result', option);
+		} else {
+			echartInstance.clear();
+			echartInstance.setOption(option, opts);
+		}
+	},
 	didInsertElement() {
 		this._super(...arguments);
-		let option = this.generateLine();
+		let option = this.generateOption();
 
-		this.set('result', option);
+		this.reGenerateChart(this, option);
+		// this.set('result', option);
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);
-		let option = this.generateLine();
+		let option = this.generateOption();
 
-		this.set('result', option);
+		this.reGenerateChart(this, option);
 	}
 });
