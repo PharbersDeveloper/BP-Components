@@ -115,7 +115,7 @@ export default BpLine.extend({
 				trigger: 'axis',
 				formatter: function (params) {
 					let items = params.map(ele => {
-							let percent = Number((ele.data * 100).toFixed(2));
+							let percent = Number((ele.data * 100).toFixed(1));
 
 							return `<p class="item my-1">
 							${ele.marker}${ele.seriesName}:${percent}%
