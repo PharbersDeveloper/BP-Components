@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-chart';
+import { formatNumber } from '../helpers/format-number';
 import { isEmpty } from '@ember/utils';
 import { A } from '@ember/array';
 import echarts from 'echarts';
@@ -114,11 +115,20 @@ export default Component.extend({
 			},
 			tooltip: {
 				trigger: 'axis'
-				// axisPointer: {
-				// 	type: 'cross',
-				// 	crossStyle: {
-				// 		color: '#999'
-				// 	}
+				// backgroundColor: 'rgba(9,30,66,0.54)',
+				// formatter: function (params) {
+				// 	let data = params[0],
+				// 		index = data.dataIndex;
+
+				// 	return `<div class="bar-tm-tooltip">
+				// 		<p class="tooltip-title mb-2">${data.name}</p>
+				// 		<p class="tooltip-item mb-2">
+				// 			<span class="key">销售额</span>
+				// 			<span class="value"> ${formatNumber(chartData[0].data[index])}</span></p>
+				// 		<p class="tooltip-item mb-2"> <span class="key">销售指标</span>
+				// 			<span class="value"> ${formatNumber(chartData[1].data[index])}</span></p>
+				// 		<p class="tooltip-item mb-2"> <span class="key">指标达成率</span>
+				// 		<span class="value"> ${formatNumber(chartData[2].data[index])}%</span></p></div>`;
 				// }
 			},
 			color: chartColor,

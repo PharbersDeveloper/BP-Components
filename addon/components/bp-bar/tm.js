@@ -85,12 +85,12 @@ export default Component.extend({
 
 					return `<div class="bar-tm-tooltip">
 						<p class="tooltip-title mb-2">${data.name}</p>
-						<p class="mb-2"> 
+						<p class="tooltip-item mb-2"> 
 							<span class="key">销售额</span>
 							<span class="value"> ${formatNumber(barData.sales[index])}</span></p>
-						<p class="mb-2"> <span class="key">销售指标</span>
+						<p class="tooltip-item mb-2"> <span class="key">销售指标</span>
 							<span class="value"> ${formatNumber(barData.salesQuotas[index])}</span></p>
-						<p class="mb-2"> <span class="key">指标达成率</span>
+						<p class="tooltip-item mb-2"> <span class="key">指标达成率</span>
 						<span class="value"> ${formatNumber(barData.quotaAchievementes[index])}%</span></p></div>`;
 				}
 			},

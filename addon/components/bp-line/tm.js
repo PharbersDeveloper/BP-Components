@@ -117,8 +117,9 @@ export default BpLine.extend({
 					let items = params.map(ele => {
 							let percent = Number((ele.data * 100).toFixed(1));
 
-							return `<p class="item my-1">
-							${ele.marker}${ele.seriesName}:${percent}%
+							return `<p class="line-tm-item my-1">
+							<span class='mr-2'>${ele.marker}${ele.seriesName}</span>
+							<span>${percent}%</span>
 							</p>`;
 						}),
 						stringItems = '';

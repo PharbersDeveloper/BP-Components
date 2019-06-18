@@ -1,132 +1,153 @@
 .bp-radar {
-	height: 320px;
+    height: 320px;
 
-	.echarts-chart {
-		height: 340px;
-		width: 320px;
-	}
+    .echarts-chart {
+        height: 340px;
+        width: 320px;
+    }
 }
 
 .bp-line-tm {
-	height: 400px;
+    height: 400px;
 
-	.echarts-chart {
-		height: 400px;
-	}
+    .echarts-chart {
+        height: 400px;
+    }
 }
 
 .bp-bar-tm {
-	height: 300px;
+    height: 300px;
 
-	.echarts-chart {
-		height: 300px;
+    .echarts-chart {
+        height: 300px;
 
-		.bar-tm-tooltip {
-			min-width: 153px;
-			font-size: 14px;
+        .bar-tm-tooltip {
+            min-width: 153px;
+            font-size: 14px;
 
-			.tooltip-title {
-				color: #fff;
-			}
+            .tooltip-title {
+                color: #fff;
+            }
 
-			p {
-				display: flex;
+            p {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-pack: justify;
+                -webkit-justify-content: space-between;
+                -ms-flex-pack: justify;
+                justify-content: space-between;
 
-				span.key {
-					flex: 0 0 70px;
-					margin-right: 8px;
-					@extend %p-primary-inverse;
-				}
+                span.key {
+                    // -webkit-box-flex: 0;
+                    // -webkit-flex: 0 0 70px;
+                    // -ms-flex: 0 0 70px;
+                    // flex: 0 0 70px;
+                    margin-right: 8px;
+                    @extend %p-primary-inverse;
+                }
 
-				span.value {
-					@extend %p-secondary-inverse;
-				}
-			}
+                span.value {
+                    @extend %p-secondary-inverse;
+                }
+            }
 
-		}
-	}
+        }
+    }
+}
+
+.line-tm-item {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
 }
 
 .bp-circle {
-	&.size-default {
-		height: 192px;
-		width: 368px;
-	}
+    &.size-default {
+        height: 192px;
+        width: 368px;
+    }
 
-	&.size-auto {
-		height: 100%;
-		width: 100%;
-	}
+    &.size-auto {
+        height: 100%;
+        width: 100%;
+    }
 
-	&.size-small {
-		height: 45px;
-		width: 45px;
-	}
+    &.size-small {
+        height: 45px;
+        width: 45px;
+    }
 
-	.echarts-chart {
-		height: 100%;
-		width: 100%;
-	}
+    .echarts-chart {
+        height: 100%;
+        width: 100%;
+    }
 }
 
 .bp-gauge {
-	width: 180px;
-	height: 180px;
+    width: 180px;
+    height: 180px;
 
-	.echarts-chart {
-		height: 100%;
-		width: 100%;
-	}
+    .echarts-chart {
+        height: 100%;
+        width: 100%;
+    }
 }
 
 .chart-container {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 
-	.echarts-chart {
-		height: 100%;
-		width: 100%;
-	}
+    .echarts-chart {
+        height: 100%;
+        width: 100%;
+    }
 }
 
 .chart-container {
-	.circle-double-tooltip {
+    .circle-double-tooltip {
 
-		thead th,
-		tbody tr td {
-			padding: 4px;
-			border: 0;
-		}
+        thead th,
+        tbody tr td {
+            padding: 4px;
+            border: 0;
+        }
 
-		thead th {
-			font-size: 14px;
-			height: 20px;
-			line-height: 20px;
-			color: #fff;
-		}
+        thead th {
+            font-size: 14px;
+            height: 20px;
+            line-height: 20px;
+            color: #fff;
+        }
 
-		.item {
-			.point {
-				display: inline-block;
-				width: 8px;
-				height: 8px;
-				border-radius: 50%;
-			}
+        .item {
+            .point {
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+            }
 
-			.keys {
-				font-size: 14px;
-				font-weight: 500;
-				color: #FFFFFF;
-			}
+            .keys {
+                font-size: 14px;
+                font-weight: 500;
+                color: #FFFFFF;
+            }
 
-			.values {
-				font-size: 12px;
-				color: #FFFFFF;
-				opacity: .6;
-			}
-		}
+            .values {
+                font-size: 12px;
+                color: #FFFFFF;
+                opacity: .6;
+            }
+        }
 
 
 
-	}
+    }
 }
