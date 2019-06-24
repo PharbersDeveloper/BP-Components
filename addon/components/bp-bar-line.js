@@ -60,13 +60,37 @@ export default Component.extend({
 	 * @public
 	 */
 	chartColor: A(['#505F79 ', '#97A0AF', '#00C7E6']),
-
+	/**
+	 * 自定义 tooltip
+	 * @property selfTooltip
+	 * @type {Boolean}
+	 * @default false
+	 * @public
+	 */
+	selfTooltip: false,
+	/**
+	 * 数值的单位
+	 * @property numberUnit
+	 * @type {String}
+	 * @default '''
+	 * @public
+	 */
+	numberUnit: '',
+	/**
+	 * 率的单位
+	 * @property rateUnit
+	 * @type {String}
+	 * @default '''
+	 * @public
+	 */
+	rateUnit: '',
 	generateOption() {
-		let { chartData, chartColor } =
-			this.getProperties('chartData', 'chartColor'),
+		let { chartData, chartColor, selfTooltip, rateUnit, numberUnit } =
+			this.getProperties('chartData', 'chartColor', 'selfTooltip', 'rateUnit', 'numberUnit'),
 			series = A([]),
 			yAxisRightMax = A([]),
-			yAxisLeftMax = A([]);
+			yAxisLeftMax = A([]),
+			tooltip = null;
 
 		if (isEmpty(chartData)) {
 			return;
@@ -107,30 +131,42 @@ export default Component.extend({
 		});
 		// yAxisRightMax = Math.floor(Math.max(...yAxisRightMax) * 5 / 4);
 		// yAxisLeftMax = Math.floor(Math.max(...yAxisLeftMax) * 5 / 4);
+		if (!selfTooltip) {
+			tooltip = {
+				trigger: 'axis'
+			};
+		} else {
+			tooltip = {
+				trigger: 'axis',
+				backgroundColor: 'rgba(9,30,66,0.54)',
+				formatter: function (params) {
+					let data = params[0],
+						stringData = '';
 
+					params.forEach(ele => {
+						let item = `<p class='tooltip-item mt-2 mb-0'>
+							<span>
+							${ele.marker}
+							<span class="key">${ele.seriesName}</span>
+							</span>
+							<span class="value">${ele.seriesType === 'line' ? ele.value + rateUnit : numberUnit + formatNumber(ele.value)}</span>
+						</p>`;
+
+						stringData += item;
+					});
+					return `<div class="bar-tm-tooltip">
+						<p class="tooltip-title">${data.name}</p>
+						${stringData}
+						</div>`;
+				}
+			};
+		}
 		return {
 			grid: {
 				top: 24,
 				right: 42
 			},
-			tooltip: {
-				trigger: 'axis'
-				// backgroundColor: 'rgba(9,30,66,0.54)',
-				// formatter: function (params) {
-				// 	let data = params[0],
-				// 		index = data.dataIndex;
-
-				// 	return `<div class="bar-tm-tooltip">
-				// 		<p class="tooltip-title mb-2">${data.name}</p>
-				// 		<p class="tooltip-item mb-2">
-				// 			<span class="key">销售额</span>
-				// 			<span class="value"> ${formatNumber(chartData[0].data[index])}</span></p>
-				// 		<p class="tooltip-item mb-2"> <span class="key">销售指标</span>
-				// 			<span class="value"> ${formatNumber(chartData[1].data[index])}</span></p>
-				// 		<p class="tooltip-item mb-2"> <span class="key">指标达成率</span>
-				// 		<span class="value"> ${formatNumber(chartData[2].data[index])}%</span></p></div>`;
-				// }
-			},
+			tooltip,
 			color: chartColor,
 			legend: {
 				x: 'center',

@@ -21,40 +21,37 @@
     .echarts-chart {
         height: 300px;
 
-        .bar-tm-tooltip {
-            min-width: 153px;
-            font-size: 14px;
 
-            .tooltip-title {
-                color: #fff;
-            }
+    }
+}
 
-            p {
-                display: -webkit-box;
-                display: -webkit-flex;
-                display: -ms-flexbox;
-                display: flex;
-                -webkit-box-pack: justify;
-                -webkit-justify-content: space-between;
-                -ms-flex-pack: justify;
-                justify-content: space-between;
+.bar-tm-tooltip {
+    min-width: 153px;
+    font-size: 14px;
 
-                span.key {
-                    // -webkit-box-flex: 0;
-                    // -webkit-flex: 0 0 70px;
-                    // -ms-flex: 0 0 70px;
-                    // flex: 0 0 70px;
-                    margin-right: 8px;
-                    @extend %p-primary-inverse;
-                }
+    .tooltip-title {
+        color: #fff;
+    }
 
-                span.value {
-                    @extend %p-secondary-inverse;
-                }
-            }
+    p.tooltip-item {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
 
+        span.key {
+            @extend %p-primary-inverse;
+        }
+
+        span.value {
+            @extend %p-secondary-inverse;
         }
     }
+
 }
 
 .line-tm-item {
