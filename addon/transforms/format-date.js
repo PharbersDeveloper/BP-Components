@@ -15,6 +15,6 @@ export default Transform.extend({
 	},
 
 	serialize(deserialized) {
-		return deserialized;
+		return new Date(deserialized).getTime();
 	}
 });
