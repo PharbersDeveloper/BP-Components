@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import layout from '../../templates/components/bp-bar/maxbi';
 import { A } from '@ember/array';
 import { isEmpty } from '@ember/utils';
-import { formatNumber } from '../../helpers/format-number';
+// import { formatNumber } from '../../helpers/format-number';
 
 export default Component.extend({
 	layout,

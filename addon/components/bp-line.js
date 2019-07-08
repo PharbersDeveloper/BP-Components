@@ -61,8 +61,8 @@ export default Component.extend({
 	 */
 	grid: null,
 	generateOption() {
-		let { title, subText, lineData, lineColor, legendPosition, xAxisLine, grid } =
-			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition', 'xAxisLine', 'grid'),
+		let { title, subText, lineData, lineColor, legendPosition, grid } =
+			this.getProperties('title', 'subText', 'lineData', 'lineColor', 'legendPosition', 'grid'),
 			legend = null;
 
 		if (legendPosition === '') {

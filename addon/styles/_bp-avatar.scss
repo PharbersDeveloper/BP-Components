@@ -1,0 +1,10 @@
+.bp-avatar {
+	display: inline-block;
+}
+.avatar-s {
+    @extend %defaultRadius;
+}
+
+.avatar-c {
+    border-radius: 50%;
+}
