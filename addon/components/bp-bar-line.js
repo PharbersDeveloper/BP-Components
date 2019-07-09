@@ -59,7 +59,7 @@ export default Component.extend({
 	 * @default ['#505F79 ', '#97A0AF','#00C7E6']
 	 * @public
 	 */
-	chartColor: A(['#505F79 ', '#97A0AF', '#00C7E6']),
+	chartColor: A(['#579AFF ', '#C2DAFF', '#FFAB00']),
 	/**
 	 * 自定义 tooltip
 	 * @property selfTooltip
@@ -102,10 +102,10 @@ export default Component.extend({
 					name: ele.name,
 					type: 'bar',
 					yAxisIndex: 0,
-					barWidth: '8px',
+					barWidth: '12px',
 					data: ele.data,
 					itemStyle: {
-						barBorderRadius: [5, 5, 0, 0]
+						barBorderRadius: [0, 0, 0, 0]
 					}
 				};
 			}
@@ -114,15 +114,26 @@ export default Component.extend({
 			return {
 				name: ele.name,
 				type: 'line',
-				areaStyle: {
+				// areaStyle: {
+				// 	normal: {
+				// 		color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+				// 			offset: 0,
+				// 			color: '#00C7E6'
+				// 		}, {
+				// 			offset: 1,
+				// 			color: '#fff'
+				// 		}])
+				// 	}
+				// },
+				itemStyle: {
 					normal: {
-						color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-							offset: 0,
-							color: '#00C7E6'
-						}, {
-							offset: 1,
-							color: '#fff'
-						}])
+						label: {
+							show: true,
+							position: 'top',
+							formatter: function (params) {
+								return `${params.value} ${rateUnit}`;
+							}
+						}
 					}
 				},
 				yAxisIndex: 1,
@@ -218,10 +229,19 @@ export default Component.extend({
 					// max: yAxisRightMax,
 					// interval: 50,
 					axisLabel: {
-						color: '#7A869A'
-						// formatter: '{value}'
+						color: '#7A869A',
+						formatter: function (value) {
+							let formatValue = formatNumber(value);
+
+							return `${numberUnit}${formatValue}`;
+						}
+					},
+					axisTick: {
+						show: false,
+						alignWithLabel: true
 					},
 					axisLine: {
+						show: false,
 						lineStyle: {
 							type: 'solid',
 							color: '#EBECF0'
@@ -242,18 +262,24 @@ export default Component.extend({
 					min: 0,
 					// max: yAxisLeftMax,
 					// interval: 6,
+					axisTick: {
+						show: false,
+						alignWithLabel: true
+					},
 					axisLabel: {
 						color: '#7A869A',
-						formatter: '{value} %'
+						formatter: `{value}${rateUnit}`
 					},
 					axisLine: {
+						show: false,
+						type: 'solid',
 						lineStyle: {
 							type: 'solid',
 							color: '#EBECF0'
 						}
 					},
 					splitLine: {
-						show: true,
+						show: false,
 						lineStyle: {
 							color: '#D2D4D9',
 							width: 1,
