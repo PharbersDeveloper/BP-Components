@@ -15,6 +15,16 @@ export default Mixin.create({
 	/**
 	 * @author Frank Wang
 	 * @property
+	 * @name id
+	 * @description 用来区分当前用户的不同 dashboard,当前用户每生成一个dashboard，这 id 就会发生改变
+	 * @type Number
+	 * @default 0
+	 * @public
+	 */
+	id: 0,
+	/**
+	 * @author Frank Wang
+	 * @property
 	 * @name time
 	 * @description show dashboard time range
 	 * @type Object
@@ -38,8 +48,18 @@ export default Mixin.create({
 	/**
 	 * @author Frank Wang
 	 * @property
+	 * @name uid
+	 * @description the dashboard uuid
+	 * @type String
+	 * @default null
+	 * @public
+	 */
+	uid: null,
+	/**
+	 * @author Frank Wang
+	 * @property
 	 * @name version
-	 * @description dashboard's version
+	 * @description dashboard's version,when dashboard is changed,this property is increase
 	 * @type number
 	 * @default 0
 	 * @public

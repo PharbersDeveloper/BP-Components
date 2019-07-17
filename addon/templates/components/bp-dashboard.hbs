@@ -1,0 +1,13 @@
+{{!-- {{yield}} --}}
+{{#if dashboardModel}}
+	{{#each dashboardModel.rows as |row|}}
+		{{#bp-row direction='col' rowModel=row}}
+			{{#each row.panels as |panel|}}
+				{{bp-panel eid=panel.id panelModel=panel}}
+			{{/each}}
+		{{/bp-row}}
+	{{/each}}
+{{else}}
+	<p>The panel that type is 'add-panel' should be here.</p>
+	{{#bp-button icon='add'}}add Panel{{/bp-button}}
+{{/if}}
