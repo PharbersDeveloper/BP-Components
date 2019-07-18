@@ -38,15 +38,10 @@ export default Mixin.create({
 	 * @name gridPos
 	 * @description panel's position
 	 * @type Object
-	 * @default {}
+	 * @default null
 	 * @public
 	 */
-	gridPos: EmberObject.create({
-		w: 24,
-		h: 8,
-		x: 0,
-		y: 0
-	}),
+	gridPos: null,
 	/**
 	 * @author Frank Wang
 	 * @property
@@ -80,5 +75,14 @@ export default Mixin.create({
 	destory(id) {
 		// code here
 		window.console.log(id);
+	},
+	init() {
+		this._super(...arguments);
+		this.set('gridPos', EmberObject.create({
+			w: 24,
+			h: 8,
+			x: 0,
+			y: 0
+		}));
 	}
 });

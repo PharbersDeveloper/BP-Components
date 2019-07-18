@@ -1,5 +1,6 @@
 import Mixin from '@ember/object/mixin';
 import EmberObject from '@ember/object';
+import { computed } from '@ember/object';
 
 export default Mixin.create({
 	/**
@@ -31,9 +32,11 @@ export default Mixin.create({
 	 * @default {}
 	 * @public
 	 */
-	time: EmberObject.create({
-		from: new Date().getTime() - 6 * 60 * 60 * 1000,
-		to: new Date().getTime()
+	time: computed(function () {
+		return EmberObject.create({
+			from: new Date().getTime() - 6 * 60 * 60 * 1000,
+			to: new Date().getTime()
+		});
 	}),
 	/**
 	 * @author Frank Wang
