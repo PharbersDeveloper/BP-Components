@@ -1,11 +1,8 @@
 {{!-- {{yield}} --}}
 {{#if dashboardModel}}
+	<p>time:from {{time.from}};to{{time.to}}</p>
 	{{#each dashboardModel.rows as |row|}}
-		{{#bp-row direction='col' rowModel=row}}
-			{{#each row.panels as |panel|}}
-				{{bp-panel eid=panel.id panelModel=panel}}
-			{{/each}}
-		{{/bp-row}}
+		{{bp-row direction='col' rowModel=row}}
 	{{/each}}
 {{else}}
 	<p>The panel that type is 'add-panel' should be here.</p>

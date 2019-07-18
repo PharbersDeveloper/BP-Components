@@ -1,1 +1,5 @@
-{{yield}}
+{{#bp-layout direction=direction height=height}}
+	{{#each rowModel.panels as |panel|}}
+		{{bp-panel eid=panel.id panelModel=panel}}
+	{{/each}}
+{{/bp-layout}}
