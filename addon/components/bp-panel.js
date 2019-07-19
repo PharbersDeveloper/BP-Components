@@ -6,10 +6,13 @@ import echarts from 'echarts';
 import $ from 'jquery';
 import Panel from '../mixins/panel';
 import { later } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import { generateXaxis, generateYaxis, generateTooltip, generateLegend } from '../utils/generateChartPart';
 
 export default Component.extend(Panel, {
 	layout,
 	tagName: '',
+	ajax: service(),
 	init() {
 		this._super(...arguments);
 		this.set('result', {});
@@ -17,7 +20,6 @@ export default Component.extend(Panel, {
 			renderer: 'canvas' // canvas of svg
 		});
 	},
-
 	/**
 	 * xAxisData
 	 * @property xAxisData
@@ -44,205 +46,12 @@ export default Component.extend(Panel, {
 	 * @public
 	 */
 	chartData: A([]),
-	/**
-	 * @author Frank Wang
-	 * @property
-	 * @name unitYaxis
-	 * @description y轴的单位
-	 * @type {String}
-	 * @default ''
-	 * @public
-	 */
-	unitYaxis: '',
-	generateOption() {
-		let { chartData, chartColor, xAxisData } =
-			this.getProperties('chartData', 'chartColor', 'xAxisData'),
-			yAxisBarMax = 0,
-			yAxisLineMax = 0,
-			totalBarData = A([]),
-			totalchartData = A([]);
-
-
-		if (isEmpty(chartData)) {
-			return {};
-		}
-		totalBarData = chartData.map(ele => {
-			if (ele.type === 'bar') {
-				return ele.data;
-			}
-		}).reduce((result, ele) => result.concat(ele), []).filter(Boolean);
-
-		totalchartData = chartData.map(ele => {
-			if (ele.type !== 'bar') {
-				return ele.data;
-			}
-		}).reduce((result, ele) => result.concat(ele), []).filter(Boolean);
-
-		yAxisBarMax = Math.floor(Math.max(...totalBarData) * 5 / 4);
-
-		yAxisLineMax = Math.floor(Math.max(...totalchartData) * 5 / 4);
-
-		return {
-			color: chartColor,
-			backgroundColor: 'white',
-			tooltip: {
-				trigger: 'axis',
-				axisPointer: {
-					type: 'cross',
-					crossStyle: {
-						color: '#999'
-					}
-				}
-			},
-			toolbox: {
-				show: false,
-				feature: {
-					dataView: { show: true, readOnly: false },
-					magicType: { show: true, type: ['line', 'bar'] },
-					restore: { show: true },
-					saveAsImage: { show: true }
-				}
-			},
-			grid: {
-				right: 200
-			},
-			legend: [{
-				type: 'scroll',
-				orient: 'vertical',
-				itemWidth: 8,
-				itemHeight: 8,
-				right: 24,
-				y: 50,
-				padding: 5,
-				itemGap: 15,
-				icon: 'circle',
-				textStyle: {
-					//图例文字的样式
-					color: '#7A869A',
-					fontSize: 14
-				},
-				data: chartData.map(ele => {
-					if (ele.type === 'bar') {
-						return ele.name;
-					}
-					return false;
-				}).filter(Boolean)
-			},
-			{
-				type: 'scroll',
-				orient: 'vertical',
-				itemWidth: 16,
-				itemHeight: 4,
-				right: 24,
-				y: 110,
-				padding: 5,
-				itemGap: 15,
-				icon: 'rect',
-				textStyle: {
-					//图例文字的样式
-					color: '#7A869A',
-					fontSize: 14
-				},
-				data: chartData.map(ele => {
-					if (ele.type !== 'bar') {
-						return ele.name;
-					}
-					return false;
-				}).filter(Boolean)
-			}],
-			xAxis: [
-				{
-					type: 'category',
-					data: xAxisData,
-					axisPointer: {
-						type: 'shadow'
-					},
-					axisLabel: {
-						color: '#7A869A'
-					},
-					axisLine: {
-						show: true,
-						lineStyle: {
-							type: 'solid',
-							color: '#DFE1E6'
-						}
-					}
-				}
-			],
-			yAxis: [
-				{
-					type: 'value',
-					min: 0,
-					max: yAxisLineMax,
-					// splitNumber: 8,
-					// interval: yAxisLeftinterval,
-					splitLine: {
-						lineStyle: {
-							type: 'dotted'
-						}
-					},
-					axisLabel: {
-						formatter: '{value} %',
-						color: '#7A869A'
-					},
-					axisLine: {
-						show: false,
-						lineStyle: {
-							type: 'solid',
-							color: '#DFE1E6'
-						}
-					}
-				},
-				{
-					type: 'value',
-					min: 0,
-					max: yAxisBarMax,
-					// splitNumber: 8,
-					// interval: yAxisRightinterval,
-					splitLine: {
-						lineStyle: {
-							type: 'dotted'
-						}
-					},
-					axisLabel: {
-						color: '#7A869A'
-					},
-					axisLine: {
-						show: false,
-						lineStyle: {
-							type: 'solid',
-							color: '#DFE1E6'
-						}
-					}
-				}
-			],
-			series: chartData.map((ele) => {
-				return {
-					name: ele.name,
-					type: ele.type,
-					barGap: 0,
-					yAxisIndex: ele.yAxisIndex,
-					barWidth: 8,
-					data: ele.data,
-					itemStyle: {
-						normal: {
-							lineStyle: {
-								width: 2,
-								type: 'dotted'
-							}
-						}
-					}
-				};
-			})
-		};
-	},
 	reGenerateChart(self, option) {
 		const selector = `#${this.get('eid')}`,
 			$el = $(selector),
 			opts = this.get('opts'),
 			echartInstance = echarts.getInstanceByDom($el[0]);
 
-		console.log(echartInstance);
 		if (isEmpty(echartInstance)) {
 			self.set('result', option);
 		} else {
@@ -257,129 +66,86 @@ export default Component.extend(Panel, {
 	generateChartTitle() {
 
 	},
-	/**
-	 * @author Frank Wang
-	 * @method
-	 * @name generateXasix
-	 * @description 用于生成x坐标轴
-	 * @param xAxisData x轴坐标的显示数据
-	 * @param valueFormatCallback 显示的值的格式化回调
-	 * @return {Object}
-	 * @example 创建例子。
-	 * @private
-	 */
-	generateXaxis(xAxisData, valueFormatCallback) {
-		let xAxisConfig = this.get('xaxis');
-
-		return {
-			show: xAxisConfig.show || true,
-			type: xAxisConfig.type || 'category',
-			name: xAxisConfig.name || '',
-			data: xAxisData,
-			axisTick: {
-				show: xAxisConfig.axisTickShow || true,
-				alignWithLabel: true
-			},
-			axisLine: {
-				show: xAxisConfig.axisLineShow || true,
-				lineStyle: {
-					type: 'dotted',
-					color: '#DFE1E6'
-				}
-			},
-			axisLabel: {
-				show: xAxisConfig.axisLabelShow || true,
-				color: '#7A869A',
-				fontSize: 14,
-				lineHeight: 20,
-				formatter: function (value) {
-					return isEmpty(valueFormatCallback) ? value : valueFormatCallback(value);
-				}
-			}
-		};
-	},
-	/**
-	 * @author Frank Wang
-	 * @method
-	 * @name generateYaxis
-	 * @description 用于生成 y 坐标轴
-	 * @param valueFormatCallback 显示的值的格式化回调
-	 * @return {Object}
-	 * @example 创建例子。
-	 * @public
-	 */
-	generateYaxis(valueFormatCallback) {
-		let yaxisConfig = this.get('yaxis');
-
-		return {
-			show: yaxisConfig.show,
-			type: yaxisConfig.type,
-			axisLine: {
-				show: yaxisConfig.axisLineShow
-			},
-			axisTick: {
-				show: yaxisConfig.axisTickShow
-			},
-			axisLabel: {
-				show: yaxisConfig.axisLabelShow,
-				color: '#7A869A',
-				formatter: function (value) {
-					return isEmpty(valueFormatCallback) ? value : valueFormatCallback(value);
-				}
-				// formatter: function (value) {
-				// 	return value * 100 + yaxisConfig.unit;
-				// }
-			},
-			splitLine: {
-				show: true,
-				lineStyle: {
-					type: 'dotted',
-					color: '#DFE1E6'
-				}
-			}
-		};
-	},
 	generateBar() {
-		window.console.log('bar');
+		let { chartData, chartColor } =
+			this.getProperties('chartData', 'chartColor'),
+			xAxisData = isEmpty(chartData) ? A([]) : chartData.get('firstObject').date,
+			xAxisConfig = this.get('xaxis'),
+			yAxisConfig = this.get('yaxis'),
+			tooltipConfig = this.get('tooltip'),
+			legendConfig = this.get('legend'),
+			xAxis = generateXaxis(xAxisConfig, xAxisData),
+			yAxis = generateYaxis(yAxisConfig),
+			tooltip = generateTooltip(tooltipConfig),
+			legend = generateLegend(legendConfig),
+			series = A([]);
+
+		if (isEmpty(chartData)) {
+			series = A([]);
+		}
+		series = chartData.map(ele => {
+			return {
+				name: ele.name,
+				type: 'bar',
+				barWidth: '8px',
+				data: ele.data,
+				itemStyle: {
+					barBorderRadius: [5, 5, 0, 0]
+				}
+			};
+		});
+
+		return {
+			/**
+			 *
+			 title: [{
+			 	text: title,
+			 	fontWeight: 500,
+			 	textStyle: {
+			 		fontSize: 14,
+			 		color: '#172B4D'
+			 	}
+			 }, {
+			 	text: barData.name,
+			 	left: '110',
+			 	textStyle: {
+			 		fontSize: 12,
+			 		fontWeight: 300,
+			 		lineHeight: 20,
+			 		color: '#7A869A'
+			 	}
+			 }],
+			*/
+			color: chartColor,
+			tooltip,
+			grid: {
+				left: '24',
+				right: 24,
+				top: 44,
+				bottom: '24',
+				containLabel: true
+			},
+			xAxis,
+			yAxis,
+			legend,
+			series
+		};
 	},
 	generateLine() {
-		window.console.log('Line');
-		let { chartData, chartColor, legendPosition } =
-			this.getProperties('chartData', 'chartColor', 'legendPosition'),
-			legend = null,
+		let { chartData, chartColor } =
+			this.getProperties('chartData', 'chartColor'),
 			xAxisData = isEmpty(chartData) ? A([]) : chartData.get('firstObject').date,
-			xAxis = this.generateXaxis(xAxisData),
-			yAxis = this.generateYaxis();
-
-		if (isEmpty(legendPosition)) {
-			legend = {
-				// top: '38px',
-				// left: 'center',
-				x: 'center',
-				y: 'top',
-				textStyle: {
-					fontSize: 14,
-					color: '#7A869A'
-				},
-				data: isEmpty(chartData) ? A([]) : chartData.map(ele => {
-					return ele.name;
-				})
-			};
-		} else {
-			legend = {
-				top: legendPosition.top === '' ? 'auto' : legendPosition.top,
-				right: legendPosition.right === '' ? 'auto' : legendPosition.right,
-				bottom: legendPosition.bottom === '' ? 'auto' : legendPosition.bottom,
-				left: legendPosition.left === '' ? 'auto' : legendPosition.left,
-				x: legendPosition.x === '' ? 'auto' : legendPosition.x,
-				data: isEmpty(chartData) ? A([]) : chartData.map(ele => {
-					return ele.name;
-				})
-			};
-		}
+			xAxisConfig = this.get('xaxis'),
+			yAxisConfig = this.get('yaxis'),
+			tooltipConfig = this.get('tooltip'),
+			legendConfig = this.get('legend'),
+			xAxis = generateXaxis(xAxisConfig, xAxisData),
+			yAxis = generateYaxis(yAxisConfig),
+			tooltip = generateTooltip(tooltipConfig),
+			legend = generateLegend(legendConfig);
 
 		return {
-			// title: [{
+			/** title: [{
 			// 	text: title,
 			// 	textStyle: {
 			// 		fontSize: 14,
@@ -394,35 +160,15 @@ export default Component.extend(Panel, {
 			// 		lineHeight: 20,
 			// 		color: '#7A869A'
 			// 	}
-			// }],
-
+			}],
+			*/
 			grid: {
 				left: 48,
 				// top:16,
 				right: 48
 			},
 			xAxis,
-			tooltip: {
-				trigger: 'axis',
-				formatter: function (params) {
-					let items = params.map(ele => {
-							let percent = Number((ele.data * 100).toFixed(1));
-
-							return `<p class="line-tm-item my-1">
-							<span class='mr-2'>${ele.marker}${ele.seriesName}</span>
-							<span>${percent}%</span>
-							</p>`;
-						}),
-						stringItems = '';
-
-					items.forEach(ele => {
-						stringItems += ele;
-					});
-
-					return `<p class="my-1">${params[0].axisValue}</p>
-						${stringItems}`;
-				}
-			},
+			tooltip,
 			legend,
 			color: chartColor,
 			yAxis,
@@ -461,12 +207,10 @@ export default Component.extend(Panel, {
 		default:
 			break;
 		}
-		window.console.log(panelConfig);
-
 	},
 	didReceiveAttrs() {
 		this._super(...arguments);
-		window.console.log(this.get('panelModel'));
+
 		let panelModel = this.get('panelModel'),
 			keys = Object.keys(panelModel),
 			that = this;
@@ -504,35 +248,42 @@ export default Component.extend(Panel, {
 						data: [0.470, 0.439, 0.117, 0.769]
 					}]);
 
-				} else {
-
-					data = A([{
-						name: 'dataA',
-						date: ['2018年Q1', '2018年Q2', '2018年Q3', '2018年Q4'],
-						data: [0.3, 0.3, 0.1, 0.4]
-					},
-					{
-						name: 'DataB',
-						date: ['2018年Q1', '2018年Q2', '2018年Q3', '2018年Q4'],
-						data: [0.20, 0.32, 0.3, 0.34]
-					},
-					{
-						name: 'DataC',
-						date: ['2018年Q1', '2018年Q2', '2018年Q3', '2018年Q4'],
-						data: [0.20, 0.355, 0.9, 0.64]
-					},
-					{
-						name: 'DataD',
-						date: ['2018年Q1', '2018年Q2', '2018年Q3', '2018年Q4'],
-						data: [0.7, 0.9, 0.7, 0.9]
-					}]);
-
 				}
 				resolve(data);
 			}, 2400);
 		}).then(data => {
 			this.set('chartData', data);
 			that.didUpdateAttrs();
+			return this.get('ajax').request('http://192.168.100.157:9200/aggregatedata/_search', {
+				method: 'POST',
+				contentType: 'application/json; charset=UTF-8',
+				data: {
+					'query': {
+						'bool': {
+							'must': [],
+							'must_not': [],
+							'should': [{ 'match_all': {} }]
+						}
+					},
+					'from': 0,
+					// 'form':this.get('time').from,
+					// 'to':this.get('tiem').to,
+					'size': 5,
+					'sort': [], 'aggs': {}, 'version': true
+				}
+			});
+		}).then(data => {
+			let originData = data.hits.hits.map(ele => {
+					return ele['_source'];
+				}),
+				xAxisData = originData.map(ele => ele.city),
+				yAxisData = originData.map(ele => Number(ele.value));
+
+			if (panelModel.bar) {
+				this.set('chartData', A([{ name: 'share', date: xAxisData, data: yAxisData }]));
+				that.didUpdateAttrs();
+			}
+
 		});
 	},
 
@@ -551,7 +302,6 @@ export default Component.extend(Panel, {
 	},
 	willDestroyElement() {
 		this._super(...arguments);
-		window.console.log('willDestroyElement');
 		const selector = `#${this.get('eid')}`,
 			$el = $(selector),
 			echartInstance = echarts.getInstanceByDom($el[0]);
