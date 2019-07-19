@@ -2,7 +2,7 @@
 {{#if dashboardModel}}
 	<p>time:from {{time.from}};to{{time.to}}</p>
 	{{#each dashboardModel.rows as |row|}}
-		{{bp-row direction='col' rowModel=row}}
+		{{bp-row direction='col' rowModel=row time=dashboardModel.time}}
 	{{/each}}
 {{else}}
 	<p>The panel that type is 'add-panel' should be here.</p>

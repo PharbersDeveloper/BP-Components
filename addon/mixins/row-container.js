@@ -1,4 +1,6 @@
 import Mixin from '@ember/object/mixin';
+import { computed } from '@ember/object';
+import EmberObject from '@ember/object';
 
 export default Mixin.create({
 	/**
@@ -21,7 +23,21 @@ export default Mixin.create({
 	 * @public
 	 */
 	height: 350,
-
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name time
+	 * @description show dashboard time range
+	 * @type Object
+	 * @default {}
+	 * @public
+	 */
+	time: computed(function () {
+		return EmberObject.create({
+			from: new Date().getTime() - 6 * 60 * 60 * 1000,
+			to: new Date().getTime()
+		});
+	}),
 	/**
 	 * @author Frank Wang
 	 * @method
