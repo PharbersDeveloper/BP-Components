@@ -7,7 +7,7 @@ import $ from 'jquery';
 import Panel from '../mixins/panel';
 import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import { generateXaxis, generateYaxis, generateTooltip, generateLegend } from '../utils/generateChartPart';
+import { generateXaxis, generateYaxis, generateTooltip, generateLegend, generateRadar } from '../utils/generateChartPart';
 
 export default Component.extend(Panel, {
 	layout,
@@ -69,7 +69,7 @@ export default Component.extend(Panel, {
 	generateBar() {
 		let { chartData, chartColor } =
 			this.getProperties('chartData', 'chartColor'),
-			xAxisData = isEmpty(chartData) ? A([]) : chartData.get('firstObject').date,
+			xAxisData = isEmpty(chartData) ? A([]) : chartData.get('firstObject').xValue,
 			xAxisConfig = this.get('xaxis'),
 			yAxisConfig = this.get('yaxis'),
 			tooltipConfig = this.get('tooltip'),
@@ -134,7 +134,7 @@ export default Component.extend(Panel, {
 	generateLine() {
 		let { chartData, chartColor } =
 			this.getProperties('chartData', 'chartColor'),
-			xAxisData = isEmpty(chartData) ? A([]) : chartData.get('firstObject').date,
+			xAxisData = isEmpty(chartData) ? A([]) : chartData.get('firstObject').xValue,
 			xAxisConfig = this.get('xaxis'),
 			yAxisConfig = this.get('yaxis'),
 			tooltipConfig = this.get('tooltip'),
@@ -183,6 +183,126 @@ export default Component.extend(Panel, {
 	},
 	generatePie() {
 		window.console.log('Pie');
+		let { chartData, chartColor, pieConfigs } =
+			this.getProperties('chartData', 'chartColor', 'pieConfigs'),
+			tooltipConfig = this.get('tooltip'),
+			legendConfig = this.get('legend'),
+			tooltip = generateTooltip(tooltipConfig),
+			legend = generateLegend(legendConfig);
+
+		return {
+			tooltip,
+			color: chartColor,
+			legend,
+			series: chartData.map((ele, index) => {
+				let pieConfig = pieConfigs[index];
+
+				console.log(pieConfig);
+				console.log(pieConfig.label.emphasis.show);
+				console.log(pieConfig.label.normal);
+				return {
+					name: ele.name || '',
+					type: 'pie',
+					radius: A([pieConfig.insideRadius || '80%', pieConfig.outsideRadius || '95%']),
+					avoidLabelOverlap: pieConfig.avoidLabelOverlap || false,
+					hoverOffset: pieConfig.hoverOffset || 3,
+					label: {
+						normal: pieConfig.label.normal || {
+							show: false,
+							position: 'center'
+						},
+						emphasis: {
+							show: pieConfig.label.emphasis.show || false,
+							textStyle: {
+								fontSize: '14',
+								fontWeight: 'normal'
+							},
+							formatter: function (params) {
+								return params.percent + '%';
+							}
+						}
+					},
+					labelLine: {
+						normal: {
+							show: false
+						}
+					},
+					data: !ele.xValue ? [] : ele.xValue.map((item, i) => {
+						return {
+							name: item,
+							value: ele.data[i]
+						};
+					})
+				};
+			})
+			// series: [
+			// 	{
+			// 		name: 'seriesName',
+			// 		type: 'pie',
+			// 		radius: A(['80%', '95%']),
+			// 		avoidLabelOverlap: false,
+			// 		hoverOffset: 3,
+			// 		label: {
+			// 			normal: {
+			// 				show: false,
+			// 				position: 'center'
+			// 			},
+			// 			emphasis: {
+			// 				show: true,
+			// 				textStyle: {
+			// 					fontSize: '14',
+			// 					fontWeight: 'normal'
+			// 				},
+			// 				formatter: function (params) {
+			// 					return params.percent + '%';
+			// 				}
+			// 			}
+			// 		},
+			// 		labelLine: {
+			// 			normal: {
+			// 				show: false
+			// 			}
+			// 		},
+			// 		data: chartData
+			// 	}
+			// ]
+		};
+	},
+	generateRadar() {
+		let { chartData, chartColor } =
+			this.getProperties('chartData', 'chartColor'),
+			radarConfig = this.get('radarConfig'),
+			tooltipConfig = this.get('tooltip'),
+			legendConfig = this.get('legend'),
+			tooltip = generateTooltip(tooltipConfig),
+			legend = generateLegend(legendConfig),
+			indicator = chartData.get('firstObject') ? chartData.get('firstObject').xValue.map(ele => {
+				return { name: ele, max: 1 };
+			}) : [],
+			radar = generateRadar(radarConfig, indicator);
+
+		return {
+			grid: {
+				left: 'center'
+			},
+			color: chartColor,
+			tooltip,
+			legend,
+			radar,
+			series: [{
+				name: '',
+				type: 'radar',
+				data: chartData.map((ele, index) => {
+					return {
+						value: ele.data,
+						name: ele.name,
+						areaStyle: {
+							color: chartColor[index]
+						}
+					};
+				})
+			}]
+		};
 	},
 	generateStack() {
 		window.console.log('Stack');
@@ -200,6 +320,8 @@ export default Component.extend(Panel, {
 			return this.generateLine(panelConfig.xaxis);
 		case panelConfig.pie:
 			return this.generatePie();
+		case panelConfig.radar:
+			return this.generateRadar();
 		case panelConfig.stack:
 			return this.generateStack();
 		case panelConfig.scatter:
@@ -225,32 +347,40 @@ export default Component.extend(Panel, {
 
 			later(function () {
 				let data = A([]);
+				// 伪代码，有请求之后就删除掉
 
-				if (panelModel.id === 1) {
+				if (panelModel.line || panelModel.radar) {
 					data = A([{
 						name: 'dataA',
-						date: ['2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度'],
-						data: [0.320, 0.332, 0.301, 0.334]
+						xValue: ['2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度', '2019年第一季度'],
+						data: [0.320, 0.332, 0.301, 0.334, 0.3]
 					},
 					{
 						name: 'DataB',
-						date: ['2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度'],
-						data: [0.820, 0.932, 0.901, 0.934]
+						xValue: ['2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度', '2019年第一季度'],
+						data: [0.20, 0.32, 0.11, 0.4, 0.21]
 					},
 					{
 						name: 'DataC',
-						date: ['2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度'],
-						data: [0.420, 0.555, 0.509, 0.364]
+						xValue: ['2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度', '2019年第一季度'],
+						data: [0.420, 0.555, 0.509, 0.364, 0.5]
 					},
 					{
 						name: 'DataD',
-						date: ['2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度'],
-						data: [0.470, 0.439, 0.117, 0.769]
+						xValue: ['2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度', '2019年第一季度'],
+						data: [0.470, 0.439, 0.117, 0.769, 0.11]
 					}]);
 
+				} else if (panelModel.pie) {
+					data = A([{
+						name: 'dataA',
+						xValue: ['2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度', '2019年第一季度'],
+						data: [0.320, 0.332, 0.301, 0.334, 0.3]
+					}]);
 				}
 				resolve(data);
 			}, 2400);
+			//	 伪代码，有请求之后就删除掉
 		}).then(data => {
 			this.set('chartData', data);
 			that.didUpdateAttrs();
@@ -292,7 +422,6 @@ export default Component.extend(Panel, {
 		let option = this.generateChartOption();
 
 		this.reGenerateChart(this, option);
-		// this.set('result', option);
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);

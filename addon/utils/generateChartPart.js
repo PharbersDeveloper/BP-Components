@@ -94,7 +94,7 @@ export function generateYaxis(axisConfig, valueFormatCallback) {
 export function generateTooltip(config) {
 	return {
 		show: config.show,
-		trigger: 'axis',
+		trigger: config.trigger || 'axis',
 		axisPointer: { // 坐标轴指示器，坐标轴触发有效
 			type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
 		},
@@ -134,9 +134,49 @@ export function generateLegend(config) {
 		show: config.show,
 		x: config.x || 'center',
 		y: config.y || 'bottom',
+		orient: config.orient || 'horizontal',
 		textStyle: {
 			fontSize: 14,
 			color: '#7A869A'
+		}
+	};
+}
+/**
+ * @author Frank Wang
+ * @method
+ * @name generateRadar
+ * @description 用于生成 Radar Chart
+ * @param config radar 的配置参数
+ * @return {Object}
+ * @example 创建例子。
+ * @public
+ */
+export function generateRadar(config, indicator) {
+	return {
+		radius: config.radius || '65%',
+		name: {
+			textStyle: {
+				color: '#7A869A',
+				borderRadius: 3,
+				padding: [0, 0]
+			}
+		},
+		indicator,
+		splitNumber: config.splitNumber || 5, //default
+		axisLine: {
+			lineStyle: {
+				color: '#DFE1E6'
+			}
+		},
+		splitLine: {
+			lineStyle: {
+				color: '#DFE1E6'
+			}
+		},
+		splitArea: {
+			areaStyle: {
+				color: ['#fff', '#fff']
+			}
 		}
 	};
 }

@@ -51,6 +51,8 @@ export default Component.extend({
 	 */
 	circleColor: A(['#172B4D', '#F4F5F7']),
 	// 千分位，应该提取出去
+	// 以提取在 utils/chartFormat 文件中。由于 tmist 中仍在使用，
+	// 故在替换 chart 组件的时候一同处理此处
 	formatNum(number) {
 		if (number.length <= 3) {
 			return number;
