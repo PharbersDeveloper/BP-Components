@@ -4,6 +4,7 @@ import { isEmpty } from '@ember/utils';
 import { A } from '@ember/array';
 import echarts from 'echarts';
 import $ from 'jquery';
+import EmberObject from '@ember/object';
 import Panel from '../mixins/panel';
 import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
@@ -46,10 +47,54 @@ export default Component.extend(Panel, {
 	 * @public
 	 */
 	chartData: A([]),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name loadingOptions
+	 * @description 加载中的效果
+	 * @type {Object}
+	 * @default {}
+	 * @public
+	 */
+	loadingOptions: EmberObject.extend({
+		text: '加载中...',
+		color: '#4413c2',
+		textColor: '#270240',
+		maskColor: 'rgba(255, 255, 255, 0.3)',
+		zlevel: 0
+	}),
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name onChartReady
+	 * @description 当 chart 完成
+	 * @param 该类/方法的参数，可重复定义。
+	 * @return 该类/方法的返回类型。
+	 * @example 创建例子。
+	 * @public
+	 */
+	onChartReady(chart) {
+		console.log('onChartReady-----');
+		chart.hideLoading();
+	},
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name
+	 * @description
+	 * @param 该类/方法的参数，可重复定义。
+	 * @return 该类/方法的返回类型。
+	 * @example 创建例子。
+	 * @public
+	 */
+	afterSetup(context, chart) {
+		console.log('afterSetup!!!!!');
+	},
 	reGenerateChart(self, option) {
 		const selector = `#${this.get('eid')}`,
 			$el = $(selector),
 			opts = this.get('opts'),
+			// echartInit = echarts.init($el[0], opts),
 			echartInstance = echarts.getInstanceByDom($el[0]);
 
 		if (isEmpty(echartInstance)) {
@@ -197,9 +242,6 @@ export default Component.extend(Panel, {
 			series: chartData.map((ele, index) => {
 				let pieConfig = pieConfigs[index];
 
-				console.log(pieConfig);
-				console.log(pieConfig.label.emphasis.show);
-				console.log(pieConfig.label.normal);
 				return {
 					name: ele.name || '',
 					type: 'pie',
@@ -313,22 +355,74 @@ export default Component.extend(Panel, {
 	generateChartOption() {
 		let panelConfig = this.get('panelModel');
 
-		switch (true) {
-		case panelConfig.bar:
-			return this.generateBar();
-		case panelConfig.line:
-			return this.generateLine(panelConfig.xaxis);
-		case panelConfig.pie:
-			return this.generatePie();
-		case panelConfig.radar:
-			return this.generateRadar();
-		case panelConfig.stack:
-			return this.generateStack();
-		case panelConfig.scatter:
-			return this.generateScatter();
-		default:
-			break;
-		}
+		// panelConfigKeys = Object.keys(panelConfig),
+		// showParts = A([]);
+
+		// for (let i = 0, len = panelConfigKeys.length; i < len; i++) {
+		// 	let key = panelConfigKeys[i];
+
+		// 	if (panelConfig[key].show) {
+		// 		showParts.pushObject({ key: panelConfig[key] });
+		// 	}
+		// }
+		console.log(panelConfig);
+		console.warn('panelConfig');
+		this.queryData(panelConfig);
+		// return panelConfig;
+		// switch (true) {
+		// case panelConfig.bar:
+		// 	return this.generateBar();
+		// case panelConfig.line:
+		// 	return this.generateLine();
+		// case panelConfig.pie:
+		// 	return this.generatePie();
+		// case panelConfig.radar:
+		// 	return this.generateRadar();
+		// case panelConfig.stack:
+		// 	return this.generateStack();
+		// case panelConfig.scatter:
+		// 	return this.generateScatter();
+		// default:
+		// 	break;
+		// }
+	},
+	queryData(panelConfig) {
+
+		const that = this;
+
+		new Promise(function (resolve) {
+			later(function () {
+				let data = A([
+					['product', '2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度', '2019年第一季度'],
+					['dataA', 0.320, 0.332, 0.301, 0.334, 0.3],
+					['prodB', 0.20, 0.32, 0.11, 0.4, 0.21],
+					['prodC', 0.420, 0.555, 0.509, 0.364, 0.5],
+					['prodD', 0.470, 0.439, 0.117, 0.769, 0.11]
+				]);
+
+				resolve(data);
+			}, 2400);
+			//	 伪代码，有请求之后就删除掉
+		}).then(data => {
+			that.updataChartData(data, panelConfig);
+		});
+	},
+	updataChartData(chartData, panelConfig) {
+		console.log(panelConfig);
+		panelConfig.dataset = { source: chartData };
+		console.log(panelConfig);
+		this.reGenerateChart(this, panelConfig);
+		const selector = `#${this.get('eid')}`,
+			$el = $(selector),
+			opts = this.get('opts'),
+			echartInit = echarts.init($el[0], opts);
+
+		echartInit.hideLoading();
+		// echartInstance.setOption({
+		// 	dataset: {
+		// 		source: chartData
+		// 	}
+		// });
 	},
 	didReceiveAttrs() {
 		this._super(...arguments);
@@ -342,7 +436,7 @@ export default Component.extend(Panel, {
 
 			this.set(key, panelModel[key]);
 		}
-
+		/*
 		new Promise(function (resolve) {
 
 			later(function () {
@@ -415,19 +509,22 @@ export default Component.extend(Panel, {
 			}
 
 		});
+		*/
 	},
-
 	didInsertElement() {
 		this._super(...arguments);
-		let option = this.generateChartOption();
 
-		this.reGenerateChart(this, option);
+		this.generateChartOption();
+		// let option = this.generateChartOption();
+
+		// this.reGenerateChart(this, option);
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);
 		let option = this.generateChartOption();
 
 		this.reGenerateChart(this, option);
+
 	},
 	willDestroyElement() {
 		this._super(...arguments);
