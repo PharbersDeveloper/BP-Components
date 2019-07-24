@@ -355,62 +355,40 @@ export default Component.extend(Panel, {
 	generateChartOption() {
 		let panelConfig = this.get('panelModel');
 
-		// panelConfigKeys = Object.keys(panelConfig),
-		// showParts = A([]);
-
-		// for (let i = 0, len = panelConfigKeys.length; i < len; i++) {
-		// 	let key = panelConfigKeys[i];
-
-		// 	if (panelConfig[key].show) {
-		// 		showParts.pushObject({ key: panelConfig[key] });
-		// 	}
-		// }
-		console.log(panelConfig);
-		console.warn('panelConfig');
 		this.queryData(panelConfig);
-		// return panelConfig;
-		// switch (true) {
-		// case panelConfig.bar:
-		// 	return this.generateBar();
-		// case panelConfig.line:
-		// 	return this.generateLine();
-		// case panelConfig.pie:
-		// 	return this.generatePie();
-		// case panelConfig.radar:
-		// 	return this.generateRadar();
-		// case panelConfig.stack:
-		// 	return this.generateStack();
-		// case panelConfig.scatter:
-		// 	return this.generateScatter();
-		// default:
-		// 	break;
-		// }
 	},
 	queryData(panelConfig) {
 
 		const that = this;
 
-		new Promise(function (resolve) {
-			later(function () {
-				let data = A([
-					['product', '2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度', '2019年第一季度'],
-					['dataA', 0.320, 0.332, 0.301, 0.334, 0.3],
-					['prodB', 0.20, 0.32, 0.11, 0.4, 0.21],
-					['prodC', 0.420, 0.555, 0.509, 0.364, 0.5],
-					['prodD', 0.470, 0.439, 0.117, 0.769, 0.11]
-				]);
-
-				resolve(data);
-			}, 2400);
-			//	 伪代码，有请求之后就删除掉
+		this.get('ajax').request('http://192.168.100.157:9000/data', {
+			method: 'GET'
+			// contentType: 'application/json; charset=UTF-8',
+			// data: {}
 		}).then(data => {
 			that.updataChartData(data, panelConfig);
+
 		});
+
+		// new Promise(function (resolve) {
+		// 	later(function () {
+		// 		let data = A([
+		// 			['product', '2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度', '2019年第一季度'],
+		// 			['dataA', 0.320, 0.332, 0.301, 0.334, 0.3],
+		// 			['prodB', 0.20, 0.32, 0.11, 0.4, 0.21],
+		// 			['prodC', 0.420, 0.555, 0.509, 0.364, 0.5],
+		// 			['prodD', 0.470, 0.439, 0.117, 0.769, 0.11]
+		// 		]);
+
+		// 		resolve(data);
+		// 	}, 2400);
+		// 	//	 伪代码，有请求之后就删除掉
+		// }).then(data => {
+		// 	that.updataChartData(data, panelConfig);
+		// });
 	},
 	updataChartData(chartData, panelConfig) {
-		console.log(panelConfig);
 		panelConfig.dataset = { source: chartData };
-		console.log(panelConfig);
 		this.reGenerateChart(this, panelConfig);
 		const selector = `#${this.get('eid')}`,
 			$el = $(selector),
@@ -418,11 +396,6 @@ export default Component.extend(Panel, {
 			echartInit = echarts.init($el[0], opts);
 
 		echartInit.hideLoading();
-		// echartInstance.setOption({
-		// 	dataset: {
-		// 		source: chartData
-		// 	}
-		// });
 	},
 	didReceiveAttrs() {
 		this._super(...arguments);
@@ -478,7 +451,7 @@ export default Component.extend(Panel, {
 		}).then(data => {
 			this.set('chartData', data);
 			that.didUpdateAttrs();
-			return this.get('ajax').request('http://192.168.100.157:9200/aggregatedata/_search', {
+			return this.get('ajax').request('http://192.168.100.157:9000/data', {
 				method: 'POST',
 				contentType: 'application/json; charset=UTF-8',
 				data: {
@@ -515,15 +488,14 @@ export default Component.extend(Panel, {
 		this._super(...arguments);
 
 		this.generateChartOption();
-		// let option = this.generateChartOption();
-
-		// this.reGenerateChart(this, option);
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);
-		let option = this.generateChartOption();
+		this.generateChartOption();
 
-		this.reGenerateChart(this, option);
+		// let option = this.generateChartOption();
+
+		// this.reGenerateChart(this, option);
 
 	},
 	willDestroyElement() {
