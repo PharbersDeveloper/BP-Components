@@ -358,49 +358,18 @@ export default Component.extend(Panel, {
 
 		this.queryData(panelConfig);
 	},
-	/**
-	 * @author Frank Wang
-	 * @method
-	 * @name formatQueryParams
-	 * @description 格式化 请求数据以符合 backend 要求
-	 * @param condition 请求的条件
-	 * @return {String}
-	 * @example 创建例子。
-	 * @public
-	 */
-	formatQueryParams(condition) {
-		if (isEmpty(condition)) {
-			return '';
-		}
-		let keys = Object.keys(condition),
-			params = '?';
-
-		if (keys.includes('_source')) {
-			let type = typeof condition['_source'] === 'string',
-				value = type ? condition['_source'] : condition['_source'].value.join();
-
-			params += '_source=' + value;
-		}
-		return params + '&format';
-	},
 	queryData(panelConfig) {
 
 		const that = this;
 
-		let condition = panelConfig.condition || '',
-			queryParams = this.formatQueryParams(condition);
+		let condition = JSON.stringify(panelConfig.condition) || '';
 
-		// this.get('ajax').request('http://192.168.100.157:9000/source_d45972a8c4a04703840b635a41b8ec79' + queryParams, {
+		// this.get('ajax').request('http://192.168.100.157:9000/source_d45972a8c4a04703840b635a41b8ec79/format', {
 
-		// 	method: 'GET'
-		// 	// data: condition,
-		// 	// data: JSON.stringify(condition),
-		// 	// dataType: 'json'
-		// 	// processData: false
-		// 	// traditional: true,
+		// 	method: 'GET',
+		// 	data: condition,
+		// 	dataType: 'json'
 		// 	// contentType: 'application/json; charset=UTF-8'
-		// 	// contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
-
 		// }).then(data => {
 		// 	// 针对雷达等特殊图表需要进一步格式化
 		// 	that.updataChartData(data, panelConfig);
@@ -410,7 +379,7 @@ export default Component.extend(Panel, {
 			later(function () {
 				let data = A([
 					['product', '2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度', '2019年第一季度'],
-					['dataA', 0.320, 0.332, 0.301, 0.334, 0.3],
+					['prodA', 0.320, 0.332, 0.301, 0.334, 0.3],
 					['prodB', 0.20, 0.32, 0.11, 0.4, 0.21],
 					['prodC', 0.420, 0.555, 0.509, 0.364, 0.5],
 					['prodD', 0.470, 0.439, 0.117, 0.769, 0.11]
