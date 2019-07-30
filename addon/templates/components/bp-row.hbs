@@ -1,5 +1,9 @@
 {{#bp-layout direction=direction height=height}}
 	{{#each rowModel.panels as |panel|}}
-		{{bp-panel eid=panel.id panelModel=panel time=time conditions=conditions}}
+		{{bp-panel
+			eid=panel.id 
+			panelModel=panel 
+			time=time 
+			onDataReady=(action dataReady)}}
 	{{/each}}
 {{/bp-layout}}
