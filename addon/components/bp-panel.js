@@ -22,32 +22,22 @@ export default Component.extend(Panel, {
 	},
 	/**
 	 * @author Frank Wang
-	 * @property
-	 * @name loadingOptions
-	 * @description 加载中的效果
-	 * @type {Object}
-	 * @default {}
-	 * @public
-	 */
-	loadingOptions: EmberObject.extend({
-		text: '加载中...',
-		color: '#4413c2',
-		textColor: '#270240',
-		maskColor: 'rgba(194, 88, 86, 0.3)',
-		zlevel: 0
-	}),
-	/**
-	 * @author Frank Wang
 	 * @method
 	 * @name onChartReady
-	 * @description 当 chart 完成
+	 * @description chaet Ready
 	 * @param 该类/方法的参数，可重复定义。
 	 * @return 该类/方法的返回类型。
 	 * @example 创建例子。
 	 * @public
 	 */
 	onChartReady(chart) {
-		// chart.hideLoading();
+		chart.showLoading({
+			text: '加载中...',
+			color: '#FFAB00',
+			textColor: '#fff',
+			maskColor: 'rgba(9,30,66,0.54)',
+			zlevel: 0
+		});
 	},
 	/**
 	 * @author Frank Wang
@@ -60,6 +50,7 @@ export default Component.extend(Panel, {
 	 * @public
 	 */
 	getChartIns() {
+
 		const selector = `#${this.get('eid')}`,
 			$el = $(selector),
 			echartInstance = echarts.getInstanceByDom($el[0]);
@@ -81,21 +72,41 @@ export default Component.extend(Panel, {
 			}
 		}
 	},
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name generateChartOption
+	 * @description 生成图表的 option
+	 * @param 该类/方法的参数，可重复定义。
+	 * @return {void}
+	 * @example 创建例子。
+	 * @private
+	 */
 	generateChartOption() {
-		let panelConfig = this.get('panelModel');
+		let panelConfig = this.get('panelModel'),
+			condition = this.get('condition');
 
-		this.queryData(panelConfig);
+		this.queryData(panelConfig, condition);
 	},
-	queryData(panelConfig) {
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name queryData
+	 * @description 发送数据请求
+	 * @param config 图表的config
+	 * @param condition 查询的条件
+	 * @return {void}
+	 * @example 创建例子。
+	 * @private
+	 */
+	queryData(panelConfig, condition) {
 
 		const that = this;
-
-		let condition = JSON.stringify(panelConfig.condition) || '';
 
 		this.get('ajax').request('http://192.168.100.157:9000/tmchart/format', {
 
 			method: 'GET',
-			data: condition,
+			data: JSON.stringify(condition),
 			dataType: 'json'
 			// contentType: 'application/json; charset=UTF-8'
 		}).then(data => {
@@ -106,43 +117,6 @@ export default Component.extend(Panel, {
 		// new Promise(function (resolve) {
 		// 	later(function () {
 		// 		let data = A([
-		// 			// ['product', '2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度', '2019年第一季度'],
-		// 			// ['prodA', 0.320, 0.332, 0.301, 0.334, 0.3],
-		// 			// ['prodB', 0.20, 0.32, 0.11, 0.4, 0.21],
-		// 			// ['prodC', 0.420, 0.555, 0.509, 0.364, 0.5],
-		// 			// ['prodD', 0.470, 0.439, 0.117, 0.769, 0.11]
-		// 			// tmProductCircle0/tmProductCircle1
-		// 			// ['product', 'sales', 'date', 'rate'],
-		// 			// ['优派西', 13348195, '2018Q1', 0.0608],
-		// 			// ['威芃可', 22892408, '2018Q1', 0.1042],
-		// 			// ['开拓来', 183382110, '2018Q1', 0.835]
-		// 			// tmProductBarLine0
-		// 			// ['date', 'sales', 'target', 'targetRate', 'product'],
-		// 			// ['2018Q1', 3906599868, 3645895565, 0.420, 'all'],
-		// 			// ['2018Q2', 3906599868, 2327034368, 0.555, 'all'],
-		// 			// ['2018Q3', 3606157067, 2434094442, 0.509, 'all'],
-		// 			// ['2018Q4', 492470928, 2831556342, 0.364, 'all'],
-		// 			// ['2019Q1', 3058116944, 2921291388, 0.5, 'all']
-		// 			// tmRegionCircle0/tmRegionCircle1
-		// 			// ['region', 'sales', 'date', 'rate'],
-		// 			// ['会南市', 13348195, '2018Q1', 0.0608],
-		// 			// ['会西市', 22892408, '2018Q1', 0.1042],
-		// 			// ['会东市', 183382110, '2018Q1', 0.835]
-		// 			// tmRegionBarLine0
-		// 			// ['date', 'sales', 'target', 'targetRate', 'product', 'region'],
-		// 			// ['2018Q1', 3906599868, 3645895565, 0.420, 'all', 'all'],
-		// 			// ['2018Q2', 3906599868, 2327034368, 0.555, 'all', 'all'],
-		// 			// ['2018Q3', 3606157067, 2434094442, 0.509, 'all', 'all'],
-		// 			// ['2018Q4', 492470928, 2831556342, 0.364, 'all', 'all'],
-		// 			// ['2019Q1', 3058116944, 2921291388, 0.5, 'all', 'all']
-		// 			// tmRepresentativeCircle0/tmRepresentativeCircle1
-		// 			// ['representative', 'sales', 'date', 'rate'],
-		// 			// ['clockq', 13348195, '2018Q1', 0.0608],
-		// 			// ['谢广坤', 22892408, '2018Q1', 0.1042],
-		// 			// ['赵四', 183382110, '2018Q1', 0.35],
-		// 			// ['刘能', 133382110, '2018Q1', 0.635],
-		// 			// ['段坤', 153382110, '2018Q1', 0.435],
-		// 			// ['邦古', 113382110, '2018Q1', 0.135]
 		// 			// tmRepresentativeBarLine0
 		// 			// ['date', 'sales', 'target', 'targetRate', 'product', 'representative'],
 		// 			// ['2018Q1', 3906599868, 3645895565, 0.420, 'all', 'clockq'],
@@ -150,24 +124,9 @@ export default Component.extend(Panel, {
 		// 			// ['2018Q3', 3606157067, 2434094442, 0.509, 'all', 'clockq'],
 		// 			// ['2018Q4', 492470928, 2831556342, 0.364, 'all', 'clockq'],
 		// 			// ['2019Q1', 3058116944, 2921291388, 0.5, 'all', 'clockq']
-		// 			// tmHospitalCircle0/tmHospitalCircle1
-		// 			['hospitalLevel', 'sales', 'date', 'rate'],
-		// 			['一级', 13348195, '2018Q1', 0.0608],
-		// 			['二级', 22892408, '2018Q1', 0.1042],
-		// 			['三级', 183382110, '2018Q1', 0.35],
-		// 			['院外', 133382110, '2018Q1', 0.635]
-		// 			// tmHospitalBarLine0
-		// 			// ['date', 'sales', 'target', 'targetRate', 'product', 'hospital'],
-		// 			// ['2018Q1', 3906599868, 3645895565, 0.420, 'all', '北京协和医院'],
-		// 			// ['2018Q2', 3906599868, 2327034368, 0.555, 'all', '北京协和医院'],
-		// 			// ['2018Q3', 3606157067, 2434094442, 0.509, 'all', '北京协和医院'],
-		// 			// ['2018Q4', 492470928, 2831556342, 0.364, 'all', '北京协和医院'],
-		// 			// ['2019Q1', 3058116944, 2921291388, 0.5, 'all', '北京协和医院']
 		// 		]);
-
 		// 		resolve(data);
 		// 	}, 2400);
-
 		// }).then(data => {
 		// 	that.updataChartData(data, panelConfig);
 		// });
@@ -177,10 +136,8 @@ export default Component.extend(Panel, {
 		panelConfig.dataset = { source: chartData };
 		this.reGenerateChart(this, panelConfig);
 		this.dataReady(chartData, panelConfig);
-		const selector = `#${this.get('eid')}`,
-			$el = $(selector),
-			opts = this.get('opts'),
-			echartInit = echarts.init($el[0], opts);
+
+		const echartInit = this.getChartIns();
 
 		echartInit.hideLoading();
 	},
@@ -215,12 +172,15 @@ export default Component.extend(Panel, {
 	},
 	didInsertElement() {
 		this._super(...arguments);
+		let panelConfig = this.get('panelModel'),
+			condition = this.get('condition');
 
-		this.generateChartOption();
+		if (!isEmpty(panelConfig) && !isEmpty(condition)) {
+			this.generateChartOption();
+		}
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);
-
 		this.generateChartOption();
 	},
 	willDestroyElement() {

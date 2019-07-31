@@ -4,6 +4,7 @@ import Component from '@ember/component';
 import RowContainer from '../mixins/row-container';
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/template';
+import { isEmpty } from '@ember/utils';
 
 export default Component.extend(RowContainer, {
 	layout,
@@ -38,17 +39,19 @@ export default Component.extend(RowContainer, {
 	 * @example 创建例子。
 	 * @public
 	 */
-	onQueryReady(data, config) {
+	onQueryReady() {
 		this._super(...arguments);
 	},
-	init() {
-		this._super(...arguments);
-	},
-	didReceiveAttrs() {
-		this._super(...arguments);
+	initConfig() {
 		let rowModel = this.get('rowModel'),
-			keys = Object.keys(rowModel),
-			height = rowModel.height;
+			keys = [],
+			height = '';
+
+		if (isEmpty(rowModel)) {
+			return;
+		}
+		keys = Object.keys(rowModel);
+		height = rowModel.height;
 
 		this.set('height', height);
 
@@ -58,7 +61,19 @@ export default Component.extend(RowContainer, {
 			this.set(key, rowModel[key]);
 		}
 	},
+	init() {
+		this._super(...arguments);
+	},
+	didReceiveAttrs() {
+		this._super(...arguments);
+		this.initConfig();
+	},
 	didInsertElement() {
 		this._super(...arguments);
+		this.initConfig();
+	},
+	didUpdateAttrs() {
+		this._super(...arguments);
+		this.initConfig();
 	}
 });
