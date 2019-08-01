@@ -13,6 +13,21 @@ export default Component.extend(Panel, {
 	layout,
 	tagName: '',
 	ajax: service(),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name queryAddress
+	 * @description 数据请求的地址
+	 * @type {Object}
+	 * @default {}
+	 * @public
+	 */
+	queryAddress: EmberObject.create({
+		host: 'http://192.168.100.157',
+		port: 9000,
+		sheet: 'tmchart',
+		rule: 'format'
+	}),
 	init() {
 		this._super(...arguments);
 		this.set('result', {});
@@ -50,7 +65,6 @@ export default Component.extend(Panel, {
 	 * @public
 	 */
 	getChartIns() {
-
 		const selector = `#${this.get('eid')}`,
 			$el = $(selector),
 			echartInstance = echarts.getInstanceByDom($el[0]);
@@ -82,10 +96,15 @@ export default Component.extend(Panel, {
 	 * @example 创建例子。
 	 * @private
 	 */
-	generateChartOption() {
-		let panelConfig = this.get('panelModel'),
-			condition = this.get('condition');
+	generateChartOption(panelConfig, condition) {
+		let dynamic = condition.dynamic || null;
 
+		if (!isEmpty(dynamic) && dynamic.isDynamic) {
+			this.interval = setInterval(() => {
+				this.queryData(panelConfig, condition);
+			}, dynamic.interval || 3000);
+			return;
+		}
 		this.queryData(panelConfig, condition);
 	},
 	/**
@@ -100,37 +119,16 @@ export default Component.extend(Panel, {
 	 * @private
 	 */
 	queryData(panelConfig, condition) {
+		let qa = condition.queryAddress || this.get('queryAddress');
 
-		const that = this;
-
-		this.get('ajax').request('http://192.168.100.157:9000/tmchart/format', {
-
+		this.get('ajax').request(`${qa.host}:${qa.port}/${qa.sheet}/${qa.rule}`, {
 			method: 'GET',
-			data: JSON.stringify(condition),
+			data: JSON.stringify(condition.data),
 			dataType: 'json'
-			// contentType: 'application/json; charset=UTF-8'
 		}).then(data => {
 			// 针对雷达等特殊图表需要进一步格式化
-			that.updataChartData(data, panelConfig);
+			this.updataChartData(data, panelConfig);
 		});
-		//	 伪代码，有请求之后就删除掉
-		// new Promise(function (resolve) {
-		// 	later(function () {
-		// 		let data = A([
-		// 			// tmRepresentativeBarLine0
-		// 			// ['date', 'sales', 'target', 'targetRate', 'product', 'representative'],
-		// 			// ['2018Q1', 3906599868, 3645895565, 0.420, 'all', 'clockq'],
-		// 			// ['2018Q2', 3906599868, 2327034368, 0.555, 'all', 'clockq'],
-		// 			// ['2018Q3', 3606157067, 2434094442, 0.509, 'all', 'clockq'],
-		// 			// ['2018Q4', 492470928, 2831556342, 0.364, 'all', 'clockq'],
-		// 			// ['2019Q1', 3058116944, 2921291388, 0.5, 'all', 'clockq']
-		// 		]);
-		// 		resolve(data);
-		// 	}, 2400);
-		// }).then(data => {
-		// 	that.updataChartData(data, panelConfig);
-		// });
-		//	 伪代码，有请求之后就删除掉
 	},
 	updataChartData(chartData, panelConfig) {
 		panelConfig.dataset = { source: chartData };
@@ -176,19 +174,24 @@ export default Component.extend(Panel, {
 			condition = this.get('condition');
 
 		if (!isEmpty(panelConfig) && !isEmpty(condition)) {
-			this.generateChartOption();
+			this.generateChartOption(panelConfig, condition);
 		}
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);
-		this.generateChartOption();
+		let panelConfig = this.get('panelModel'),
+			condition = this.get('condition');
+
+		this.generateChartOption(panelConfig, condition);
+
 	},
 	willDestroyElement() {
-		// this._super(...arguments);
-		// const selector = `#${this.get('eid')}`,
-		// 	$el = $(selector),
-		// 	echartInstance = echarts.getInstanceByDom($el[0]);
+		this._super(...arguments);
+		window.console.log('willDestroyElement');
+		// const echartInit = this.getChartIns();
 
-		// echartInstance.clear();
+		// echartInit.clear();
+		// echartInit.dispose();
+
 	}
 });
