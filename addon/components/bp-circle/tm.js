@@ -50,6 +50,16 @@ export default Component.extend({
 	 * @public
 	 */
 	circleSize: A(['80%', '95%']),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name labelEmphasis
+	 * @description 高亮提醒
+	 * @type {Boolean}
+	 * @default true
+	 * @public
+	 */
+	labelEmphasis: true,
 	// 千分位，应该提取出去
 	formatNum(number) {
 		if (number.length <= 3) {
@@ -70,8 +80,8 @@ export default Component.extend({
 		return String(String(a) + b) + c;
 	},
 	generateOption() {
-		let { seriesName, circleData, circleColor, circleSize } =
-			this.getProperties('seriesName', 'circleData', 'circleColor', 'circleSize'),
+		let { seriesName, circleData, circleColor, circleSize, labelEmphasis } =
+			this.getProperties('seriesName', 'circleData', 'circleColor', 'circleSize', 'labelEmphasis'),
 			that = this;
 
 		return {
@@ -108,7 +118,7 @@ export default Component.extend({
 							position: 'center'
 						},
 						emphasis: {
-							show: true,
+							show: labelEmphasis,
 							textStyle: {
 								fontSize: '12',
 								fontWeight: 'normal'

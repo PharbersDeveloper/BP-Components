@@ -247,7 +247,6 @@ export default Component.extend(Panel, {
 	},
 	willDestroyElement() {
 		this._super(...arguments);
-		window.console.log('willDestroyElement');
 
 		let intervalObject = this.get('intervalObject');
 		// const echartInit = this.getChartIns();

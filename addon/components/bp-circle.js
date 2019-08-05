@@ -50,6 +50,16 @@ export default Component.extend({
 	 * @public
 	 */
 	circleColor: A(['#172B4D', '#F4F5F7']),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name labelEmphasis
+	 * @description 高亮提醒
+	 * @type {Boolean}
+	 * @default true
+	 * @public
+	 */
+	labelEmphasis: true,
 	// 千分位，应该提取出去
 	// 以提取在 utils/chartFormat 文件中。由于 tmist 中仍在使用，
 	// 故在替换 chart 组件的时候一同处理此处
@@ -72,21 +82,21 @@ export default Component.extend({
 		return String(String(a) + b) + c;
 	},
 	generateOption() {
-		let { seriesName, circleData, circleColor, circleSize } =
-			this.getProperties('seriesName', 'circleData', 'circleColor', 'circleSize'),
+		let { seriesName, circleData, circleColor, circleSize, labelEmphasis } =
+			this.getProperties('seriesName', 'circleData', 'circleColor', 'circleSize', 'labelEmphasis'),
 			that = this;
 
 		return {
-			title: {
-				text: circleData.lastObject.value,
-				textStyle: {
-					color: '#172B4D',
-					fontSize: 20
-				},
+			// title: {
+			// 	text: circleData.lastObject.value,
+			// 	textStyle: {
+			// 		color: '#172B4D',
+			// 		fontSize: 20
+			// 	},
 
-				x: 'center',
-				y: 'center'
-			},
+			// 	x: 'center',
+			// 	y: 'center'
+			// },
 			tooltip: {
 				trigger: 'item',
 				formatter: function (params) {
@@ -120,7 +130,7 @@ export default Component.extend({
 							position: 'center'
 						},
 						emphasis: {
-							show: true,
+							show: labelEmphasis,
 							textStyle: {
 								fontSize: '14',
 								fontWeight: 'normal'
