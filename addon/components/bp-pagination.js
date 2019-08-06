@@ -127,9 +127,14 @@ export default Component.extend({
 		this.set('pageGroup', arr);
 	},
 	/**
-	 * 更新展示数组
+	 * @author Frank Wang
 	 * @method
-	 * @private
+	 * @name updatePageGroup
+	 * @description 更新展示数组
+	 * @param null
+	 * @return {void}
+	 * @example 创建例子。
+	 * @rivate
 	 */
 	updatePageGroup() {
 		let arr = [],
@@ -155,14 +160,24 @@ export default Component.extend({
 		this.createPageGroup();
 	},
 	/**
-	 * 点击页面的操作
-	 * @param page
+	 * @author Frank Wang
+	 * @method
+	 * @name onClickPage
+	 * @description 点击页码或者跳转箭头时执行的操作
+	 * @param page 要跳转去的页数
+	 * @return {void}
+	 * @example 创建例子。
 	 * @public
 	 */
 	onClickPage() { },
 	/**
-	 * 点击 page
-	 * @param {number} page
+	 * @author Frank Wang
+	 * @method
+	 * @name clickPage
+	 * @description 点击页码或者跳转箭头时执行的操作
+	 * @param page 要跳转去的页数
+	 * @return {void}
+	 * @example 创建例子。
 	 * @private
 	 */
 	clickPage(page) {
