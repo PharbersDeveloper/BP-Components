@@ -1,0 +1,31 @@
+<!-- 头部区，选择上或者下 -->
+{{#bp-layout main='between' cross='center' class="ui-datepicker-header"}}
+	<a href="#" class="ui-datepicker-btn ui-datepicker-prev-btn" {{action 'prevYear'}}>{{bp-icon icon='pre-year'}}</a>
+	<a href="#" class="ui-datepicker-btn ui-datepicker-prev-btn" {{action 'prevMonth'}}>{{bp-icon icon='left'}}</a>
+	<span class="ui-datepicker-curr-month">{{date.year}}年 {{date.month}}月</span>
+	<a href="#" class="ui-datepicker-btn ui-datepicker-next-btn" {{action 'nextMonth'}}>{{bp-icon icon='right'}}</a>
+	<a href="#" class="ui-datepicker-btn ui-datepicker-next-btn" {{action 'nextYear'}}>{{bp-icon icon='next-year'}}</a>
+{{/bp-layout}}
+<!-- body区，显示日历 -->
+<div class="ui-datepicker-body">
+	<table>
+		<!-- 日历顶端显示星期几 -->
+		<thead>
+			<tr>
+				{{#each weekend as |weekDay|}}
+					<th>{{weekDay}}</th>
+				{{/each}}
+			</tr>
+		</thead>
+		<!-- 日历主体部分，每一行显示七天 -->
+		<tbody>
+			{{#each monthDays as |weekend|}}
+				<tr>
+					{{#each weekend as |day|}}
+						{{bp-datepicker/day date=day choosedDate=choosedDate choosedDay=choosedDay onClick=(action 'chooseDate')}}
+					{{/each}}
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</div>
