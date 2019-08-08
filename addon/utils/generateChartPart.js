@@ -180,3 +180,247 @@ export function generateRadar(config, indicator) {
 		}
 	};
 }
+export function generateChartTitle() {
+
+}
+export function generateBar() {
+	let { chartData, chartColor } =
+		this.getProperties('chartData', 'chartColor'),
+		xAxisData = isEmpty(chartData) ? A([]) : chartData.get('firstObject').xValue,
+		xAxisConfig = this.get('xaxis'),
+		yAxisConfig = this.get('yaxis'),
+		tooltipConfig = this.get('tooltip'),
+		legendConfig = this.get('legend'),
+		xAxis = generateXaxis(xAxisConfig, xAxisData),
+		yAxis = generateYaxis(yAxisConfig),
+		tooltip = generateTooltip(tooltipConfig),
+		legend = generateLegend(legendConfig),
+		series = A([]);
+
+	if (isEmpty(chartData)) {
+		series = A([]);
+	}
+	series = chartData.map(ele => {
+		return {
+			name: ele.name,
+			type: 'bar',
+			barWidth: '8px',
+			data: ele.data,
+			itemStyle: {
+				barBorderRadius: [5, 5, 0, 0]
+			}
+		};
+	});
+
+	return {
+		/**
+		 *
+		 title: [{
+			 text: title,
+			 fontWeight: 500,
+			 textStyle: {
+				 fontSize: 14,
+				 color: '#172B4D'
+			 }
+		 }, {
+			 text: barData.name,
+			 left: '110',
+			 textStyle: {
+				 fontSize: 12,
+				 fontWeight: 300,
+				 lineHeight: 20,
+				 color: '#7A869A'
+			 }
+		 }],
+		*/
+		color: chartColor,
+		tooltip,
+		grid: {
+			left: '24',
+			right: 24,
+			top: 44,
+			bottom: '24',
+			containLabel: true
+		},
+		xAxis,
+		yAxis,
+		legend,
+		series
+	};
+}
+export function generateLine() {
+	let { chartData, chartColor } =
+		this.getProperties('chartData', 'chartColor'),
+		xAxisData = isEmpty(chartData) ? A([]) : chartData.get('firstObject').xValue,
+		xAxisConfig = this.get('xaxis'),
+		yAxisConfig = this.get('yaxis'),
+		tooltipConfig = this.get('tooltip'),
+		legendConfig = this.get('legend'),
+		xAxis = generateXaxis(xAxisConfig, xAxisData),
+		yAxis = generateYaxis(yAxisConfig),
+		tooltip = generateTooltip(tooltipConfig),
+		legend = generateLegend(legendConfig);
+
+	return {
+		/** title: [{
+		// 	text: title,
+		// 	textStyle: {
+		// 		fontSize: 14,
+		// 		color: '#172B4D'
+		// 	}
+		// }, {
+		// 	text: subText,
+		// 	left: '120',
+		// 	textStyle: {
+		// 		fontSize: 12,
+		// 		fontWeight: 300,
+		// 		lineHeight: 20,
+		// 		color: '#7A869A'
+		// 	}
+		}],
+		*/
+		grid: {
+			left: 48,
+			// top:16,
+			right: 48
+		},
+		xAxis,
+		tooltip,
+		legend,
+		color: chartColor,
+		yAxis,
+		series: isEmpty(chartData) ? A([]) : chartData.map((ele) => {
+			return {
+				name: ele.name,
+				type: 'line',
+				data: ele.data
+			};
+		})
+	};
+}
+export function generatePie() {
+	window.console.log('Pie');
+	let { chartData, chartColor, pieConfigs } =
+		this.getProperties('chartData', 'chartColor', 'pieConfigs'),
+		tooltipConfig = this.get('tooltip'),
+		legendConfig = this.get('legend'),
+		tooltip = generateTooltip(tooltipConfig),
+		legend = generateLegend(legendConfig);
+
+	return {
+		tooltip,
+		color: chartColor,
+		legend,
+		series: chartData.map((ele, index) => {
+			let pieConfig = pieConfigs[index];
+
+			return {
+				name: ele.name || '',
+				type: 'pie',
+				radius: A([pieConfig.insideRadius || '80%', pieConfig.outsideRadius || '95%']),
+				avoidLabelOverlap: pieConfig.avoidLabelOverlap || false,
+				hoverOffset: pieConfig.hoverOffset || 3,
+				label: {
+					normal: pieConfig.label.normal || {
+						show: false,
+						position: 'center'
+					},
+					emphasis: {
+						show: pieConfig.label.emphasis.show || false,
+						textStyle: {
+							fontSize: '14',
+							fontWeight: 'normal'
+						},
+						formatter: function (params) {
+							return params.percent + '%';
+						}
+					}
+				},
+				labelLine: {
+					normal: {
+						show: false
+					}
+				},
+				data: !ele.xValue ? [] : ele.xValue.map((item, i) => {
+					return {
+						name: item,
+						value: ele.data[i]
+					};
+				})
+			};
+		})
+		// series: [
+		// 	{
+		// 		name: 'seriesName',
+		// 		type: 'pie',
+		// 		radius: A(['80%', '95%']),
+		// 		avoidLabelOverlap: false,
+		// 		hoverOffset: 3,
+		// 		label: {
+		// 			normal: {
+		// 				show: false,
+		// 				position: 'center'
+		// 			},
+		// 			emphasis: {
+		// 				show: true,
+		// 				textStyle: {
+		// 					fontSize: '14',
+		// 					fontWeight: 'normal'
+		// 				},
+		// 				formatter: function (params) {
+		// 					return params.percent + '%';
+		// 				}
+		// 			}
+		// 		},
+		// 		labelLine: {
+		// 			normal: {
+		// 				show: false
+		// 			}
+		// 		},
+		// 		data: chartData
+		// 	}
+		// ]
+	};
+}
+export function generateRadarTotal() {
+	let { chartData, chartColor } =
+		this.getProperties('chartData', 'chartColor'),
+		radarConfig = this.get('radarConfig'),
+		tooltipConfig = this.get('tooltip'),
+		legendConfig = this.get('legend'),
+		tooltip = generateTooltip(tooltipConfig),
+		legend = generateLegend(legendConfig),
+		indicator = chartData.get('firstObject') ? chartData.get('firstObject').xValue.map(ele => {
+			return { name: ele, max: 1 };
+		}) : [],
+		radar = generateRadar(radarConfig, indicator);
+
+	return {
+		grid: {
+			left: 'center'
+		},
+		color: chartColor,
+		tooltip,
+		legend,
+		radar,
+		series: [{
+			name: '',
+			type: 'radar',
+			data: chartData.map((ele, index) => {
+				return {
+					value: ele.data,
+					name: ele.name,
+					areaStyle: {
+						color: chartColor[index]
+					}
+				};
+			})
+		}]
+	};
+}
+export function generateStack() {
+	window.console.log('Stack');
+}
+export function generateScatter() {
+	window.console.log('generateScatter');
+}

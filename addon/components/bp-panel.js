@@ -1,19 +1,42 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-panel';
 import { isEmpty } from '@ember/utils';
-import { A } from '@ember/array';
+import { isArray } from '@ember/array';
 import echarts from 'echarts';
 import $ from 'jquery';
 import EmberObject from '@ember/object';
-import { later } from '@ember/runloop';
 import Panel from '../mixins/panel';
 import { inject as service } from '@ember/service';
-import { generateXaxis, generateYaxis, generateTooltip, generateLegend, generateRadar } from '../utils/generateChartPart';
 
 export default Component.extend(Panel, {
 	layout,
 	tagName: '',
 	ajax: service(),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name intervalObject
+	 * @description 间隔对象
+	 * @type {Object}
+	 * @default null
+	 * @public
+	 */
+	intervalObject: null,
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name queryAddress
+	 * @description 数据请求的地址
+	 * @type {Object}
+	 * @default {}
+	 * @public
+	 */
+	queryAddress: EmberObject.create({
+		host: 'http://192.168.100.157',
+		port: 9000,
+		sheet: 'tmchart',
+		rule: 'format'
+	}),
 	init() {
 		this._super(...arguments);
 		this.set('result', {});
@@ -22,84 +45,151 @@ export default Component.extend(Panel, {
 		});
 	},
 	/**
-	 * xAxisData
-	 * @property xAxisData
-	 * @type {string}
-	 * @default ''
-	 * @public
-	 */
-	xAxisData: A(['city1', 'city2', 'city3', 'city4', 'city5', 'city6']),
-	/**
-	 * chartColor
-	 * @property chartColor
-	 * @type {Array}
-	 * @default ['#172B4D', '#F4F5F7']
-	 * @public
-	 */
-	chartColor: A(['#73ABFF', '#2355A9', '#FFC400', '#5799ff']),
-	/**
-	 * @author Frank Wang
-	 * @property
-	 * @name chartData
-	 * @description chart's data
-	 * @type {Array}
-	 * @default A([])
-	 * @public
-	 */
-	chartData: A([]),
-	/**
-	 * @author Frank Wang
-	 * @property
-	 * @name loadingOptions
-	 * @description 加载中的效果
-	 * @type {Object}
-	 * @default {}
-	 * @public
-	 */
-	loadingOptions: EmberObject.extend({
-		text: '加载中...',
-		color: '#4413c2',
-		textColor: '#270240',
-		maskColor: 'rgba(255, 255, 255, 0.3)',
-		zlevel: 0
-	}),
-	/**
 	 * @author Frank Wang
 	 * @method
 	 * @name onChartReady
-	 * @description 当 chart 完成
+	 * @description chaet Ready
 	 * @param 该类/方法的参数，可重复定义。
 	 * @return 该类/方法的返回类型。
 	 * @example 创建例子。
 	 * @public
 	 */
 	onChartReady(chart) {
-		chart.hideLoading();
+		chart.showLoading({
+			text: '加载中...',
+			color: '#FFAB00',
+			textColor: '#fff',
+			maskColor: 'rgba(9,30,66,0.54)',
+			zlevel: 0
+		});
 	},
 	/**
 	 * @author Frank Wang
 	 * @method
-	 * @name
-	 * @description
+	 * @name getChartIns
+	 * @description 获取 chart 的实例
 	 * @param 该类/方法的参数，可重复定义。
 	 * @return 该类/方法的返回类型。
 	 * @example 创建例子。
 	 * @public
 	 */
-	// afterSetup(context, chart) {
-	// 	console.log(chart);
-	// 	console.log(context);
-	// 	chart.hideLoading();
-	// },
-	reGenerateChart(self, option) {
+	getChartIns() {
 		const selector = `#${this.get('eid')}`,
 			$el = $(selector),
-			opts = this.get('opts'),
-			// echartInit = echarts.init($el[0], opts),
 			echartInstance = echarts.getInstanceByDom($el[0]);
 
+		return echartInstance;
+	},
+
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name generateChartOption
+	 * @description 生成图表的 option
+	 * @param 该类/方法的参数，可重复定义。
+	 * @return {void}
+	 * @example 创建例子。
+	 * @private
+	 */
+	generateChartOption(panelConfig, condition) {
+		let dynamic = condition.dynamic || null;
+
+		if (!isEmpty(dynamic) && dynamic.isDynamic) {
+			this.set('intervalObject', setInterval(() => {
+				this.queryData(panelConfig, condition);
+			}, dynamic.interval || 3000));
+			return;
+		}
+		this.queryData(panelConfig, condition);
+	},
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name queryData
+	 * @description 发送数据请求
+	 * @param config 图表的config
+	 * @param condition 查询的条件
+	 * @return {void}
+	 * @example 创建例子。
+	 * @private
+	 */
+	queryData(panelConfig, condition) {
+		let qa = condition.queryAddress || this.get('queryAddress');
+
+		this.get('ajax').request(`${qa.host}:${qa.port}/${qa.sheet}/${qa.rule}`, {
+			method: 'GET',
+			data: JSON.stringify(condition.data),
+			dataType: 'json'
+		}).then(data => {
+			// 针对雷达等特殊图表需要进一步格式化
+			this.updateChartData(panelConfig, data);
+		});
+	},
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name updateChartData
+	 * @description 更新图表数据
+	 * @param config 图表的配置信息
+	 * @param data 图表的数据
+	 * @return {void}
+	 * @example 创建例子。
+	 * @private
+	 */
+	updateChartData(panelConfig, chartData) {
+		panelConfig.dataset = { source: chartData };
+		let isLines = panelConfig.series.every((ele) => ele.type === 'line');
+
+		if (!isLines) {
+			this.reGenerateChart(panelConfig);
+		} else {
+			let linesPanelConfig = this.calculateLinesNumber(panelConfig, chartData);
+
+			this.reGenerateChart(linesPanelConfig);
+		}
+		// this.reGenerateChart(panelConfig);
+		this.dataReady(chartData, panelConfig);
+
+		const echartInit = this.getChartIns();
+
+		echartInit.hideLoading();
+	},
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name calculateLinesNumber
+	 * @description 为纯折线图动态计算数目
+	 * @param 该类/方法的参数，可重复定义。
+	 * @return 该类/方法的返回类型。
+	 * @example 创建例子。
+	 * @private
+	 */
+	calculateLinesNumber(panelConfig, chartData) {
+		let linesNumber = chartData[0].length - 1,
+			lineConfig = isArray(panelConfig.series) ? panelConfig.series[0] : panelConfig.series,
+			series = [...Array(linesNumber)].map(() => {
+				return lineConfig;
+			});
+
+		panelConfig.series = series;
+		return panelConfig;
+	},
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name reGenerateChart
+	 * @description 重新生成图表
+	 * @param option 配置信息
+	 * @return {void}
+	 * @example 创建例子。
+	 * @private
+	 */
+	reGenerateChart(option) {
+		const opts = this.get('opts'),
+			echartInstance = this.getChartIns();
+
 		if (isEmpty(echartInstance)) {
-			self.set('result', option);
+			this.set('result', option);
 		} else {
 			echartInstance.clear();
 			if (!isEmpty(option)) {
@@ -109,354 +199,60 @@ export default Component.extend(Panel, {
 			}
 		}
 	},
-	generateChartTitle() {
-
-	},
-	generateBar() {
-		let { chartData, chartColor } =
-			this.getProperties('chartData', 'chartColor'),
-			xAxisData = isEmpty(chartData) ? A([]) : chartData.get('firstObject').xValue,
-			xAxisConfig = this.get('xaxis'),
-			yAxisConfig = this.get('yaxis'),
-			tooltipConfig = this.get('tooltip'),
-			legendConfig = this.get('legend'),
-			xAxis = generateXaxis(xAxisConfig, xAxisData),
-			yAxis = generateYaxis(yAxisConfig),
-			tooltip = generateTooltip(tooltipConfig),
-			legend = generateLegend(legendConfig),
-			series = A([]);
-
-		if (isEmpty(chartData)) {
-			series = A([]);
-		}
-		series = chartData.map(ele => {
-			return {
-				name: ele.name,
-				type: 'bar',
-				barWidth: '8px',
-				data: ele.data,
-				itemStyle: {
-					barBorderRadius: [5, 5, 0, 0]
-				}
-			};
-		});
-
-		return {
-			/**
-			 *
-			 title: [{
-			 	text: title,
-			 	fontWeight: 500,
-			 	textStyle: {
-			 		fontSize: 14,
-			 		color: '#172B4D'
-			 	}
-			 }, {
-			 	text: barData.name,
-			 	left: '110',
-			 	textStyle: {
-			 		fontSize: 12,
-			 		fontWeight: 300,
-			 		lineHeight: 20,
-			 		color: '#7A869A'
-			 	}
-			 }],
-			*/
-			color: chartColor,
-			tooltip,
-			grid: {
-				left: '24',
-				right: 24,
-				top: 44,
-				bottom: '24',
-				containLabel: true
-			},
-			xAxis,
-			yAxis,
-			legend,
-			series
-		};
-	},
-	generateLine() {
-		let { chartData, chartColor } =
-			this.getProperties('chartData', 'chartColor'),
-			xAxisData = isEmpty(chartData) ? A([]) : chartData.get('firstObject').xValue,
-			xAxisConfig = this.get('xaxis'),
-			yAxisConfig = this.get('yaxis'),
-			tooltipConfig = this.get('tooltip'),
-			legendConfig = this.get('legend'),
-			xAxis = generateXaxis(xAxisConfig, xAxisData),
-			yAxis = generateYaxis(yAxisConfig),
-			tooltip = generateTooltip(tooltipConfig),
-			legend = generateLegend(legendConfig);
-
-		return {
-			/** title: [{
-			// 	text: title,
-			// 	textStyle: {
-			// 		fontSize: 14,
-			// 		color: '#172B4D'
-			// 	}
-			// }, {
-			// 	text: subText,
-			// 	left: '120',
-			// 	textStyle: {
-			// 		fontSize: 12,
-			// 		fontWeight: 300,
-			// 		lineHeight: 20,
-			// 		color: '#7A869A'
-			// 	}
-			}],
-			*/
-			grid: {
-				left: 48,
-				// top:16,
-				right: 48
-			},
-			xAxis,
-			tooltip,
-			legend,
-			color: chartColor,
-			yAxis,
-			series: isEmpty(chartData) ? A([]) : chartData.map((ele) => {
-				return {
-					name: ele.name,
-					type: 'line',
-					data: ele.data
-				};
-			})
-		};
-	},
-	generatePie() {
-		window.console.log('Pie');
-		let { chartData, chartColor, pieConfigs } =
-			this.getProperties('chartData', 'chartColor', 'pieConfigs'),
-			tooltipConfig = this.get('tooltip'),
-			legendConfig = this.get('legend'),
-			tooltip = generateTooltip(tooltipConfig),
-			legend = generateLegend(legendConfig);
-
-		return {
-			tooltip,
-			color: chartColor,
-			legend,
-			series: chartData.map((ele, index) => {
-				let pieConfig = pieConfigs[index];
-
-				return {
-					name: ele.name || '',
-					type: 'pie',
-					radius: A([pieConfig.insideRadius || '80%', pieConfig.outsideRadius || '95%']),
-					avoidLabelOverlap: pieConfig.avoidLabelOverlap || false,
-					hoverOffset: pieConfig.hoverOffset || 3,
-					label: {
-						normal: pieConfig.label.normal || {
-							show: false,
-							position: 'center'
-						},
-						emphasis: {
-							show: pieConfig.label.emphasis.show || false,
-							textStyle: {
-								fontSize: '14',
-								fontWeight: 'normal'
-							},
-							formatter: function (params) {
-								return params.percent + '%';
-							}
-						}
-					},
-					labelLine: {
-						normal: {
-							show: false
-						}
-					},
-					data: !ele.xValue ? [] : ele.xValue.map((item, i) => {
-						return {
-							name: item,
-							value: ele.data[i]
-						};
-					})
-				};
-			})
-			// series: [
-			// 	{
-			// 		name: 'seriesName',
-			// 		type: 'pie',
-			// 		radius: A(['80%', '95%']),
-			// 		avoidLabelOverlap: false,
-			// 		hoverOffset: 3,
-			// 		label: {
-			// 			normal: {
-			// 				show: false,
-			// 				position: 'center'
-			// 			},
-			// 			emphasis: {
-			// 				show: true,
-			// 				textStyle: {
-			// 					fontSize: '14',
-			// 					fontWeight: 'normal'
-			// 				},
-			// 				formatter: function (params) {
-			// 					return params.percent + '%';
-			// 				}
-			// 			}
-			// 		},
-			// 		labelLine: {
-			// 			normal: {
-			// 				show: false
-			// 			}
-			// 		},
-			// 		data: chartData
-			// 	}
-			// ]
-		};
-	},
-	generateRadar() {
-		let { chartData, chartColor } =
-			this.getProperties('chartData', 'chartColor'),
-			radarConfig = this.get('radarConfig'),
-			tooltipConfig = this.get('tooltip'),
-			legendConfig = this.get('legend'),
-			tooltip = generateTooltip(tooltipConfig),
-			legend = generateLegend(legendConfig),
-			indicator = chartData.get('firstObject') ? chartData.get('firstObject').xValue.map(ele => {
-				return { name: ele, max: 1 };
-			}) : [],
-			radar = generateRadar(radarConfig, indicator);
-
-		return {
-			grid: {
-				left: 'center'
-			},
-			color: chartColor,
-			tooltip,
-			legend,
-			radar,
-			series: [{
-				name: '',
-				type: 'radar',
-				data: chartData.map((ele, index) => {
-					return {
-						value: ele.data,
-						name: ele.name,
-						areaStyle: {
-							color: chartColor[index]
-						}
-					};
-				})
-			}]
-		};
-	},
-	generateStack() {
-		window.console.log('Stack');
-	},
-	generateScatter() {
-		window.console.log('generateScatter');
-	},
-	generateChartOption() {
-		let panelConfig = this.get('panelModel');
-
-		this.queryData(panelConfig);
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name dataReady
+	 * @description 当请求数据完毕之后，将数据抛出去
+	 * @param chartData 图表数据。
+	 * @param panelConfig 图表配置。
+	 * @return {void}
+	 * @example 创建例子。
+	 * @private
+	 */
+	dataReady(chartData, panelConfig) {
+		this.onDataReady(chartData, panelConfig);
 	},
 	/**
 	 * @author Frank Wang
 	 * @method
-	 * @name formatQueryParams
-	 * @description 格式化 请求数据以符合 backend 要求
-	 * @param condition 请求的条件
-	 * @return {String}
+	 * @name onDataReady
+	 * @description 当请求数据完毕之后，通过闭包将数据抛出去
+	 * @param chartData 图表数据。
+	 * @param panelConfig 图表配置。
+	 * @return {void}
 	 * @example 创建例子。
 	 * @public
 	 */
-	formatQueryParams(condition) {
-		if (isEmpty(condition)) {
-			return '';
-		}
-		let keys = Object.keys(condition),
-			params = '?';
-
-		if (keys.includes('_source')) {
-			let type = typeof condition['_source'] === 'string',
-				value = type ? condition['_source'] : condition['_source'].value.join();
-
-			params += '_source=' + value;
-		}
-		return params + '&format';
-	},
-	queryData(panelConfig) {
-
-		const that = this;
-
-		let condition = panelConfig.condition || '',
-			queryParams = this.formatQueryParams(condition);
-
-		// this.get('ajax').request('http://192.168.100.157:9000/source_d45972a8c4a04703840b635a41b8ec79' + queryParams, {
-
-		// 	method: 'GET'
-		// 	// data: condition,
-		// 	// data: JSON.stringify(condition),
-		// 	// dataType: 'json'
-		// 	// processData: false
-		// 	// traditional: true,
-		// 	// contentType: 'application/json; charset=UTF-8'
-		// 	// contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
-
-		// }).then(data => {
-		// 	// 针对雷达等特殊图表需要进一步格式化
-		// 	that.updataChartData(data, panelConfig);
-		// });
-		//	 伪代码，有请求之后就删除掉
-		new Promise(function (resolve) {
-			later(function () {
-				let data = A([
-					['product', '2018年第一季度', '2018年第二季度', '2018年第三季度', '2018年第四季度', '2019年第一季度'],
-					['dataA', 0.320, 0.332, 0.301, 0.334, 0.3],
-					['prodB', 0.20, 0.32, 0.11, 0.4, 0.21],
-					['prodC', 0.420, 0.555, 0.509, 0.364, 0.5],
-					['prodD', 0.470, 0.439, 0.117, 0.769, 0.11]
-				]);
-
-				resolve(data);
-			}, 2400);
-
-		}).then(data => {
-			that.updataChartData(data, panelConfig);
-		});
-		//	 伪代码，有请求之后就删除掉
-	},
-	updataChartData(chartData, panelConfig) {
-		panelConfig.dataset = { source: chartData };
-		this.reGenerateChart(this, panelConfig);
-		const selector = `#${this.get('eid')}`,
-			$el = $(selector),
-			opts = this.get('opts'),
-			echartInit = echarts.init($el[0], opts);
-
-		echartInit.hideLoading();
-	},
-
+	onDataReady() { },
 	didReceiveAttrs() {
 		this._super(...arguments);
-
-		console.log('didReceiveAttrs');
 	},
 	didInsertElement() {
 		this._super(...arguments);
+		let panelConfig = this.get('panelModel'),
+			condition = this.get('condition');
 
-		window.console.log('didInsertElement');
-		this.generateChartOption();
+		if (!isEmpty(panelConfig) && !isEmpty(condition)) {
+			this.generateChartOption(panelConfig, condition);
+		}
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);
-		window.console.log('didUpdateAttrs');
-		this.generateChartOption();
+		let panelConfig = this.get('panelModel'),
+			condition = this.get('condition');
+
+		this.generateChartOption(panelConfig, condition);
+
 	},
 	willDestroyElement() {
-		// this._super(...arguments);
-		// const selector = `#${this.get('eid')}`,
-		// 	$el = $(selector),
-		// 	echartInstance = echarts.getInstanceByDom($el[0]);
+		this._super(...arguments);
 
-		// echartInstance.clear();
+		let intervalObject = this.get('intervalObject');
+		// const echartInit = this.getChartIns();
+
+		// echartInit.clear();
+		// echartInit.dispose();
+		clearInterval(intervalObject);
 	}
 });

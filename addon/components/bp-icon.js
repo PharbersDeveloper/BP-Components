@@ -41,8 +41,8 @@ export default Component.extend({
 	/**
 	 * custom icon size
 	 * @property size
-	 * @type string
-	 * @default 'medium'
+	 * @type {string}
+	 * @default 'medium' //'large' 'medium' 'small'
 	 * @public
 	 */
 	size: 'medium',

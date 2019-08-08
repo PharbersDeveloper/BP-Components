@@ -1,5 +1,14 @@
 {{#bp-layout direction=direction height=height}}
-	{{#each rowModel.panels as |panel|}}
-		{{bp-panel eid=panel.id panelModel=panel time=time conditions=conditions}}
+	{{#each rowModel.panels as |panel index|}}
+		{{#each conditions as |condition cindex|}}
+			{{#if (bp-eq index cindex)}}
+				{{bp-panel
+					eid=panel.id 
+					panelModel=panel 
+					time=time 
+					condition=condition
+					onDataReady=(action onQueryReady)}}
+			{{/if}}
+		{{/each}}
 	{{/each}}
 {{/bp-layout}}

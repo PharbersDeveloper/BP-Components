@@ -3,6 +3,7 @@ import layout from '../templates/components/bp-layout';
 import { computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
 import { htmlSafe } from '@ember/template';
+import { isEmpty } from '@ember/utils';
 
 export default Component.extend({
 	layout,
@@ -10,7 +11,9 @@ export default Component.extend({
 	style: computed('height', function () {
 		let height = this.get('height');
 
-		return htmlSafe(`height:${height}px`);
+		if (!isEmpty(height)) {
+			return htmlSafe(`height:${height}px`);
+		}
 	}),
 	/**
 	 * 设置是否折行.

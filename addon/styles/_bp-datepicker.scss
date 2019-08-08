@@ -1,0 +1,57 @@
+.ui-datepicker-wrapper {
+    width: 312px;
+    padding: 18px 16px;
+    background: #FFFFFF;
+    box-shadow: 0 4px 8px -2px rgba(9, 30, 66, 0.25);
+    border-radius: 4px;
+}
+
+.ui-datepicker-header {
+    margin-bottom: 16px;
+}
+
+.ui-datepicker-btn {
+    cursor: pointer;
+
+    svg path {
+        fill: #505F79;
+    }
+}
+
+.ui-datepicker-body {
+    table {
+        width: 100%;
+        table-layout: fixed;
+        text-align: center;
+
+        thead tr th {
+            @extend %p-small;
+            padding-bottom: 8px;
+        }
+
+        tbody tr td {
+            height: 32px;
+            cursor: pointer;
+
+            // @extend %p-primary;
+            &:hover {
+                background-color: #EBECF0;
+                // border-radius: 50%;
+            }
+
+            &.today {
+                color: #3172E0;
+            }
+        }
+
+        tbody {
+            @extend %p-primary;
+        }
+
+    }
+
+    .active {
+        background-color: #505F79;
+        color: #fff;
+    }
+}
