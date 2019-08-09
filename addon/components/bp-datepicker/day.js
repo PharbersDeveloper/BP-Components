@@ -46,11 +46,11 @@ export default Component.extend({
 		this._super(...arguments);
 		this.isActive();
 	},
-	click() {
+	click(e) {
 		let date = this.get('date');
 
 		this.set('active', true);
-		this.get('onClick')(date);
+		this.get('onClick')(date,e);
 	}
 }).reopenClass({
 	positionalParams: ['date']
