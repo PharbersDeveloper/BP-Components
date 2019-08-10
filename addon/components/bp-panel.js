@@ -32,10 +32,11 @@ export default Component.extend(Panel, {
 	 * @public
 	 */
 	queryAddress: EmberObject.create({
+		//http://192.168.100.157:9000/v1.0/DL
 		host: 'http://192.168.100.157',
 		port: 9000,
-		sheet: 'tmchart',
-		rule: 'format'
+		version: 'v1.0',
+		db: 'DL'
 	}),
 	init() {
 		this._super(...arguments);
@@ -116,7 +117,7 @@ export default Component.extend(Panel, {
 	queryData(panelConfig, condition) {
 		let qa = condition.queryAddress || this.get('queryAddress');
 
-		this.get('ajax').request(`${qa.host}:${qa.port}/${qa.sheet}/${qa.rule}`, {
+		this.get('ajax').request(`${qa.host}:${qa.port}/${qa.version}/${qa.db}`, {
 			method: 'GET',
 			data: JSON.stringify(condition.data),
 			dataType: 'json'

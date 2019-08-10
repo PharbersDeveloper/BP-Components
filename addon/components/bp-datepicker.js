@@ -8,12 +8,39 @@ import { alias } from '@ember/object/computed';
 
 export default Component.extend({
 	layout,
-	classNames: ['ui-datepicker-wrapper'],
+	classNames: ['bp-datepicker-wrapper'],
+	toggleDatepicker: false,
+	inputValue: '',
+	tabindex: '-1',
+	attributeBindings: ['tabindex'],
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name date
+	 * @description 需要供用户当前选择的日期数据-年/月/日
+	 * @type {Obejct}
+	 * @default now
+	 * @private
+	 */
 	date: EmberObject.create({
 		year: new Date().getFullYear(),
 		month: new Date().getMonth() + 1,
 		days: A([])
 	}),
+	// focusIn(e) {
+	// 	this.set('toggleDatepicker', true);
+	// 	e.stopImmediatePropagation();
+	// 	console.log('focusIn');
+	// },
+	focusOut(e) {
+		e.stopImmediatePropagation();
+		this.set('toggleDatepicker', false);
+	},
+	click(e) {
+		this.set('toggleDatepicker', true);
+		e.stopImmediatePropagation();
+	},
+
 	/**
 	 * @author Frank Wang
 	 * @property
@@ -48,7 +75,15 @@ export default Component.extend({
 	 * @private
 	 */
 	choosedDay: alias('choosedDate.date'),
-
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name weekend
+	 * @description 要展示的星期数据（目前作为private，将来应该可自定义）
+	 * @type {Array}
+	 * @default A(['一', '二', '三', '四', '五', '六', '日'])
+	 * @private
+	 */
 	weekend: A(['一', '二', '三', '四', '五', '六', '日']),
 	didInsertElement() {
 		this._super(...arguments);
@@ -58,7 +93,14 @@ export default Component.extend({
 		window.console.log(monthDate);
 	},
 	actions: {
-		chooseDate(date) {
+		// showDatepicker() {
+		// 	this.set('toggleDatepicker', true);
+		// },
+		// closeDatepicker(e) {
+		// 	console.log(e);
+		// 	// this.set('toggleDatepicker', false);
+		// },
+		chooseDate(date, e) {
 			let choosedDate = this.get('choosedDate');
 
 			choosedDate.setProperties({
@@ -66,6 +108,10 @@ export default Component.extend({
 				month: date.month,
 				date: date.showDate
 			});
+			this.set('inputValue', `${date.year}-${date.month}-${date.showDate}`);
+			// this.set('toggleDatepicker', false);
+			this.focusOut(e);
+			// e.stopImmediatePropagation();
 		},
 		prevMonth() {
 			let date = this.get('date'),
@@ -105,7 +151,7 @@ export default Component.extend({
 	getMonthDate: function (year, month) {
 		// let date = this.get('date'),
 		let ret = [],
-			monthWeek = this.get('monthWeek') || 6,
+			monthWeek = this.get('monthWeek') || 5,
 			showYear = year,
 			showMonth = month,
 			firstDay = 0,

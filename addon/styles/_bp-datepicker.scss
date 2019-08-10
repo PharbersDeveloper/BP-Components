@@ -1,4 +1,7 @@
-.ui-datepicker-wrapper {
+.bp-datepicker {}
+
+.bp-datepicker-wrapper {
+    display: inline-block;
     width: 312px;
     padding: 18px 16px;
     background: #FFFFFF;
@@ -6,11 +9,11 @@
     border-radius: 4px;
 }
 
-.ui-datepicker-header {
+.bp-datepicker-header {
     margin-bottom: 16px;
 }
 
-.ui-datepicker-btn {
+.bp-datepicker-btn {
     cursor: pointer;
 
     svg path {
@@ -18,7 +21,7 @@
     }
 }
 
-.ui-datepicker-body {
+.bp-datepicker-body {
     table {
         width: 100%;
         table-layout: fixed;
@@ -38,16 +41,16 @@
                 background-color: #EBECF0;
                 // border-radius: 50%;
             }
-
-            &.today {
-                color: #3172E0;
-            }
         }
 
         tbody {
             @extend %p-primary;
         }
 
+    }
+
+    .today {
+        color: #3172E0;
     }
 
     .active {
