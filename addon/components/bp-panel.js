@@ -32,7 +32,6 @@ export default Component.extend(Panel, {
 	 * @public
 	 */
 	queryAddress: EmberObject.create({
-		//http://192.168.100.157:9000/v1.0/DL
 		host: 'http://192.168.100.157',
 		port: 9000,
 		version: 'v1.0',
@@ -192,7 +191,14 @@ export default Component.extend(Panel, {
 		if (isEmpty(echartInstance)) {
 			this.set('result', option);
 		} else {
-			echartInstance.clear();
+			let condition = this.get('condition'),
+				dynamic = condition.dynamic || null;
+
+			if (isEmpty(dynamic) && !dynamic.isDynamic) {
+				echartInstance.clear();
+			}
+
+			// echartInstance.clear();
 			if (!isEmpty(option)) {
 				echartInstance.setOption(option, opts);
 			} else {
