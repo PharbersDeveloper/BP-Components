@@ -93,14 +93,15 @@ export default Component.extend(Panel, {
 	 */
 	generateChartOption(panelConfig, condition) {
 		let dynamic = condition.dynamic || null;
-
+		// 保证在进入 setInterval 循环之前执行一次
+		this.queryData(panelConfig, condition);
 		if (!isEmpty(dynamic) && dynamic.isDynamic) {
 			this.set('intervalObject', setInterval(() => {
 				this.queryData(panelConfig, condition);
 			}, dynamic.interval || 3000));
 			return;
 		}
-		this.queryData(panelConfig, condition);
+		// this.queryData(panelConfig, condition);
 	},
 	/**
 	 * @author Frank Wang
@@ -121,7 +122,7 @@ export default Component.extend(Panel, {
 			data: JSON.stringify(condition.data),
 			dataType: 'json'
 		}).then(data => {
-			// 针对雷达等特殊图表需要进一步格式化
+			// TODO针对雷达等特殊图表需要进一步格式化
 			this.updateChartData(panelConfig, data);
 		});
 	},
@@ -143,6 +144,7 @@ export default Component.extend(Panel, {
 		if (!isLines) {
 			this.reGenerateChart(panelConfig);
 		} else {
+			// TODO 这里可以改一下
 			let linesPanelConfig = this.calculateLinesNumber(panelConfig, chartData);
 
 			this.reGenerateChart(linesPanelConfig);
@@ -197,7 +199,8 @@ export default Component.extend(Panel, {
 			if (isEmpty(dynamic) && !dynamic.isDynamic) {
 				echartInstance.clear();
 			}
-
+			// 组件内部应该有个管理动态图表的状态，当动态图表是第二次及以上更新的时候
+			// 应该只执行echartInstance.setOption(option.dataset, opts);
 			// echartInstance.clear();
 			if (!isEmpty(option)) {
 				echartInstance.setOption(option, opts);
