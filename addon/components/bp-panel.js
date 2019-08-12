@@ -15,6 +15,16 @@ export default Component.extend(Panel, {
 	/**
 	 * @author Frank Wang
 	 * @property
+	 * @name queryTimes
+	 * @description 请求次数，为了动态图表
+	 * @type {Number}
+	 * @default 0
+	 * @private
+	 */
+	queryTimes: 0,
+	/**
+	 * @author Frank Wang
+	 * @property
 	 * @name intervalObject
 	 * @description 间隔对象
 	 * @type {Object}
@@ -32,8 +42,8 @@ export default Component.extend(Panel, {
 	 * @public
 	 */
 	queryAddress: EmberObject.create({
-		host: 'http://192.168.100.157',
-		port: 9000,
+		host: 'http://192.168.100.174',
+		port: 9001,
 		version: 'v1.0',
 		db: 'DL'
 	}),
@@ -95,8 +105,11 @@ export default Component.extend(Panel, {
 		let dynamic = condition.dynamic || null;
 		// 保证在进入 setInterval 循环之前执行一次
 		this.queryData(panelConfig, condition);
+
+		this.incrementProperty('queryTimes');
 		if (!isEmpty(dynamic) && dynamic.isDynamic) {
 			this.set('intervalObject', setInterval(() => {
+				this.incrementProperty('queryTimes');
 				this.queryData(panelConfig, condition);
 			}, dynamic.interval || 3000));
 			return;
@@ -138,16 +151,17 @@ export default Component.extend(Panel, {
 	 * @private
 	 */
 	updateChartData(panelConfig, chartData) {
-		panelConfig.dataset = { source: chartData };
+		// panelConfig.dataset = { source: chartData };
+	
 		let isLines = panelConfig.series.every((ele) => ele.type === 'line');
 
 		if (!isLines) {
-			this.reGenerateChart(panelConfig);
+			this.reGenerateChart(panelConfig, chartData);
 		} else {
 			// TODO 这里可以改一下
 			let linesPanelConfig = this.calculateLinesNumber(panelConfig, chartData);
 
-			this.reGenerateChart(linesPanelConfig);
+			this.reGenerateChart(linesPanelConfig, chartData);
 		}
 		// this.reGenerateChart(panelConfig);
 		this.dataReady(chartData, panelConfig);
@@ -186,28 +200,88 @@ export default Component.extend(Panel, {
 	 * @example 创建例子。
 	 * @private
 	 */
-	reGenerateChart(option) {
+	reGenerateChart(option, chartData) {
 		const opts = this.get('opts'),
 			echartInstance = this.getChartIns();
 
-		if (isEmpty(echartInstance)) {
-			this.set('result', option);
-		} else {
-			let condition = this.get('condition'),
-				dynamic = condition.dynamic || null;
+		// 老代码应该没有被调用，尝试删除
+		// if (isEmpty(echartInstance)) {
+		// 	this.set('result', option);
+		// 	return;
+		// }
+		let condition = this.get('condition'),
+			dynamic = condition.dynamic || null,
+			notDynamic = isEmpty(dynamic) || !dynamic.isDynamic,
+			times = this.get('queryTimes'),
+			chartOption = null;
 
-			if (isEmpty(dynamic) && !dynamic.isDynamic) {
-				echartInstance.clear();
-			}
-			// 组件内部应该有个管理动态图表的状态，当动态图表是第二次及以上更新的时候
-			// 应该只执行echartInstance.setOption(option.dataset, opts);
-			// echartInstance.clear();
-			if (!isEmpty(option)) {
-				echartInstance.setOption(option, opts);
-			} else {
-				echartInstance.setOption({}, opts);
-			}
+		if (isEmpty(option)) {
+			echartInstance.setOption({}, opts);
+			return;
 		}
+		if (!notDynamic) {
+			chartOption = this.dynamicUpdateChart(option, chartData, times);
+
+			times > 1 ? echartInstance.setOption({
+				xAxis: {
+					data: chartOption.xAxis.data
+				},
+				series: chartOption.series.map(ele => { return { data: ele.data,name:ele.name } })
+
+			}) : echartInstance.setOption(chartOption);
+		} else {
+			echartInstance.clear();
+			chartOption = this.optionWithDate(option, chartData)
+			echartInstance.setOption(chartOption, opts);
+		}
+	},
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name optionWithDate
+	 * @description 为图表的设置（option）添加 dataset
+	 * @param option 图表设置
+	 * @param data 图表数据
+	 * @return {Object}
+	 * @example 创建例子。
+	 * @private
+	 */
+	optionWithDate(option, data) {
+		option.dataset = { source: data };
+		return option;
+	},
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name dynamicUpdateChart
+	 * @description 动态更新图表后设置其axis的data以及series的data，目前只支持折线图
+	 * @param option 图表设置
+	 * @param data 图表数据
+	 * @return {Object}
+	 * @example 创建例子。
+	 * @public
+	 */
+	dynamicUpdateChart(option, data) {
+		let seriesNames = data[0].slice(1),
+			datasetSource = data.slice(1),
+			xAsixData = datasetSource.map(ele => ele[0]),
+			series = option.series,
+			newSeries = series.map((serie, i) => {
+				let newItem = {},
+					keys = Object.keys(serie);
+
+				for (let j = 0, len = keys.length; j < len; j++) {
+					newItem[keys[j]] = serie[keys[j]]
+				}
+				newItem.name = seriesNames[i];
+				newItem.data = datasetSource.map(ds => ds[i+1])
+				return newItem
+			})
+
+		option.xAxis.data = xAsixData;
+		option.series = newSeries;
+
+		return option;
 	},
 	/**
 	 * @author Frank Wang
@@ -249,6 +323,7 @@ export default Component.extend(Panel, {
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);
+
 		let panelConfig = this.get('panelModel'),
 			condition = this.get('condition');
 
@@ -259,10 +334,7 @@ export default Component.extend(Panel, {
 		this._super(...arguments);
 
 		let intervalObject = this.get('intervalObject');
-		// const echartInit = this.getChartIns();
 
-		// echartInit.clear();
-		// echartInit.dispose();
 		clearInterval(intervalObject);
 	}
 });
