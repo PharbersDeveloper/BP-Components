@@ -1,0 +1,15 @@
+<table style={{style}}  class='bp-table-tbody-wrapper'>
+	<tbody>
+		{{#each data as |trow|}}
+		<tr>
+			{{#each columns as |column|}}
+				{{#each-in trow as |key value|}}
+					{{#if (bp-eq column.valuePath key)}}
+						<td style={{hasBorder}}>{{value}}</td>
+					{{/if}}
+				{{/each-in}}
+			{{/each}}
+		</tr>	
+		{{/each}}
+	</tbody>
+</table>

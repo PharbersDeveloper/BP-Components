@@ -1,0 +1,1 @@
+export { default } from 'bp-components/components/bp-table/sort-icon';

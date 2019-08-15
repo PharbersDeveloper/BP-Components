@@ -1,11 +1,11 @@
 // fontsize
 $display-large: 29px;
-
 $title: 24px;
 $header-large: 20px;
 $header-medium: 16px;
 $font-normal: 14px;
 $header-small: 14px;
+$header-xsmall: 12px;
 $p-primary: 14px;
 $p-secondary: 14px;
 $p-small: 12px;
@@ -49,6 +49,12 @@ $icon-small: 16px;
 	color: $n800;
 }
 
+%header-large-inverse {
+	@extend %header-large;
+	color: $n000;
+
+}
+
 %header-medium {
 	line-height: 22px;
 	@include fontMedium($header-medium);
@@ -63,6 +69,18 @@ $icon-small: 16px;
 
 %header-small-inverse {
 	@extend %header-small;
+	color: $n000;
+}
+
+%header-xsmall {
+	line-height: 17px;
+	@include fontMedium($header-xsmall);
+	color: $n800;
+}
+
+%header-xsmall-inverse {
+	line-height: 17px;
+	@include fontMedium($header-xsmall);
 	color: $n000;
 }
 
