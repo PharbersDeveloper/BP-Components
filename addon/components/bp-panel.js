@@ -103,6 +103,7 @@ export default Component.extend(Panel, {
 	 */
 	generateChartOption(panelConfig, condition) {
 		let dynamic = condition.dynamic || null;
+
 		// 保证在进入 setInterval 循环之前执行一次
 		this.queryData(panelConfig, condition);
 
@@ -152,7 +153,7 @@ export default Component.extend(Panel, {
 	 */
 	updateChartData(panelConfig, chartData) {
 		// panelConfig.dataset = { source: chartData };
-	
+
 		let isLines = panelConfig.series.every((ele) => ele.type === 'line');
 
 		if (!isLines) {
@@ -226,12 +227,14 @@ export default Component.extend(Panel, {
 				xAxis: {
 					data: chartOption.xAxis.data
 				},
-				series: chartOption.series.map(ele => { return { data: ele.data,name:ele.name } })
+				series: chartOption.series.map(ele => {
+ return { data: ele.data, name: ele.name }; 
+})
 
 			}) : echartInstance.setOption(chartOption);
 		} else {
 			echartInstance.clear();
-			chartOption = this.optionWithDate(option, chartData)
+			chartOption = this.optionWithDate(option, chartData);
 			echartInstance.setOption(chartOption, opts);
 		}
 	},
@@ -271,12 +274,12 @@ export default Component.extend(Panel, {
 					keys = Object.keys(serie);
 
 				for (let j = 0, len = keys.length; j < len; j++) {
-					newItem[keys[j]] = serie[keys[j]]
+					newItem[keys[j]] = serie[keys[j]];
 				}
 				newItem.name = seriesNames[i];
-				newItem.data = datasetSource.map(ds => ds[i+1])
-				return newItem
-			})
+				newItem.data = datasetSource.map(ds => ds[i + 1]);
+				return newItem;
+			});
 
 		option.xAxis.data = xAsixData;
 		option.series = newSeries;

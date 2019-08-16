@@ -29,33 +29,27 @@
 	</thead>
 </table>
 {{bp-table/body style=style data=data columns=columns border=bodyBorder hover=rowHover}} --}}
-
 <div class="table-responsive table-content">
-	<table class="table-container table">
-		<thead>
-			{{#each columns as |column|}}
-			<th class="text-center">{{column.label}}</th>
-			{{/each}}
-		</thead>
-		<tbody class="bg-white">
-			{{!-- {{#each data as |tableTr|}}
-			<tr>
-				{{#each tableTr as |tableTd|}}
-				<td>{{tableTd}}</td>
-				{{/each}}
-			</tr>
-			{{/each}} --}}
+  <table class="table-container table">
+    <thead>
+      {{#each columns as |column|}}
+        <th class="text-center">
+          {{column.label}}
+        </th>
+      {{/each}}
+    </thead>
+    {{!-- <tbody class="bg-white">
 			{{#each data as |trow|}}
 				<tr>
 					{{#each columns as |column|}}
-						{{#each-in trow as |key value|}}
-							{{#if (bp-eq column.valuePath key)}}
-								<td >{{value}}</td>
-							{{/if}}
-						{{/each-in}}
+						{{bp-table/cell 
+							row=trow
+							column=column
+							value=(get trow column.valuePath)}}
 					{{/each}}
 				</tr>
 			{{/each}}
-		</tbody>
-	</table>
+		</tbody> --}}
+    {{bp-table/body tableData=data columns=columns hover=rowHover border=rowBorder}}
+  </table>
 </div>

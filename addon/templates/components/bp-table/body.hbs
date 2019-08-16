@@ -1,4 +1,4 @@
-<table style={{style}}  class='bp-table-tbody-wrapper'>
+{{!-- <table style={{style}}  class='bp-table-tbody-wrapper'>
 	<tbody>
 		{{#each data as |trow|}}
 		<tr>
@@ -12,4 +12,11 @@
 		</tr>	
 		{{/each}}
 	</tbody>
-</table>
+</table> --}}
+{{#each tableData as |trow|}}
+  <tr  style={{hasBorder}}>
+    {{#each columns as |column|}}
+      {{bp-table/cell row=trow column=column value=(get trow column.valuePath)}}
+    {{/each}}
+  </tr>
+{{/each}}
