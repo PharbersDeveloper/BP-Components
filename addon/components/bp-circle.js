@@ -60,6 +60,16 @@ export default Component.extend({
 	 * @public
 	 */
 	labelEmphasis: true,
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name label
+	 * @description circle 外围指示线与说明
+	 * @type {Boolean}
+	 * @default false
+	 * @public
+	 */
+	label: false,
 	// 千分位，应该提取出去
 	// 以提取在 utils/chartFormat 文件中。由于 tmist 中仍在使用，
 	// 故在替换 chart 组件的时候一同处理此处
@@ -82,10 +92,11 @@ export default Component.extend({
 		return String(String(a) + b) + c;
 	},
 	generateOption() {
-		let { seriesName, circleData, circleColor, circleSize, labelEmphasis } =
-			this.getProperties('seriesName', 'circleData', 'circleColor', 'circleSize', 'labelEmphasis'),
+		let { seriesName, circleData, circleColor, circleSize, labelEmphasis,label } =
+			this.getProperties('seriesName', 'circleData', 'circleColor', 'circleSize', 'labelEmphasis','label'),
 			that = this;
 
+		console.log(circleData);
 		return {
 			// title: {
 			// 	text: circleData.lastObject.value,
@@ -126,23 +137,33 @@ export default Component.extend({
 					hoverOffset: 3,
 					label: {
 						normal: {
-							show: false,
-							position: 'center'
+							show: label,
+							color: '#7A869A',
+							formatter: '{b}  {d}%'
+							// formatter: function (params) {
+							// 	console.log(params);
+							// 	let name = params.name,
+							// 		percent = params.percent;
+
+							// 	console.log(name);
+							// 	console.log(percent);
+							// 	return `${name} ${percent}%`;
+							// }
 						},
 						emphasis: {
-							show: labelEmphasis,
-							textStyle: {
-								fontSize: '14',
-								fontWeight: 'normal'
-							},
-							formatter: function (params) {
-								return params.percent + '%';
-							}
+							show: labelEmphasis
+							// textStyle: {
+							// 	fontSize: '14',
+							// 	fontWeight: 'normal'
+							// }
+							// formatter: function (params) {
+							// 	return params.percent + '%';
+							// }
 						}
 					},
 					labelLine: {
 						normal: {
-							show: false
+							show: label
 						}
 					},
 					data: circleData
