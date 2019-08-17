@@ -26,3 +26,35 @@ export function formatNumber(number) {
 	}
 	return String(String(a) + b) + c;
 }
+/**
+ * @author Frank Wang
+ * @method
+ * @name formatRateAxis
+ * @description 为比率坐标轴数值格式化百分数+%
+ * @param value 小数
+ * @return {String}
+ * @example 创建例子。
+ * @public
+ */
+export function formatRateAxis(value) {
+	if (typeof value === 'number') {
+		return value * 100 + '%';
+	}
+	return value;
+}
+/**
+ * @author Frank Wang
+ * @method
+ * @name confirmFormatType
+ * @description 确认y轴格式化的类型
+ * @param yAxis y轴的配置对象
+ * @return {Object}
+ * @example 创建例子。
+ * @public
+ */
+export function confirmFormatType(yAxis) {
+	if (yAxis.axisLabel.formatType === 'formatRate') {
+		yAxis.axisLabel.formatter = formatRateAxis;
+	}
+	return yAxis;
+}

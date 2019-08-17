@@ -1,12 +1,13 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-panel';
-import { isEmpty } from '@ember/utils';
+import { isEmpty, typeOf } from '@ember/utils';
 import { isArray } from '@ember/array';
 import echarts from 'echarts';
 import $ from 'jquery';
 import EmberObject from '@ember/object';
 import Panel from '../mixins/panel';
 import { inject as service } from '@ember/service';
+import { formatRateAxis,confirmFormatType } from '../utils/chartFormat';
 
 export default Component.extend(Panel, {
 	layout,
@@ -228,14 +229,15 @@ export default Component.extend(Panel, {
 					data: chartOption.xAxis.data
 				},
 				series: chartOption.series.map(ele => {
- return { data: ele.data, name: ele.name }; 
-})
+					return { data: ele.data, name: ele.name };
+				})
 
 			}) : echartInstance.setOption(chartOption);
 		} else {
 			echartInstance.clear();
 			chartOption = this.optionWithDate(option, chartData);
-			echartInstance.setOption(chartOption, opts);
+			// chartOption = this.formatYAxis(chartOption);
+			echartInstance.setOption(this.formatYAxis(chartOption), opts);
 		}
 	},
 	/**
@@ -251,6 +253,21 @@ export default Component.extend(Panel, {
 	 */
 	optionWithDate(option, data) {
 		option.dataset = { source: data };
+		return option;
+	},
+	formatYAxis(option) {
+
+		let yAxis = option.yAxis;
+
+		if (typeOf(yAxis) === 'object') {
+			option.yAxis = confirmFormatType(yAxis);
+		} else if ( typeOf(yAxis) === 'array') {
+			let newYaxis = yAxis.map(ele=> {
+				return confirmFormatType(ele);
+			});
+
+			option.yAxis = newYaxis;
+		}
 		return option;
 	},
 	/**
