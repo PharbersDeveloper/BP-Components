@@ -1,3 +1,5 @@
+import { isEmpty } from '@ember/utils';
+
 /**
  * @author Frank Wang
  * @method
@@ -63,27 +65,40 @@ export function confirmFormatType(yAxis) {
  * @method
  * @name formatPhase
  * @description 对后端传入的phase进行格式化
- * @param basePhase 基础值,Date类的实例
- * @param step 间隔时间（以 'M'/'Y'结尾）
- * @param phase 要format的周期,number 类型（-1，1...这种）
+ * @param OriginBasePhase{String} string/timestamp
+ * @param step{string} 间隔时间（以 'M'/'Y'结尾）
+ * @param phase{number} 要format的周期,number 类型（-1，1...这种）
  * @return {Array}
  * @example 创建例子。
  * @public
  */
-export function formatPhase(basePhase,step, phase) {
-	if (!(basePhase instanceof Date)) {
-		return basePhase;
+export function formatPhase(OriginBasePhase, step, phase) {
+	if (isEmpty(OriginBasePhase)) {
+		return OriginBasePhase;
 	}
-
-	let year = basePhase.getFullYear(),
-		month = basePhase.getMonth() +1,
+	let basePhase = new Date(OriginBasePhase),
+		year = basePhase.getFullYear(),
+		month = basePhase.getMonth(),
 		date = basePhase.getDate(),
+		newYear = year,
 		newMonth = month,
-		stepNum = 0;
+		newDate = date,
+		unit = step.slice(-1),
+		stepNum = parseInt(step, 10);
 
-	if (step.indexOf('M')>0) {
-		stepNum = parseInt(step);
-		newMonth=newMonth +stepNum*phase;
-
+	if (['y', 'Y'].includes(unit)) {
+		newYear = year + stepNum * phase;
+		basePhase.setFullYear(newYear);
+	} else if (['m', 'M'].includes(unit)) {
+		newMonth = month + stepNum * phase;
+		basePhase.setMonth(newMonth);
+	} else if (['w', 'W'].includes(unit)) {
+		newDate = date + stepNum * 7 * phase;
+		basePhase.setFullYear(newYear);
+	} else if (['d', 'D'].includes(unit)) {
+		newDate = date + stepNum * phase;
+		basePhase.setDate(newDate);
 	}
+
+	return basePhase;
 }
