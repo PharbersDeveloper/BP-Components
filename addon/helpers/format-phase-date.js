@@ -1,5 +1,5 @@
 import { helper } from '@ember/component/helper';
-import { formatPhase } from '../utils/chartFormat';
+import { formatPhaseToDate } from '../utils/chartFormat';
 import { isEmpty } from '@ember/utils';
 
 export function formatPhaseDate(params/*, hash*/) {
@@ -10,7 +10,7 @@ export function formatPhaseDate(params/*, hash*/) {
 		step = params[1],
 		phase = params[2]||0;
 
-	return formatPhase(OriginBasePhase, step, phase);
+	return formatPhaseToDate(OriginBasePhase, step, phase);
 }
 
 export default helper(formatPhaseDate);

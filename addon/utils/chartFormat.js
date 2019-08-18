@@ -72,7 +72,7 @@ export function confirmFormatType(yAxis) {
  * @example 创建例子。
  * @public
  */
-export function formatPhase(OriginBasePhase, step, phase) {
+export function formatPhaseToDate(OriginBasePhase, step, phase) {
 	if (isEmpty(OriginBasePhase)) {
 		return OriginBasePhase;
 	}
@@ -101,4 +101,35 @@ export function formatPhase(OriginBasePhase, step, phase) {
 	}
 
 	return basePhase;
+}
+/**
+ * @author Frank Wang
+ * @method
+ * @name formatPhaseToString
+ * @description 将phase转为string
+ * @param date{Date}
+ * @return {}
+ * @example 创建例子。
+ * @private
+ */
+export function formatPhaseToStringDefault(date) {
+	let	year = date.getFullYear(),
+		month = date.getMonth(),
+		season = '';
+
+	switch (true) {
+	case month < 3:
+		season = `Q1`;
+		break;
+	case month < 6:
+		season = `Q2`;
+		break;
+	case month < 9:
+		season = `Q3`;
+		break;
+	default:
+		season = `Q4`;
+		break;
+	}
+	return `${year}${season}`;
 }

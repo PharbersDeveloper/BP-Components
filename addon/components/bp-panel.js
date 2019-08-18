@@ -7,7 +7,7 @@ import $ from 'jquery';
 import EmberObject from '@ember/object';
 import Panel from '../mixins/panel';
 import { inject as service } from '@ember/service';
-import { formatRateAxis,confirmFormatType } from '../utils/chartFormat';
+import { formatPhaseToStringDefault,formatPhaseToDate, confirmFormatType } from '../utils/chartFormat';
 
 export default Component.extend(Panel, {
 	layout,
@@ -137,10 +137,84 @@ export default Component.extend(Panel, {
 			data: JSON.stringify(condition.data),
 			dataType: 'json'
 		}).then(data => {
-			// TODO针对雷达等特殊图表需要进一步格式化
-			this.updateChartData(panelConfig, data);
+			//在这里进行数据的格式化（phase->2018Q1这种）
+
+			let dealedData = data,
+				formatType = panelConfig.xAxis&&panelConfig.xAxis.formatType,
+				formatPhase2String = this.formatPeriodToString;
+
+
+			if (!isEmpty(formatType)) {
+				// let axisLabel = panelConfig.xAxis.axisLabel||{};
+
+				// axisLabel.formatter = this.formatPhase.bind(this);
+				dealedData = this.get(formatType)(data,condition,formatPhase2String);
+				// panelConfig.xAxis.axisLabel = axisLabel;
+			}
+
+			this.updateChartData(panelConfig, dealedData);
 		});
 	},
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name formatPhase
+	 * @description 将queryData->queryData
+	 * @param data{Array} 图表数据
+	 * @return {Array}
+	 * @example 创建例子。
+	 * @private
+	 */
+	formatPhase(data,condition,formatPhase2String) {
+		//  格式化整个 图表 data
+		const	xAxisFormat = condition.xAxisFormat||{};
+
+		if ( isEmpty(xAxisFormat)||isEmpty(xAxisFormat.periodBase)||isEmpty(xAxisFormat.periodStep)) {
+			return data;
+		}
+		let titles = data[0],
+			phaseIndex = titles.indexOf('phase');
+
+		return data.map((ele,index)=> {
+			let dealed = ele;
+
+			if (index === 0) {
+				return dealed;
+			}
+			return dealed.map((item,iindex)=> {
+				if (iindex === phaseIndex) {
+					let tmpDate = formatPhaseToDate(xAxisFormat.periodBase,xAxisFormat.periodStep,item);
+
+					return formatPhase2String(tmpDate);
+				}
+				return item;
+			});
+		});
+	},
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name formatPeriodToString
+	 * @description 将 date 格式化成 string 类型，进行数据展示
+	 * @param date{Date}
+	 * @return {String}
+	 * @example 创建例子。
+	 * @public
+	 */
+	formatPeriodToString(date) {
+		// TODO 如何格式化应该是传入来的方法，如果不传入此方法，默认执行的转换格式为`yyyyQs`
+		return formatPhaseToStringDefault(date);
+	},
+	// formatPhase(value) {
+	// 只是格式化x轴
+	// 	let condition = this.get('condition'),
+	// 		xAxisFormat = condition.xAxisFormat||{};
+
+	// 	if ( isEmpty(xAxisFormat)||isEmpty(xAxisFormat.periodBase)||isEmpty(xAxisFormat.periodStep)) {
+	// 		return value;
+	// 	}
+	// 	return formatPhaseToString(xAxisFormat.periodBase,xAxisFormat.periodStep,value);
+	// },
 	/**
 	 * @author Frank Wang
 	 * @method
@@ -261,8 +335,8 @@ export default Component.extend(Panel, {
 
 		if (typeOf(yAxis) === 'object') {
 			option.yAxis = confirmFormatType(yAxis);
-		} else if ( typeOf(yAxis) === 'array') {
-			let newYaxis = yAxis.map(ele=> {
+		} else if (typeOf(yAxis) === 'array') {
+			let newYaxis = yAxis.map(ele => {
 				return confirmFormatType(ele);
 			});
 
@@ -284,7 +358,7 @@ export default Component.extend(Panel, {
 	dynamicUpdateChart(option, data) {
 		let seriesNames = data[0].slice(1),
 			datasetSource = data.slice(1),
-			xAsixData = datasetSource.map(ele => ele[0]),
+			xAxisData = datasetSource.map(ele => ele[0]),
 			series = option.series,
 			newSeries = series.map((serie, i) => {
 				let newItem = {},
@@ -298,7 +372,7 @@ export default Component.extend(Panel, {
 				return newItem;
 			});
 
-		option.xAxis.data = xAsixData;
+		option.xAxis.data = xAxisData;
 		option.series = newSeries;
 
 		return option;
