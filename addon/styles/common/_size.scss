@@ -75,7 +75,7 @@ $icon-small: 16px;
 %header-xsmall {
 	line-height: 17px;
 	@include fontMedium($header-xsmall);
-	color: $n800;
+	color: $n200;
 }
 
 %header-xsmall-inverse {

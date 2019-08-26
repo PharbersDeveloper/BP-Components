@@ -1,16 +1,14 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-table';
 import { htmlSafe } from '@ember/template';
-
-import { sort } from '@ember/object/computed';
+// import { sort } from '@ember/object/computed';
 import { computed } from '@ember/object';
-import Table from 'ember-light-table';
+// import Table from 'ember-light-table';
 import { isEmpty } from '@ember/utils';
 
 export default Component.extend({
 	layout,
 	classNames: ['table-area', 'bp-table'],
-	//   classNames: ['bp-table'],
 	attributeBindings: ['style'],
 	/**
 	 * @author Frank Wang

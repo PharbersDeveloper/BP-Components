@@ -1,0 +1,11 @@
+ <table class="bp-table-thead">
+     {{bp-table/colgroup columns=columns}}
+    <thead>
+      {{#each columns as |column|}}
+        {{!-- <th>
+          {{column.label}}
+        </th> --}}
+        {{bp-table/thead-cell column=column}}
+      {{/each}}
+    </thead>
+  </table>

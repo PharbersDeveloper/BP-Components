@@ -64,7 +64,7 @@ $icon-small: 16px;
 %header-small {
 	line-height: 20px;
 	@include fontMedium($header-small);
-	color: $n800;
+	color: $n200;
 }
 
 %header-small-inverse {

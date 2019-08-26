@@ -143,7 +143,6 @@ export default Component.extend(Panel, {
 				formatType = panelConfig.xAxis&&panelConfig.xAxis.formatType,
 				formatPhase2String = this.formatPeriodToString;
 
-
 			if (!isEmpty(formatType)) {
 				// let axisLabel = panelConfig.xAxis.axisLabel||{};
 
