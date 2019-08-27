@@ -5,10 +5,12 @@ import { htmlSafe } from '@ember/template';
 import { computed } from '@ember/object';
 // import Table from 'ember-light-table';
 import { isEmpty } from '@ember/utils';
+import { getScrollbarWidth } from '../utils/scrollbar';
 
 export default Component.extend({
 	layout,
 	classNames: ['table-area', 'bp-table'],
+	classNameBindings: ['wrapperShadow::wrapper-shadow'],
 	attributeBindings: ['style'],
 	/**
 	 * @author Frank Wang
@@ -40,15 +42,36 @@ export default Component.extend({
 	   * @public
 	  */
 	rowHover: true,
-	style:computed('width,maxWidth,height',function() {
-		let {width,maxWidth,height} = this.getProperties('width','maxWidth','height'),
+	style: computed('width,maxWidth,height', function () {
+		let { width, maxWidth, height } = this.getProperties('width', 'maxWidth', 'height'),
 			styles = '';
 
-		styles = isEmpty(width)?'':'width:'+width + (isEmpty(maxWidth)?'':`max-width:${maxWidth}`)+
-		(isEmpty(height)?'':`height:${height}`);
+		styles = isEmpty(width) ? '' : 'width:' + width + (isEmpty(maxWidth) ? '' : `max-width:${maxWidth}`) +
+			(isEmpty(height) ? '' : `height:${height}`);
 
 		return htmlSafe(styles);
-	})
+	}),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name fixedWrapperStyle
+	 * @description 固定列的宽度
+	 * @type {String}
+	 * @default ''
+	 * @public
+	*/
+	fixedWrapperStyle: computed('columns.@each', 'scrollbarWidth', function () {
+		let column = this.get('columns') ? this.get('columns')[0] : { width: 0 },
+			width = column.width,
+			scrollbarWidth = this.get('scrollbarWidth');
+
+		return htmlSafe(`width:${width}px;height:calc(100% - ${scrollbarWidth}px)`);
+	}),
+	wrapperShadow: computed('scrollLeft', function () {
+		let scrollLeft = this.get('scrollLeft');
+
+		return scrollLeft === 0||isEmpty(scrollLeft);
+	}),
 	// iconSortable: 'sort',
 	// iconAscending: 'sort-up',
 	// iconDescending: 'sort-down',
@@ -180,5 +203,8 @@ export default Component.extend({
 	//     }
 	//   }
 	// }
-
+	didInsertElement() {
+		this._super(...arguments);
+		this.set('scrollbarWidth', getScrollbarWidth());
+	}
 });

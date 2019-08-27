@@ -1,11 +1,14 @@
 import Component from '@ember/component';
 import layout from '../../templates/components/bp-table/thead';
 import {A} from '@ember/array';
+import { computed } from '@ember/object';
+import { htmlSafe } from '@ember/string';
+import { isEmpty } from '@ember/utils';
 
 export default Component.extend({
 	layout,
 	classNames:['bp-table-thead-wrapper'],
-	// attributeBindings: ['style'],
+	attributeBindings: ['style'],
 	/**
 	* @author Frank Wang
 	* @property
@@ -15,6 +18,23 @@ export default Component.extend({
 	* @default []
 	* @public
 	*/
-	columns:A([])
+	columns:A([]),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name style
+	 * @description thead style
+	 * @type {String}
+	 * @default ''
+	 * @public
+	*/
+	style: computed('scrollLeft',function() {
+		let scrollLeft = this.get('scrollLeft');
 
+		console.log(`scrollLeft is ${scrollLeft}`);
+		if (isEmpty(scrollLeft)) {
+			return htmlSafe('');
+		}
+		return htmlSafe(`transform:translateX(-${scrollLeft}px)`);
+	})
 });

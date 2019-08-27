@@ -5,7 +5,7 @@ import {A} from '@ember/array';
 export default Component.extend({
 	layout,
 	tagName: 'colgroup',
-  	/**
+	/**
 	* @author Frank Wang
 	* @property
 	* @name columns

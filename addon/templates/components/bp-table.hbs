@@ -44,5 +44,11 @@
   </table>
 </div> --}}
 {{!-- end 临时版本 --}}
-{{bp-table/thead columns=columns}}
-{{bp-table/tbody bodyData=data columns=columns hover=rowHover border=rowBorder}}
+{{bp-table/thead columns=columns scrollLeft=scrollLeft}}
+{{bp-table/tbody bodyData=data columns=columns hover=rowHover border=rowBorder currentTrIndex=currentTrIndex onScrolled=(action (mut scrollLeft)) onMouseIO=(action (mut currentTrIndex))}}
+{{#if fixedColumn}}
+	<div class="bp-table-fixed-wrapper" style={{fixedWrapperStyle}}>
+		{{bp-table/thead columns=columns}}
+		{{bp-table/tbody bodyData=data columns=columns hover=rowHover border=rowBorder currentTrIndex=currentTrIndex onMouseIO=(action (mut currentTrIndex))}}
+	</div>
+{{/if}}

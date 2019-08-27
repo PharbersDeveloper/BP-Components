@@ -1,6 +1,16 @@
+.bp-table-tbody-wrapper {
+    overflow-x: auto;
+    background-color: #fff;
+    &.hover-none {
+        .hover-row {
+            background-color: inherit;
+        }
+    }
+}
 .bp-table-tbody {
     width: 100%;
     table-layout: fixed;
+   
     td {
         padding: 12px 8px;
         @extend %p-primary;
@@ -13,8 +23,6 @@
     }
 
 }
-.row-hover {
-    tr:hover {
-        background-color: rgba(9,30,66,0.04);
-    }
+.hover-row {
+    background-color: rgba(9,30,66,0.04);
 }

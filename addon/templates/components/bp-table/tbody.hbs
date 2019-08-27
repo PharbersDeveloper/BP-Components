@@ -2,8 +2,8 @@
 <table style={{style}} class="bp-table-tbody">
   {{bp-table/colgroup columns=columns}}
   <tbody>
-    {{#each bodyData as |trow|}}
-      <tr style={{hasBorder}}>
+    {{#each bodyData as |trow index|}}
+      <tr style={{hasBorder}} class={{if (bp-eq currentTrIndex index) 'hover-row'}} {{action 'mouseEnter' index  on='mouseEnter'}} {{action 'mouseLeave' 'null'  on='mouseLeave'}}>
         {{#each columns as |column|}}
           {{bp-table/cell
             row=trow
@@ -15,10 +15,3 @@
     {{/each}}
   </tbody>
 </table>
-{{!-- {{#each tableData as |trow|}}
-  <tr  style={{hasBorder}}>
-    {{#each columns as |column|}}
-      {{bp-table/cell row=trow column=column value=(get trow column.valuePath)}}
-    {{/each}}
-  </tr>
-{{/each}} --}}

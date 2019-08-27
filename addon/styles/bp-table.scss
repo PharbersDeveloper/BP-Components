@@ -1,73 +1,18 @@
 @import './bp-table/tbody';
 @import './bp-table/thead';
 
-// .bp-table {
-//     padding: 0 24px;
-// }
-// .bp-table-thead {
-//     table-layout: fixed;
-//     th {
-//         @extend %header-xsmall;
-//         border-bottom: 0.5px solid rgba(9,30,66,0.08);
-//         padding: 8px;
-//         text-align: left;
-//         &:first-child {
-//             padding-left: 0;
-//         }
-//         &:last-child {
-//             padding-right: 0;
-//         }
-//     }
-// }
-// .bp-table-tbody {
-//     table-layout: fixed;
-//     td {
-//         @extend %p-primary;
-//         padding: 12px 8px;
-//         text-align: left;
-//         &:first-child {
-//             position: sticky;
-//             left: 0;
-//             background-color: #fff;
-//             padding-left: 0;
-//         }
-//         &:last-child {
-//             padding-right: 0;
-//         }
-//     }
-// }
+.bp-table {
+	position: relative;
+	overflow: hidden;
+}
+.bp-table-fixed-wrapper {
+	position: absolute;
+	left: 0;
+	top: 0;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
 
-.table-area {
-	background: #fff;
-	overflow-x: auto;
-
-	.table-content {
-		margin: 0 24px;
-		width: auto;
-
-		.table-container {
-			th:first-child, td:first-child{
-				position:sticky;
-				left:0;
-				background-color: #fff;
-			}
-			thead {
-				background-color: #fff;
-
-				th {
-					padding-left: $spacing-2;
-					border: 0;
-					@extend %p-small;
-					text-align: left !important;
-					width: fit-content;
-					min-width: 122px;
-					border-bottom: 1px solid rgba(9, 30, 66, 0.08);
-
-					&:first-child {
-						min-width: 144px;
-					}
-				}
-			}
-		}
-	}
+.wrapper-shadow .bp-table-fixed-wrapper {
+	box-shadow: 0 0 10px rgba(0,0,0,.12)
 }

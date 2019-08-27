@@ -1,6 +1,3 @@
-{{!-- {{yield}} --}}
 {{#each columns as |column|}}
-    {{log column}}
-    {{bp-table/colgroup-cell column=column}}
-    {{!-- <col width={{column.width}}> --}}
+    <col width={{column.width}}>
 {{/each}}
