@@ -122,15 +122,10 @@ export default Component.extend(BindingScroll,{
 	onMouseIO(){},
 	actions: {
 		mouseEnter(index) {
-			// this.set('currentTrIndex',index);
 			this.get('onMouseIO')(index);
-			console.log('mouseEnter');
 		},
 		mouseLeave(index) {
-			// this.set('currentTrIndex',index);
 			this.get('onMouseIO')(index);
-
-			console.log('mouseLeave');
 		}
 	}
 });

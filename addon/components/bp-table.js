@@ -94,38 +94,6 @@ export default Component.extend({
 
 	//   thisInstance.get('setRows')(model, thisInstance);
 	// },
-	// columns: computed(function () {
-	// 	return [{
-	// 		label: '姓名',
-	// 		valuePath: 'name'
-	// 		// sortable: false,
-	// 		// width: '190px'
-	// 	}, {
-	//   label: '药品准入情况',
-	//   valuePath: 'drugEntranceInfo'
-	//   // sortable: false
-	// }, {
-	//   label: '上季度销售额',
-	//   valuePath: 'sales',
-	//   // cellComponent: 'light-table-format-number'
-	//   // sortable: false
-	// }, {
-	//   label: '代表',
-	//   valuePath: 'representative'
-	//   // sortable: false
-	// }, {
-	//   label: '销售目标设定',
-	//   valuePath: 'salesTarget',
-	//   // cellComponent: 'light-table-format-number'
-	//   // sortable: false
-	// }, {
-	//   label: '预算费用',
-	//   valuePath: 'budget',
-	//   // cellComponent: 'light-table-format-number'
-	//   // sortable: false
-	// }
-	// 	];
-	// }),
 
 	// table: computed('model', function () {
 	//   let handledData = [],

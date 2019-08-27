@@ -31,7 +31,6 @@ export default Component.extend({
 	style: computed('scrollLeft',function() {
 		let scrollLeft = this.get('scrollLeft');
 
-		console.log(`scrollLeft is ${scrollLeft}`);
 		if (isEmpty(scrollLeft)) {
 			return htmlSafe('');
 		}
