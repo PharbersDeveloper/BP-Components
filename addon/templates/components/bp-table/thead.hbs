@@ -2,7 +2,7 @@
      {{bp-table/colgroup columns=columns}}
     <thead>
       {{#each columns as |column|}}
-        {{bp-table/thead-cell column=column}}
+        {{bp-table/thead-cell column=column sortItem=sortItem onClick=(action 'theadCellClick')}}
       {{/each}}
     </thead>
   </table>

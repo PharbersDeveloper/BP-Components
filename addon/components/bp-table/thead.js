@@ -34,6 +34,52 @@ export default Component.extend({
 		if (isEmpty(scrollLeft)) {
 			return htmlSafe('');
 		}
+
 		return htmlSafe(`transform:translateX(-${scrollLeft}px)`);
-	})
+	}),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name sortItem
+	 * @description 当前排序的 column
+	 * @type {Object}
+	 * @default null
+	 * @private
+	*/
+	sortItem:null,
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name onSortClick
+	 * @description 将排序动作传递到最顶层
+	 * @param item 当前排序的 item 对象
+	 * @param sortOrder 排序顺序（false asc true desc）
+	 * @return {void}
+	 * @example 创建例子。
+	 * @public
+	 */
+	onSortClick() {},
+	/**
+	 * @author Frank Wang
+	 * @method
+	 * @name onComputedHeight
+	 * @description 计算此dom的高度
+	 * @param height
+	 * @return {void}
+	 * @example 创建例子。
+	 * @public
+	 */
+	onComputedHeight() {},
+	actions: {
+		theadCellClick(item,sortOrder) {
+			// this.set('currentSortItem',item);
+			this.get('onSortClick')(item,sortOrder);
+		}
+	},
+	didInsertElement() {
+		this._super(...arguments);
+		let ele = this.get('element');
+
+		this.get('onComputedHeight')(ele.offsetHeight);
+	}
 });

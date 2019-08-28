@@ -11,6 +11,18 @@
 	top: 0;
 	overflow-x: hidden;
 	overflow-y: hidden;
+	.bp-table-thead-wrapper {
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 3;
+	}
+	.bp-table-tbody-wrapper {
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 3;
+	}
 }
 
 .wrapper-shadow .bp-table-fixed-wrapper {

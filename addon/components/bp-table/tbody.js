@@ -5,11 +5,13 @@ import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 import {equal} from '@ember/object/computed';
 import BindingScroll from '../../mixins/binding-scroll';
+import { isEmpty } from '@ember/utils';
 
 export default Component.extend(BindingScroll,{
 	layout,
 	classNames:['bp-table-tbody-wrapper'],
 	classNameBindings: ['isHover::hover-none'],
+	attributeBindings:['style'],
 	/**
 	* @author Frank Wang
 	* @property
@@ -40,11 +42,9 @@ export default Component.extend(BindingScroll,{
 	 * @private
 	*/
 	hasBorder: computed('border', function () {
-
 		let border = this.get('border');
 
 		return htmlSafe(border ? `border-bottom: 0.5px solid rgba(9,30,66,0.08);` : '');
-
 	}),
 	/**
 	 * @author Frank Wang
@@ -66,6 +66,40 @@ export default Component.extend(BindingScroll,{
 	 * @private
 	*/
 	isHover: equal('hover', true),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name style
+	 * @description wrapper's style
+	 * @type {string}
+	 * @default ''
+	 * @private
+	*/
+	style: computed('height',function() {
+		let height = this.get('height');
+
+		if (isEmpty(height)) {
+			return htmlSafe('');
+		}
+		return htmlSafe(`height:${height}px`);
+	}),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name scrollPosition
+	 * @description wrapper 内部的 ‘fixed’ table 随着滚动条的改变而发生的偏移
+	 * @type {string}
+	 * @default ''
+	 * @private
+	*/
+	scrollPosition:computed('scrollTop',function() {
+		let scrollTop = this.get('scrollTop');
+
+		if (isEmpty(scrollTop)) {
+			return htmlSafe('');
+		}
+		return htmlSafe(`transform: translateY(-${scrollTop}px)`);
+	}),
 	didInsertElement() {
 		this._super(...arguments);
 		this.bindScrolling(this.element);
@@ -95,9 +129,11 @@ export default Component.extend(BindingScroll,{
 	 * @private
 	 */
 	scrolled() {
-		let scrollLeft = this.element.scrollLeft;
+		let scrollLeft = this.element.scrollLeft,
+			scrollTop = this.element.scrollTop;
 
-		this.get('onScrolled')(scrollLeft);
+		// this.set('scrollTop',scrollTop);
+		this.get('onScrolled')(scrollLeft,scrollTop);
 	},
 	/**
 	 * @author Frank Wang

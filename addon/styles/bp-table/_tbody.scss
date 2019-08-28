@@ -14,12 +14,16 @@
     td {
         padding: 12px 8px;
         @extend %p-primary;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
         &:first-child {
             padding-left: 0;
         }
         &:last-child {
             padding-right: 0;
         }
+
     }
 
 }

@@ -5,8 +5,9 @@ import { htmlSafe } from '@ember/template';
 import { computed } from '@ember/object';
 // import Table from 'ember-light-table';
 import { isEmpty } from '@ember/utils';
+import { A } from '@ember/array';
 import { getScrollbarWidth } from '../utils/scrollbar';
-
+import { alias } from '@ember/object/computed';
 export default Component.extend({
 	layout,
 	classNames: ['table-area', 'bp-table'],
@@ -22,6 +23,16 @@ export default Component.extend({
 	 * @public
 	*/
 	width: '100%',
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name height
+	 * @description wrapper's height
+	 * @type {Number/String}
+	 * @default 'inherit'
+	 * @public
+	*/
+	height: 'inherit',
 	/**
 	 * @author Frank Wang
 	 * @property
@@ -46,7 +57,7 @@ export default Component.extend({
 		let { width, maxWidth, height } = this.getProperties('width', 'maxWidth', 'height'),
 			styles = '';
 
-		styles = isEmpty(width) ? '' : 'width:' + width + (isEmpty(maxWidth) ? '' : `max-width:${maxWidth}`) +
+		styles = isEmpty(width) ? '' : 'width:' + width + (isEmpty(maxWidth) ? '' : `max-width:${maxWidth}`) +';'+
 			(isEmpty(height) ? '' : `height:${height}`);
 
 		return htmlSafe(styles);
@@ -72,6 +83,36 @@ export default Component.extend({
 
 		return scrollLeft === 0||isEmpty(scrollLeft);
 	}),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name currentSortItem
+	 * @description 当前选中的要排序的列的 column
+	 * @type {Object}
+	 * @default null
+	 * @private
+	*/
+	currentSortItem:null,
+	fixedTbodyStyle:alias('computedHeight.fixedTbodyStyle'),
+	tbodyHeight: alias('computedHeight.tbodyHeight'),
+	computedHeight: computed('theadHeight',function() {
+		let ele = this.get('element'),
+			eleHeight = ele.offsetHeight,
+			theadHeight = this.get('theadHeight');
+
+		return {
+			tbodyHeight:eleHeight-theadHeight,
+			fixedTbodyStyle: htmlSafe(`top:${theadHeight}px`)
+		};
+	}),
+	// tbodyHeight: computed('theadHeight',function() {
+	// 	let ele = this.get('element'),
+	// 		eleHeight = ele.offsetHeight,
+	// 		theadHeight = this.get('theadHeight');
+
+	// 	console.log(eleHeight-theadHeight);
+	// 	return eleHeight-theadHeight;
+	// }),
 	// iconSortable: 'sort',
 	// iconAscending: 'sort-up',
 	// iconDescending: 'sort-down',
@@ -171,6 +212,30 @@ export default Component.extend({
 	//     }
 	//   }
 	// }
+	actions: {
+		scrollPosition(left,top) {
+			this.set('scrollLeft',left);
+			this.set('scrollTop',top);
+		},
+		getTheadHeight(height) {
+			this.set('theadHeight',height);
+		},
+		sortClick(item,sortOrder) {
+			let data = this.get('data'),
+				resortData = A([]);
+
+			this.set('currentSortItem',item);
+
+			if (sortOrder) {
+				resortData = data.sortBy(item.valuePath).reverse();
+
+			} else {
+				resortData = data.sortBy(item.valuePath);
+
+			}
+			this.set('data',resortData);
+		}
+	},
 	didInsertElement() {
 		this._super(...arguments);
 		this.set('scrollbarWidth', getScrollbarWidth());
