@@ -1,5 +1,11 @@
 {{bp-table/thead columns=columns scrollLeft=scrollLeft sortItem=currentSortItem onSortClick=(action 'sortClick') onComputedHeight=(action 'getTheadHeight')}}
-{{bp-table/tbody height=tbodyHeight bodyData=data columns=columns hover=rowHover border=rowBorder currentTrIndex=currentTrIndex onScrolled=(action 'scrollPosition') onMouseIO=(action (mut currentTrIndex))}}
+{{#if data}}
+	{{bp-table/tbody height=tbodyHeight bodyData=data columns=columns hover=rowHover border=rowBorder currentTrIndex=currentTrIndex onScrolled=(action 'scrollPosition') onMouseIO=(action (mut currentTrIndex))}}
+{{else}}
+	<div class="bp-table-empty">
+		<p>暂无数据</p>
+	</div>
+{{/if}}
 {{#if fixedColumn}}
 	<div class="bp-table-fixed-wrapper" style={{fixedWrapperStyle}}>
 		{{bp-table/thead columns=columns sortItem=currentSortItem onSortClick=(action 'sortClick')}}

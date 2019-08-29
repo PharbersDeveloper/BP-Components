@@ -5,6 +5,13 @@
 	position: relative;
 	overflow: hidden;
 }
+.bp-table-empty {
+	margin: 16px 0;
+	p {
+		@extend %p-primary;
+		text-align: center;
+	}
+}
 .bp-table-fixed-wrapper {
 	position: absolute;
 	left: 0;
