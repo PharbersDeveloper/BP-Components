@@ -105,6 +105,9 @@ export default Component.extend({
 			fixedTbodyStyle: htmlSafe(`top:${theadHeight}px`)
 		};
 	}),
+	copyData: computed('data',function() {
+		return this.get('data');
+	}),
 	// tbodyHeight: computed('theadHeight',function() {
 	// 	let ele = this.get('element'),
 	// 		eleHeight = ele.offsetHeight,
@@ -221,7 +224,7 @@ export default Component.extend({
 			this.set('theadHeight',height);
 		},
 		sortClick(item,sortOrder) {
-			let data = this.get('data'),
+			let data = this.get('copyData'),
 				resortData = A([]);
 
 			this.set('currentSortItem',item);
@@ -233,11 +236,17 @@ export default Component.extend({
 				resortData = data.sortBy(item.valuePath);
 
 			}
-			this.set('data',resortData);
+			this.set('copyData',resortData);
 		}
 	},
 	didInsertElement() {
 		this._super(...arguments);
 		this.set('scrollbarWidth', getScrollbarWidth());
+	},
+	didUpdateAttrs() {
+		this._super(...arguments);
+		this.set('currentSortItem',null);
+		this.set('copyData',this.get('data'));
+
 	}
 });

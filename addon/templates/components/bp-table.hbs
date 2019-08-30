@@ -1,6 +1,6 @@
 {{bp-table/thead columns=columns scrollLeft=scrollLeft sortItem=currentSortItem onSortClick=(action 'sortClick') onComputedHeight=(action 'getTheadHeight')}}
-{{#if data}}
-	{{bp-table/tbody height=tbodyHeight bodyData=data columns=columns hover=rowHover border=rowBorder currentTrIndex=currentTrIndex onScrolled=(action 'scrollPosition') onMouseIO=(action (mut currentTrIndex))}}
+{{#if copyData}}
+	{{bp-table/tbody height=tbodyHeight bodyData=copyData columns=columns hover=rowHover border=rowBorder currentTrIndex=currentTrIndex onScrolled=(action 'scrollPosition') onMouseIO=(action (mut currentTrIndex))}}
 {{else}}
 	<div class="bp-table-empty">
 		<p>暂无数据</p>
@@ -9,6 +9,6 @@
 {{#if fixedColumn}}
 	<div class="bp-table-fixed-wrapper" style={{fixedWrapperStyle}}>
 		{{bp-table/thead columns=columns sortItem=currentSortItem onSortClick=(action 'sortClick')}}
-		{{bp-table/tbody scrollTop=scrollTop height=tbodyHeight style=fixedTbodyStyle bodyData=data columns=columns hover=rowHover border=rowBorder currentTrIndex=currentTrIndex onMouseIO=(action (mut currentTrIndex))}}
+		{{bp-table/tbody scrollTop=scrollTop height=tbodyHeight style=fixedTbodyStyle bodyData=copyData columns=columns hover=rowHover border=rowBorder currentTrIndex=currentTrIndex onMouseIO=(action (mut currentTrIndex))}}
 	</div>
 {{/if}}
