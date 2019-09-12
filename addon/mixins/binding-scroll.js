@@ -10,7 +10,7 @@ export default Mixin.create({
 		//TODO 防抖
 		if (opts.debounce) {
 			onScroll = function () {
-				debounce(that, that.get('scrolled'), 0);
+				debounce(that, that.get('scrolled'), 5);
 			};
 		} else {
 			onScroll = function () {

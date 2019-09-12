@@ -104,6 +104,11 @@ export default Component.extend(BindingScroll,{
 		this._super(...arguments);
 		this.bindScrolling(this.element);
 	},
+	willDestroyElement() {
+		this._super(...arguments);
+
+		this.unbindScrolling(this.element);
+	},
 	willRemoveElement() {
 		this.unbindScrolling(this.element);
 	},

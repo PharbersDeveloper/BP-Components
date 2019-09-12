@@ -57,7 +57,7 @@ export default Component.extend({
 		let { width, maxWidth, height } = this.getProperties('width', 'maxWidth', 'height'),
 			styles = '';
 
-		styles = isEmpty(width) ? '' : 'width:' + width + (isEmpty(maxWidth) ? '' : `max-width:${maxWidth}`) +';'+
+		styles = isEmpty(width) ? '' : 'width:' + width + (isEmpty(maxWidth) ? '' : `max-width:${maxWidth}`) + ';' +
 			(isEmpty(height) ? '' : `height:${height}`);
 
 		return htmlSafe(styles);
@@ -81,7 +81,7 @@ export default Component.extend({
 	wrapperShadow: computed('scrollLeft', function () {
 		let scrollLeft = this.get('scrollLeft');
 
-		return scrollLeft === 0||isEmpty(scrollLeft);
+		return scrollLeft === 0 || isEmpty(scrollLeft);
 	}),
 	/**
 	 * @author Frank Wang
@@ -92,142 +92,35 @@ export default Component.extend({
 	 * @default null
 	 * @private
 	*/
-	currentSortItem:null,
-	fixedTbodyStyle:alias('computedHeight.fixedTbodyStyle'),
+	currentSortItem: null,
+	fixedTbodyStyle: alias('computedHeight.fixedTbodyStyle'),
 	tbodyHeight: alias('computedHeight.tbodyHeight'),
-	computedHeight: computed('theadHeight',function() {
+	computedHeight: computed('theadHeight', function () {
 		let ele = this.get('element'),
 			eleHeight = ele.offsetHeight,
 			theadHeight = this.get('theadHeight');
 
 		return {
-			tbodyHeight:eleHeight-theadHeight,
+			tbodyHeight: eleHeight - theadHeight,
 			fixedTbodyStyle: htmlSafe(`top:${theadHeight}px`)
 		};
 	}),
-	copyData: computed('data',function() {
+	copyData: computed('data', function () {
 		return this.get('data');
 	}),
-	// tbodyHeight: computed('theadHeight',function() {
-	// 	let ele = this.get('element'),
-	// 		eleHeight = ele.offsetHeight,
-	// 		theadHeight = this.get('theadHeight');
-
-	// 	console.log(eleHeight-theadHeight);
-	// 	return eleHeight-theadHeight;
-	// }),
-	// iconSortable: 'sort',
-	// iconAscending: 'sort-up',
-	// iconDescending: 'sort-down',
-	// iconComponent: 'sort-icon',
-	// sortIcons: computed('iconSortable', 'iconAscending', 'iconDescending', 'iconComponent', function () {
-	//   return this.getProperties(['iconSortable', 'iconAscending', 'iconDescending', 'iconComponent']);
-	// }).readOnly(),
-	// sort: '',
-	// dir: 'asc',
-	// sortedModel: sort('model', 'sortBy').readOnly(),
-	// sortBy: computed('dir', 'sort', function () {
-	//   return [`${this.get('sort')}:${this.get('dir')}`];
-	// }).readOnly(),
-	// setRows: function (rows, thisInstance) {
-	//   thisInstance.get('table').setRows([]);
-	//   thisInstance.get('table').setRows(rows);
-	// },
-	// filterAndSortModel(thisInstance) {
-	//   let model = thisInstance.get('sortedModel');
-
-	//   thisInstance.get('setRows')(model, thisInstance);
-	// },
-
-	// table: computed('model', function () {
-	//   let handledData = [],
-	//     data = this.get('model');
-
-	//     handledData = [{
-	//       date: '2016-05-02',
-	//       name: '王小虎',
-	//       address: '上海市普陀区金沙江路 1518 弄'
-	//     }, {
-	//       date: '2016-05-04',
-	//       name: '王小虎',
-	//       address: '上海市普陀区金沙江路 1517 弄'
-	//     }, {
-	//       date: '2016-05-01',
-	//       name: '王小虎',
-	//       address: '上海市普陀区金沙江路 1519 弄'
-	//     }, {
-	//       date: '2016-05-03',
-	//       name: '王小虎',
-	//       address: '上海市普陀区金沙江路 1516 弄'
-	//     }, {
-	//       date: '2016-05-02',
-	//       name: '王小虎',
-	//       address: '上海市普陀区金沙江路 1518 弄'
-	//     }, {
-	//       date: '2016-05-04',
-	//       name: '王小虎',
-	//       address: '上海市普陀区金沙江路 1517 弄'
-	//     }, {
-	//       date: '2016-05-01',
-	//       name: '王小虎',
-	//       address: '上海市普陀区金沙江路 1519 弄'
-	//     }, {
-	//       date: '2016-05-03',
-	//       name: '王小虎',
-	//       address: '上海市普陀区金沙江路 1516 弄'
-	//     }];
-	//   // if (isEmpty(data)) {
-	//   //   return new Table(this.get('columns'), handledData);
-	//   // }
-
-	//   return new Table(this.get('columns'), handledData);
-	// }),
-	// actions: {
-	//   sortColumn(column) {
-	//     if (column.sortable) {
-	//       this.setProperties({
-	//         dir: column.ascending ? 'asc' : 'desc',
-	//         sort: column.get('valuePath')
-	//       });
-	//       // this.set('sort', column.get('valuePath'));
-	//       this.get('filterAndSortModel')(this);
-	//     }
-	//   },
-	//   onColumnClick(column) {
-	//     if (column.sorted) {
-	//       this.setProperties({
-	//         dir: column.ascending ? 'asc' : 'desc',
-	//         sort: column.get('valuePath')
-	//       });
-	//       // this.set('sort', column.get('valuePath'));
-	//       this.get('filterAndSortModel')(this);
-	//     }
-	//   },
-	//   onAfterResponsiveChange(matches) {
-	//     if (matches.indexOf('jumbo') > -1) {
-	//       this.get('table.expandedRows').setEach('expanded', false);
-	//     }
-	//   },
-	//   onScrolledToBottom() {
-	//     if (this.get('canLoadMore')) {
-	//       this.incrementProperty('page');
-	//       this.get('fetchRecords').perform();
-	//     }
-	//   }
-	// }
 	actions: {
-		scrollPosition(left,top) {
-			this.set('scrollLeft',left);
-			this.set('scrollTop',top);
+		scrollPosition(left, top) {
+			this.set('scrollLeft', left);
+			this.set('scrollTop', top);
 		},
 		getTheadHeight(height) {
-			this.set('theadHeight',height);
+			this.set('theadHeight', height);
 		},
-		sortClick(item,sortOrder) {
+		sortClick(item, sortOrder) {
 			let data = this.get('copyData'),
 				resortData = A([]);
 
-			this.set('currentSortItem',item);
+			this.set('currentSortItem', item);
 
 			if (sortOrder) {
 				resortData = data.sortBy(item.valuePath).reverse();
@@ -236,7 +129,7 @@ export default Component.extend({
 				resortData = data.sortBy(item.valuePath);
 
 			}
-			this.set('copyData',resortData);
+			this.set('copyData', resortData);
 		}
 	},
 	didInsertElement() {
@@ -245,8 +138,7 @@ export default Component.extend({
 	},
 	didUpdateAttrs() {
 		this._super(...arguments);
-		this.set('currentSortItem',null);
-		this.set('copyData',this.get('data'));
-
+		this.set('currentSortItem', null);
+		this.set('copyData', this.get('data'));
 	}
 });

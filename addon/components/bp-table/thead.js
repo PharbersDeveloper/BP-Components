@@ -76,6 +76,7 @@ export default Component.extend({
 			this.get('onSortClick')(item,sortOrder);
 		}
 	},
+
 	didInsertElement() {
 		this._super(...arguments);
 		let ele = this.get('element');
