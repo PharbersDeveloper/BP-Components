@@ -96,12 +96,13 @@ export default Component.extend({
 	fixedTbodyStyle: alias('computedHeight.fixedTbodyStyle'),
 	tbodyHeight: alias('computedHeight.tbodyHeight'),
 	computedHeight: computed('theadHeight', function () {
-		let ele = this.get('element'),
-			eleHeight = ele.offsetHeight,
-			theadHeight = this.get('theadHeight');
+		// let ele = this.get('element'),
+		// eleHeight = ele.offsetHeight,
+		let	theadHeight = this.get('theadHeight');
 
 		return {
-			tbodyHeight: eleHeight - theadHeight,
+			// tbodyHeight: eleHeight - theadHeight,
+			tbodyHeight: `calc(100% - ${theadHeight}px)`,
 			fixedTbodyStyle: htmlSafe(`top:${theadHeight}px`)
 		};
 	}),

@@ -81,7 +81,7 @@ export default Component.extend(BindingScroll,{
 		if (isEmpty(height)) {
 			return htmlSafe('');
 		}
-		return htmlSafe(`height:${height}px`);
+		return htmlSafe(`height:${height}`);
 	}),
 	/**
 	 * @author Frank Wang
