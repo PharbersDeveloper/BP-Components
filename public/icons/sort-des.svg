@@ -1,1 +1,14 @@
-<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1561547780995" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5424" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs><style type="text/css"></style></defs><path d="M512 0l320 320H192z" fill="#DFE1E6" p-id="5425"></path><path d="M512 1024l320-320H192z" fill="#5E6C84" p-id="5426"></path></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="10px" viewBox="0 0 8 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>table  / sorter / default copy@2x</title>
+    <desc>Created with Sketch.</desc>
+    <g id="table--/-sorter-/-default-copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="table--/-sorter-/-_part-/-default" fill="#DFE1E6">
+            <polygon id="Triangle" points="4 0 8 4 0 4"></polygon>
+        </g>
+        <g id="table--/-sorter-/-_part-/-selected" transform="translate(4.000000, 8.000000) scale(1, -1) translate(-4.000000, -8.000000) translate(0.000000, 6.000000)" fill="#5E6C84">
+            <polygon id="Triangle" points="4 -2.22044605e-15 8 4 0 4"></polygon>
+        </g>
+    </g>
+</svg>
