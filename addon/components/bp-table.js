@@ -93,12 +93,42 @@ export default Component.extend({
 	 * @private
 	*/
 	currentSortItem: null,
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name defaultSort
+	 * @description 默认排序的 item 的value 值
+	 * @type {string}
+	 * @default ""
+	 * @public
+	*/
+	defaultSort: '',
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name defaultSortItem
+	 * @description default sort item
+	 * @type {Object}
+	 * @default null
+	 * @private
+	*/
+	defaultsortItem: computed('defaultSort', function () {
+		let value = this.get('defaultSort');
+
+		console.log(value);
+		if (isEmpty(value)) {
+			return null;
+		}
+		console.log( this.get('columns').findBy('valuePath', value));
+		return this.get('columns').findBy('valuePath', value);
+
+	}),
 	fixedTbodyStyle: alias('computedHeight.fixedTbodyStyle'),
 	tbodyHeight: alias('computedHeight.tbodyHeight'),
 	computedHeight: computed('theadHeight', function () {
 		// let ele = this.get('element'),
 		// eleHeight = ele.offsetHeight,
-		let	theadHeight = this.get('theadHeight');
+		let theadHeight = this.get('theadHeight');
 
 		return {
 			// tbodyHeight: eleHeight - theadHeight,
@@ -135,9 +165,21 @@ export default Component.extend({
 	},
 	didInsertElement() {
 		this._super(...arguments);
+
 		this.set('scrollbarWidth', getScrollbarWidth());
 	},
+	didReceiveAttrs() {
+		this._super(...arguments);
+
+		let defaultSortItem = this.get('defaultsortItem');
+
+		if (!isEmpty(defaultSortItem)) {
+			this.get('actions').sortClick.bind(this)(defaultSortItem,false);
+		}
+
+	},
 	didUpdateAttrs() {
+
 		this._super(...arguments);
 		this.set('currentSortItem', null);
 		this.set('copyData', this.get('data'));
