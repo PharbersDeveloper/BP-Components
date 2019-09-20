@@ -4,6 +4,7 @@ import { isEmpty } from '@ember/utils';
 import { A } from '@ember/array';
 import echarts from 'echarts';
 import $ from 'jquery';
+import EmberObject from '@ember/object';
 
 export default Component.extend({
 	layout,
@@ -94,20 +95,18 @@ export default Component.extend({
 	generateOption() {
 		let { seriesName, circleData, circleColor, circleSize, labelEmphasis,label } =
 			this.getProperties('seriesName', 'circleData', 'circleColor', 'circleSize', 'labelEmphasis','label'),
-			that = this;
+			that = this,
+			unNegativeNumber = circleData.map(ele=> {
+				let newItem = EmberObject.create(ele);
 
-		console.log(circleData);
+				if (newItem.value < 0){
+					newItem.set('value',0);
+				}
+				return newItem;
+			});
+
+
 		return {
-			// title: {
-			// 	text: circleData.lastObject.value,
-			// 	textStyle: {
-			// 		color: '#172B4D',
-			// 		fontSize: 20
-			// 	},
-
-			// 	x: 'center',
-			// 	y: 'center'
-			// },
 			tooltip: {
 				trigger: 'item',
 				formatter: function (params) {
@@ -124,9 +123,6 @@ export default Component.extend({
 			color: circleColor,
 			legend: {
 				show: false
-				// orient: 'vertical',
-				// x: 'left',
-				// data: ['已分配', '未分配']
 			},
 			series: [
 				{
@@ -166,7 +162,7 @@ export default Component.extend({
 							show: label
 						}
 					},
-					data: circleData
+					data: unNegativeNumber
 				}
 			]
 		};
