@@ -115,11 +115,9 @@ export default Component.extend({
 	defaultsortItem: computed('defaultSort', function () {
 		let value = this.get('defaultSort');
 
-		console.log(value);
 		if (isEmpty(value)) {
 			return null;
 		}
-		console.log( this.get('columns').findBy('valuePath', value));
 		return this.get('columns').findBy('valuePath', value);
 
 	}),

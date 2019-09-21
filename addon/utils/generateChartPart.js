@@ -299,7 +299,6 @@ export function generateLine() {
 	};
 }
 export function generatePie() {
-	window.console.log('Pie');
 	let { chartData, chartColor, pieConfigs } =
 		this.getProperties('chartData', 'chartColor', 'pieConfigs'),
 		tooltipConfig = this.get('tooltip'),

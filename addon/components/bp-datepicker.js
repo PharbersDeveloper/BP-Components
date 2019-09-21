@@ -33,12 +33,12 @@ export default Component.extend({
 	// 	console.log('focusIn');
 	// },
 	focusOut(e) {
-		console.log('focusout')
+		console.log('focusout');
 		e.stopImmediatePropagation();
 		this.set('toggleDatepicker', false);
 	},
 	click(e) {
-		console.log('click')
+		console.log('click');
 		this.set('toggleDatepicker', true);
 		e.stopImmediatePropagation();
 	},
@@ -105,7 +105,6 @@ export default Component.extend({
 		chooseDate(date, e) {
 			let choosedDate = this.get('choosedDate');
 
-			console.log('choose')
 			choosedDate.setProperties({
 				year: date.year,
 				month: date.month,
