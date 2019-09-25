@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bp-panel';
 import { isEmpty, typeOf } from '@ember/utils';
-import { isArray } from '@ember/array';
+import { isArray,A } from '@ember/array';
 import echarts from 'echarts';
 import $ from 'jquery';
 import EmberObject from '@ember/object';
@@ -402,6 +402,19 @@ export default Component.extend(Panel, {
 	 * @public
 	 */
 	onDataReady() { },
+	/**
+	 * ！！！永远不要使用此属性，除非你知道这个具体的作用
+	 * 设计之初是没有这个属性的，只是为了解决一些排序问题。
+	 * 再次申明，永远不要使用此属性
+	 * @author Frank Wang
+	 * @property
+	 * @name outsideDealedData
+	 * @description 当外部对图表数据进行格式化等一些处理操作后，使用此数据展示表格数据
+	 * @type {Array}
+	 * @default []
+	 * @public
+	*/
+	outsideDealedData: A([]),
 	didReceiveAttrs() {
 		this._super(...arguments);
 	},
@@ -418,9 +431,18 @@ export default Component.extend(Panel, {
 		this._super(...arguments);
 
 		let panelConfig = this.get('panelModel'),
-			condition = this.get('condition');
+			condition = this.get('condition'),
+			outsideDealedData = this.get('outsideDealedData');
 
-		this.generateChartOption(panelConfig, condition);
+		if (isEmpty(outsideDealedData)) {
+			this.generateChartOption(panelConfig, condition);
+		} else {
+			const echartInit = this.getChartIns();
+
+			echartInit.hideLoading();
+			this.reGenerateChart(panelConfig, outsideDealedData);
+		}
+		// this.generateChartOption(panelConfig, condition);
 
 	},
 	willDestroyElement() {
