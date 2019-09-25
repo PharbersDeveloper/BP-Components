@@ -1,8 +1,11 @@
- <table class="bp-table-thead">
-     {{bp-table/colgroup columns=columns}}
-    <thead>
-      {{#each columns as |column|}}
-        {{bp-table/thead-cell column=column sortItem=sortItem onClick=(action 'theadCellClick')}}
-      {{/each}}
-    </thead>
-  </table>
+<table class="bp-table-thead">
+	{{bp-table/colgroup columns=columns scrollBarExit=scrollBarExit gutterWidth=gutterWidth}}
+	<thead>
+		{{#each columns as |column index|}}
+			{{bp-table/thead-cell column=column index=index columnsLength=columns.length sortItem=sortItem onClick=(action 'theadCellClick')}}
+		{{/each}}
+		{{#if scrollBarExit}}
+			<th class="gutter" style={{gutterWidth}}></th>
+		{{/if}}
+	</thead>
+</table>

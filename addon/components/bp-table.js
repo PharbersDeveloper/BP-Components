@@ -6,7 +6,7 @@ import { computed } from '@ember/object';
 // import Table from 'ember-light-table';
 import { isEmpty } from '@ember/utils';
 import { A } from '@ember/array';
-import { getScrollbarWidth } from '../utils/scrollbar';
+import { getScrollbarWidth,hasScrolled } from '../utils/scrollbar';
 import { alias } from '@ember/object/computed';
 export default Component.extend({
 	layout,
@@ -161,10 +161,17 @@ export default Component.extend({
 			this.set('copyData', resortData);
 		}
 	},
+
 	didInsertElement() {
 		this._super(...arguments);
 
-		this.set('scrollbarWidth', getScrollbarWidth());
+		let ele = this.get('element'),
+			scrollbarWidth = getScrollbarWidth(),
+			scrollBarExit = hasScrolled(ele);
+
+		this.set('scrollbarWidth', scrollbarWidth);
+		this.set('scrollBarExit',scrollBarExit);
+		this.set('gutterWidth',htmlSafe(`width:${scrollbarWidth}px`));
 	},
 	didReceiveAttrs() {
 		this._super(...arguments);

@@ -1,3 +1,6 @@
 {{#each columns as |column|}}
     <col width={{column.width}}>
 {{/each}}
+{{#if scrollBarExit}}
+    <col style={{gutterWidth}}>
+{{/if}}

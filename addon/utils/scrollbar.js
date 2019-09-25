@@ -1,13 +1,3 @@
-// export function getScrollbarWidth() {
-// 	let scrollDiv = document.createElement('div'),
-// 		scrollbarWidth = 0;
-
-// 	scrollDiv.style.cssText = 'width: 99px; height: 99px; overflow: scroll; position: absolute; top: -9999px;';
-// 	document.body.appendChild(scrollDiv);
-// 	scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-// 	document.body.removeChild(scrollDiv);
-// 	return scrollbarWidth;
-// }
 export function getScrollbarWidth() {
 
 	// Creating invisible container
@@ -34,4 +24,12 @@ export function getScrollbarWidth() {
 
 	return scrollbarWidth;
 
+}
+
+export function hasScrolled(el, direction = 'vertical') {
+	if (direction === 'vertical') {
+		return el.scrollHeight > el.clientHeight;
+	} else if (direction === 'horizontal') {
+		return el.scrollWidth > el.clientWidth;
+	}
 }

@@ -1,4 +1,4 @@
-{{bp-table/thead columns=columns scrollLeft=scrollLeft sortItem=currentSortItem onSortClick=(action 'sortClick') onComputedHeight=(action 'getTheadHeight')}}
+{{bp-table/thead columns=columns scrollBarExit=scrollBarExit gutterWidth=gutterWidth scrollLeft=scrollLeft sortItem=currentSortItem onSortClick=(action 'sortClick') onComputedHeight=(action 'getTheadHeight')}}
 {{#if copyData}}
 	{{bp-table/tbody height=tbodyHeight bodyData=copyData columns=columns hover=rowHover border=rowBorder currentTrIndex=currentTrIndex onScrolled=(action 'scrollPosition') onMouseIO=(action (mut currentTrIndex))}}
 {{else}}
@@ -8,7 +8,7 @@
 {{/if}}
 {{#if fixedColumn}}
 	<div class="bp-table-fixed-wrapper" style={{fixedWrapperStyle}}>
-		{{bp-table/thead columns=columns sortItem=currentSortItem onSortClick=(action 'sortClick')}}
+		{{bp-table/thead columns=columns sortItem=currentSortItem gutterWidth=gutterWidth scrollBarExit=scrollBarExit onSortClick=(action 'sortClick')}}
 		{{bp-table/tbody scrollTop=scrollTop height=tbodyHeight style=fixedTbodyStyle bodyData=copyData columns=columns hover=rowHover border=rowBorder currentTrIndex=currentTrIndex onMouseIO=(action (mut currentTrIndex))}}
 	</div>
 {{/if}}

@@ -9,6 +9,7 @@ export default Component.extend({
 	layout,
 	tagName: 'th',
 	attributeBindings: ['style'],
+	classNameBindings: ['isFirst:pl-0','isEnd:pr-0'],
 	/**
 	* @author Frank Wang
 	* @property
@@ -19,6 +20,41 @@ export default Component.extend({
 	* @private
 	*/
 	value: alias('dealColumn.value'),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name isFirst
+	 * @description 是否是第一个cell
+	 * @type {Boolean}
+	 * @default false
+	 * @private
+	*/
+	isFirst: computed('index','columnsLength',function() {
+		let index = this.get('index');
+
+		if (index===0) {
+			return true;
+		}
+		return false;
+	}),
+	/**
+	 * @author Frank Wang
+	 * @property
+	 * @name isEnd
+	 * @description 是否是最后一个cell
+	 * @type {Boolean}
+	 * @default false
+	 * @private
+	*/
+	isEnd: computed('index','columnsLength',function() {
+		let index = this.get('index'),
+			length = this.get('columnsLength');
+
+		if (index===length-1) {
+			return true;
+		}
+		return false;
+	}),
 	flexAlign:alias('dealColumn.flexAlign'),
 	dealColumn: computed('column', function () {
 		let column = this.get('column'),
