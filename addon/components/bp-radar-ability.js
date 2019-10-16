@@ -29,10 +29,10 @@ export default Component.extend({
 	 * radar value max value
 	 * @property maxValue
 	 * @type {number}
-	 * @default 5
+	 * @default 3
 	 * @public
 	 */
-	maxValue: 5,
+	maxValue: 3,
 	/**
 	 * chart's color
 	 * @property radarColor
@@ -50,7 +50,7 @@ export default Component.extend({
 	 */
 	radarData: A([
 		{
-			value: [2, 4, 1, 4, 1],
+			value: [2, 3, 1, 3, 1],
 			name: '能力分析'
 		}
 	]),
@@ -78,7 +78,9 @@ export default Component.extend({
 	 * @public
 	 */
 	items: A(['区域划分能力', '领导力', '自我时间管理能力', '资源优化能力', '指标分配能力']),
-	score: A(['D', 'C', 'B', 'A', 'S']),
+	// score: A(['D', 'C', 'B', 'A', 'S']),
+	score: A(['S', 'A', 'B', 'C', 'D']),
+
 	/**
 	 * @author Frank Wang
 	 * @method
@@ -113,7 +115,7 @@ export default Component.extend({
 		data = radarData.map((ele, index) => {
 			return {
 				value: ele.value,
-				name: ele.name,
+				name: ele.name
 				// areaStyle: {
 				// 	color: radarColor[index]
 				// }
@@ -153,10 +155,10 @@ export default Component.extend({
 						let code = score[indi.value - 1],
 							newValue = value;
 
-						if(value.length > 6) {
+						if (value.length > 6) {
 					        newValue = value.slice(0,6)+'\n'+value.slice(6);
 					    }
-						if(value === clickValue) {
+						if (value === clickValue) {
 							return `{h|${code}}\n{b|${newValue}}`;
 						}
 						return `{a|${code}}\n{b|${newValue}}`;
@@ -197,7 +199,7 @@ export default Component.extend({
 				},
 				indicator,
 				triggerEvent: true,
-				splitNumber: 5, //default
+				splitNumber: 3, //default
 				axisLine: {
 					lineStyle: {
 						color: '#DFE1E6'
@@ -255,10 +257,11 @@ export default Component.extend({
 	clickAxisName(params) {
 		let targetType = params.targetType || false;
 
-		if (targetType === "axisName") {
+		if (targetType === 'axisName') {
 			this.set('clickValue',this.GetChinese(params.name));
 
 			let option = this.generateOption();
+
 			this.get('onClick')(this.get('clickValue'));
 			this.reGenerateChart(option);
 
@@ -269,11 +272,12 @@ export default Component.extend({
 	GetChinese(strValue) {
 		if (!isEmpty(strValue)) {
 			var reg = /[\u4e00-\u9fa5]/g;
-			return strValue.match(reg).join("");
+
+			return strValue.match(reg).join('');
 		}
-		return "";
+		return '';
 	},
-	
+
 	didInsertElement() {
 		this._super(...arguments);
 		const that = this;
@@ -285,7 +289,7 @@ export default Component.extend({
 			that.clickAxisName(params);
 		});
 		this.reGenerateChart(option);
-	},
+	}
 	// didUpdateAttrs() {
 	// 	this._super(...arguments);
 	// 	let option = this.generateOption();
