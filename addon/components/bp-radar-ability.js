@@ -78,7 +78,7 @@ export default Component.extend({
 	 * @public
 	 */
 	items: A(['区域划分能力', '领导力', '自我时间管理能力', '资源优化能力', '指标分配能力']),
-	score: A(['D', 'C', 'B', 'A', 'S']),
+	score: A(['B', 'A', 'S']),
 	// score: A(['S', 'A', 'B', 'C', 'D']),
 
 	/**
